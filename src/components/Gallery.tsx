@@ -81,7 +81,6 @@ const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
             onPillClick={onOverlayOpen}
             // ✅ Compact button style (not full width)
             buttonClassName="inline-block px-6 py-2 text-sm font-light text-black animate-float-pulse"
-            glowColor="bg-[#a3f730]"
           />
         ))}
       </div>
