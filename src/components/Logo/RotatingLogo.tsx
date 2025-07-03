@@ -2,6 +2,7 @@
 
 import React from "react";
 import clsx from "clsx";
+import Image from "next/image";
 
 type RotatingLogoProps = {
   src: string;
@@ -9,7 +10,7 @@ type RotatingLogoProps = {
   width?: number;
   degrees?: number; // still unused
   speed?: number;
-  className?: string; // ✅ NEW
+  className?: string;
 };
 
 const RotatingLogo: React.FC<RotatingLogoProps> = ({
@@ -24,16 +25,21 @@ const RotatingLogo: React.FC<RotatingLogoProps> = ({
       className={clsx("flex justify-center items-center", className)}
       style={{ perspective: "1000px" }}
     >
-      <img
-        src={src}
-        alt={alt}
-        width={width}
+      <div
         className="animate-pendulum"
         style={{
           transformStyle: "preserve-3d",
-          ["--speed" as any]: `${speed}s`,
+          ["--speed" as string]: `${speed}s`,
         }}
-      />
+      >
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={width} // assuming square logo, adjust if not
+          priority
+        />
+      </div>
     </div>
   );
 };
