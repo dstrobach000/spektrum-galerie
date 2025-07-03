@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
 import SlideShowCard from "@/components/Slider/SlideShowCard";
 
 const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
