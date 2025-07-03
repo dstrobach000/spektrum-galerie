@@ -29,9 +29,10 @@ const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalPr
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-white text-black ${
-        fullscreen ? "p-10 overflow-y-auto" : "p-6 flex items-center justify-center"
+      className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
+        fullscreen ? "p-10" : "p-6"
       }`}
+      style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
     >
       {hasTitle && (
         <button
@@ -42,13 +43,13 @@ const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalPr
         </button>
       )}
       <div
-        className={`${
+        className={`mx-auto ${
           fullscreen
             ? "bg-white"
             : hasTitle
             ? "max-w-lg w-full p-6 rounded border border-black shadow-lg bg-white relative"
             : "w-full max-w-xl bg-transparent shadow-none border-none p-0"
-        } overflow-y-auto max-h-full`}
+        }`}
       >
         {hasTitle && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
         <div className="font-light text-base">{children}</div>
