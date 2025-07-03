@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 type ModalProps = {
   isOpen: boolean;
@@ -11,6 +11,18 @@ type ModalProps = {
 };
 
 const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const hasTitle = Boolean(title && title.trim().length > 0);
@@ -36,7 +48,7 @@ const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalPr
             : hasTitle
             ? "max-w-lg w-full p-6 rounded border border-black shadow-lg bg-white relative"
             : "w-full max-w-xl bg-transparent shadow-none border-none p-0"
-        }`}
+        } overflow-y-auto max-h-full`}
       >
         {hasTitle && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
         <div className="font-light text-base">{children}</div>
