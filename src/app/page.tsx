@@ -1,4 +1,3 @@
-// page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -12,6 +11,7 @@ import GalleryOverlay from "@/components/GalleryOverlay";
 import ContactContent from "@/components/ContactContent";
 import PressContent from "@/components/PressContent";
 import Upcoming from "@/components/Upcoming";
+import GlowButton from "@/components/GlowButton";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,9 +20,16 @@ export default function Home() {
   const [pressOpen, setPressOpen] = useState(false);
 
   return (
-    <main className="bg-white text-black font-sans flex flex-col min-h-screen">
+    <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
+      {/* ✅ Floating sticky MENU button */}
+      <div className="fixed left-4 top-[7.5rem] z-50">
+        <GlowButton onClick={() => setMenuOpen(true)} glowColor="bg-[#a3f730]">
+          MENU
+        </GlowButton>
+      </div>
+
       <div className="flex-grow">
-        <Header onMenuClick={() => setMenuOpen(true)} />
+        <Header />
 
         <Upcoming
           artist="Marie Hrachovcová"
