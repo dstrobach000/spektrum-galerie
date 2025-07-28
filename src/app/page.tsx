@@ -28,6 +28,15 @@ export default function Home() {
         </GlowButton>
       </div>
 
+      {/* ✅ Floating sticky ZAVŘÍT button (only when menu is open) */}
+      {menuOpen && (
+        <div className="fixed left-4 top-[12.5rem] z-50">
+          <GlowButton onClick={() => setMenuOpen(false)} glowColor="bg-orange-400">
+            ZAVŘÍT
+          </GlowButton>
+        </div>
+      )}
+
       <div className="flex-grow">
         <Header />
 

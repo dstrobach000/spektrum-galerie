@@ -79,7 +79,6 @@ const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
             date={card.date}
             interval={1}
             onPillClick={onOverlayOpen}
-            // ✅ Compact button style (not full width)
             buttonClassName="inline-block px-6 py-2 text-sm font-light text-black animate-float-pulse"
           />
         ))}

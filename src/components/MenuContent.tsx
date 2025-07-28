@@ -14,9 +14,18 @@ const MenuContent = ({ onClose }: { onClose?: () => void }) => {
   ];
 
   return (
-    <div className="space-y-10 px-6 sm:px-10 py-10 w-full text-center">
-      {/* ✅ Rotating Logo Block (matching Header style) */}
-      <div className="flex justify-center">
+    <div className="relative space-y-10 px-6 sm:px-10 py-10 w-full text-center">
+      {/* ✅ Floating ZAVŘÍT button inside modal */}
+      {onClose && (
+        <div className="absolute left-4 top-4 z-50">
+          <GlowButton onClick={onClose} glowColor="bg-orange-400">
+            ZAVŘÍT
+          </GlowButton>
+        </div>
+      )}
+
+      {/* ✅ Rotating Logo */}
+      <div className="flex justify-center mt-16">
         <div className="border border-black rounded-xl inline-block leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
@@ -40,15 +49,6 @@ const MenuContent = ({ onClose }: { onClose?: () => void }) => {
           {item.label}
         </GlowButton>
       ))}
-
-      {/* ✅ Close Button */}
-      <GlowButton
-        onClick={onClose}
-        className="w-full py-4 text-xl uppercase text-black"
-        glowColor="bg-orange-400"
-      >
-        Zavřít
-      </GlowButton>
     </div>
   );
 };

@@ -35,7 +35,7 @@ const Footer = ({
 
         <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full w-full">
           <GlowButton onClick={onPressClick} className="px-8 py-4 text-xl" glowColor="bg-[#a3f730]">
-            PRESS
+            KE STAŽENÍ
           </GlowButton>
         </div>
 
