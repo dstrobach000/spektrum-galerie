@@ -12,16 +12,26 @@ const Header = () => {
   useLayoutEffect(() => {
     function updateSize() {
       if (logoRef.current) {
-        setLogoSize({
-          width: logoRef.current.offsetWidth,
-          height: logoRef.current.offsetHeight,
+        const { offsetWidth, offsetHeight } = logoRef.current;
+        setLogoSize(prev => {
+          // Only update if different
+          if (!prev || prev.width !== offsetWidth || prev.height !== offsetHeight) {
+            return { width: offsetWidth, height: offsetHeight };
+          }
+          return prev;
         });
       }
       setWindowWidth(window.innerWidth);
     }
     updateSize();
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
+
+    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+    function onResize() {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(updateSize, 100); // Debounce by 100ms
+    }
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   // Use custom 1500px breakpoint for 3 columns
@@ -31,11 +41,6 @@ const Header = () => {
   return (
     <section className="px-6 sm:px-10 py-6">
       <div className="border border-black rounded-xl p-6 space-y-6">
-        {/* Responsive grid:
-            - 1 col: mobile/tablet
-            - 2 col: >=lg (1024px)
-            - 3 col: >=1500px
-        */}
         <div className={`
           grid gap-8
           grid-cols-1
@@ -56,10 +61,7 @@ const Header = () => {
                 className="block w-full h-auto"
               />
             </div>
-            {/* Model:
-                - under logo in left col for 2-col
-                - own col in 3-col layout
-            */}
+            {/* Model: under logo in left col for 2-col; own col in 3-col layout */}
             {!is3Col && (
               <div
                 className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"

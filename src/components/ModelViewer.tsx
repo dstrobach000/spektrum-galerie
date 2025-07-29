@@ -51,7 +51,7 @@ const ModelViewer = () => (
     <ambientLight intensity={1.5} />
     <directionalLight position={[100, 100, 100]} intensity={2} />
     <Suspense fallback={<Loader />}>
-      <Bounds fit clip observe margin={1}>
+      <Bounds fit clip margin={1}>
         <GalleryModel />
       </Bounds>
     </Suspense>
