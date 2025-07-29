@@ -30,7 +30,6 @@ const PressContent = ({ onClose }: { onClose?: () => void }) => (
             <GlowButton
               className="w-full py-4 text-xl uppercase text-black"
               glowColor="bg-[#a3f730]"
-              asChild
             >
               <a href={item.href} target="_blank" rel="noopener noreferrer">
                 {item.label}
