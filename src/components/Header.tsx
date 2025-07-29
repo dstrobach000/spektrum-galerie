@@ -14,7 +14,6 @@ const Header = () => {
       if (logoRef.current) {
         const { offsetWidth, offsetHeight } = logoRef.current;
         setLogoSize(prev => {
-          // Only update if different
           if (!prev || prev.width !== offsetWidth || prev.height !== offsetHeight) {
             return { width: offsetWidth, height: offsetHeight };
           }
@@ -28,7 +27,7 @@ const Header = () => {
     let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
     function onResize() {
       if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updateSize, 100); // Debounce by 100ms
+      resizeTimeout = setTimeout(updateSize, 100);
     }
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -61,7 +60,7 @@ const Header = () => {
                 className="block w-full h-auto"
               />
             </div>
-            {/* Model: under logo in left col for 2-col; own col in 3-col layout */}
+            {/* Model: under logo in left col for 2-col; logo only on 3col */}
             {!is3Col && (
               <div
                 className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"
@@ -92,6 +91,7 @@ const Header = () => {
               className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"
               style={{
                 height: modelHeight,
+                minHeight: "300px", // <-- only for is3Col!
               }}
             >
               <ModelViewer />

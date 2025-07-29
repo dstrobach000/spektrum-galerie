@@ -1,4 +1,4 @@
-import React, { Suspense, useRef } from "react";
+import React, { Suspense, useRef, useEffect, useMemo } from "react";
 import { Canvas, useLoader, useFrame, useThree } from "@react-three/fiber";
 import { Html, useProgress, Bounds, OrthographicCamera } from "@react-three/drei";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
@@ -13,10 +13,27 @@ function GalleryModel() {
   const obj = useLoader(OBJLoader, "/3D/spektrum_galerie.obj");
   const groupRef = useRef<THREE.Group>(null);
 
-  // Spin around Z axis for Z-up models (Tinkercad)
+  // Black wireframe material
+  const wireMaterial = useMemo(
+    () =>
+      new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        wireframe: true,
+      }),
+    []
+  );
+
+  useEffect(() => {
+    obj.traverse(child => {
+      if ((child as THREE.Mesh).isMesh) {
+        (child as THREE.Mesh).material = wireMaterial;
+      }
+    });
+  }, [obj, wireMaterial]);
+
   useFrame(() => {
     if (groupRef.current && groupRef.current.rotation) {
-      groupRef.current.rotation.z += 0.01; // <--- this is the spin axis!
+      groupRef.current.rotation.z += 0.01;
     }
   });
 
@@ -32,8 +49,8 @@ function CameraController() {
   const { camera } = useThree();
   React.useEffect(() => {
     const d = 200;
-    camera.position.set(-d, d, d); // Use negative X for Z-up "diamond" angle
-    camera.up.set(0, 0, 1);        // Z is up
+    camera.position.set(-d, d, d);
+    camera.up.set(0, 0, 1);
     camera.lookAt(new THREE.Vector3(0, 0, 0));
     camera.updateProjectionMatrix();
   }, [camera]);
