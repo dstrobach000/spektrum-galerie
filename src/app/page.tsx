@@ -16,9 +16,15 @@ import GlowButton from "@/components/GlowButton";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  // --- Updated state for modal source tracking ---
   const [contactsOpen, setContactsOpen] = useState(false);
-  const [overlayOpen, setOverlayOpen] = useState(false);
+  const [contactsSource, setContactsSource] = useState<"menu" | "main">("main");
   const [pressOpen, setPressOpen] = useState(false);
+  const [pressSource, setPressSource] = useState<"menu" | "main">("main");
+  // ------------------------------------------------
+
+  const [overlayOpen, setOverlayOpen] = useState(false);
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
@@ -44,18 +50,48 @@ export default function Home() {
       </div>
 
       <Footer
-        onContactClick={() => setContactsOpen(true)}
-        onPressClick={() => setPressOpen(true)}
+        onContactClick={() => {
+          setContactsSource("main");
+          setContactsOpen(true);
+        }}
+        onPressClick={() => {
+          setPressSource("main");
+          setPressOpen(true);
+        }}
       />
 
       {/* Menu modal */}
       <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)} title="">
-        <MenuContent onClose={() => setMenuOpen(false)} />
+        <MenuContent
+          onClose={() => setMenuOpen(false)}
+          onContactClick={() => {
+            setContactsSource("menu");
+            setContactsOpen(true);
+            setMenuOpen(false);
+          }}
+          onPressClick={() => {
+            setPressSource("menu");
+            setPressOpen(true);
+            setMenuOpen(false);
+          }}
+        />
       </Modal>
 
-      {/* Contact modal (title removed, noPadding added) */}
-      <Modal isOpen={contactsOpen} onClose={() => setContactsOpen(false)} title="" noPadding>
-        <ContactContent onClose={() => setContactsOpen(false)} />
+      {/* Contact modal */}
+      <Modal
+        isOpen={contactsOpen}
+        onClose={() => {
+          setContactsOpen(false);
+          if (contactsSource === "menu") setMenuOpen(true);
+        }}
+        title=""
+      >
+        <ContactContent
+          onClose={() => {
+            setContactsOpen(false);
+            if (contactsSource === "menu") setMenuOpen(true);
+          }}
+        />
       </Modal>
 
       <Modal
@@ -67,8 +103,20 @@ export default function Home() {
         <GalleryOverlay />
       </Modal>
 
-      <Modal isOpen={pressOpen} onClose={() => setPressOpen(false)} title="Press">
-        <PressContent onClose={() => setPressOpen(false)} />
+      <Modal
+        isOpen={pressOpen}
+        onClose={() => {
+          setPressOpen(false);
+          if (pressSource === "menu") setMenuOpen(true);
+        }}
+        title="Press"
+      >
+        <PressContent
+          onClose={() => {
+            setPressOpen(false);
+            if (pressSource === "menu") setMenuOpen(true);
+          }}
+        />
       </Modal>
     </main>
   );

@@ -4,25 +4,13 @@
 import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
+import StickyCloseButton from "./StickyCloseButton";
 
 const ContactContent = ({ onClose }: { onClose?: () => void }) => (
-  <section className="px-6 sm:px-10 py-6">
-    <div className="border border-black rounded-xl p-6">
-      {onClose && (
-        <div className="fixed left-4 top-[7.5rem] z-50">
-          <GlowButton
-            glowColor="bg-orange-400"
-            onClick={onClose}
-            className="uppercase text-xl"
-          >
-            Zavřít
-          </GlowButton>
-        </div>
-      )}
-
-      {/* Logo and content, matching header spacing */}
+  <div className="max-w-4xl mx-auto">
+    <div className="border border-black rounded-xl p-6 relative">
+      {onClose && <StickyCloseButton onClick={onClose} />}
       <div className="mt-2 sm:mt-0 relative space-y-4">
-        {/* Logo */}
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
@@ -30,8 +18,6 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
             className="block w-full h-auto"
           />
         </div>
-
-        {/* Address block 1 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Spektrum galerie</p>
           <p className="font-light">Štefánikova 95/24</p>
@@ -49,21 +35,15 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
             Otevřít v Mapách
           </GlowButton>
         </div>
-
-        {/* Address block 2 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Fléda Art z.s.</p>
           <p className="font-light">Cejl 514/46, Zábrdovice</p>
           <p className="font-light">602 00 Brno</p>
           <p className="font-light">IČ: 27002977</p>
         </div>
-
-        {/* Info text (no border) */}
         <p className="text-center text-lg font-light">
           Otevírací doba galerie se odvíjí od formátu jednotlivých výstavy. Aktuální informace najdete na našem Instagramu. Návštěvu mimo otevírací dobu je možné domluvit individuálně.
         </p>
-
-        {/* Socials (no border) */}
         <div className="flex justify-center gap-4">
           <GlowButton
             className="px-6 py-2 text-sm font-light text-black"
@@ -80,8 +60,6 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
             Instagram
           </GlowButton>
         </div>
-
-        {/* Contact 1 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Adéla Petříčková</p>
           <p className="font-light mb-4">Kurátorka</p>
@@ -93,7 +71,6 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
             adela@spektrumgalerie.cz
           </GlowButton>
         </div>
-        {/* Contact 2 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Kateřina Pražáková</p>
           <p className="font-light mb-4">PR</p>
@@ -107,7 +84,7 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
         </div>
       </div>
     </div>
-  </section>
+  </div>
 );
 
 export default ContactContent;

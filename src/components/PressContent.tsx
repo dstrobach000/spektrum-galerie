@@ -4,6 +4,7 @@
 import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
+import StickyCloseButton from "./StickyCloseButton";
 
 // Your actual press materials/links
 const pressLinks = [
@@ -15,17 +16,8 @@ const pressLinks = [
 const PressContent = ({ onClose }: { onClose?: () => void }) => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      {/* Sticky ZAVŘÍT button */}
-      {onClose && (
-        <div className="fixed left-4 top-[7.5rem] z-50">
-          <GlowButton onClick={onClose} glowColor="bg-orange-400">
-            ZAVŘÍT
-          </GlowButton>
-        </div>
-      )}
-
+      {onClose && <StickyCloseButton onClick={onClose} />}
       <div className="mt-2 sm:mt-0 relative space-y-4">
-        {/* Logo */}
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
@@ -33,8 +25,6 @@ const PressContent = ({ onClose }: { onClose?: () => void }) => (
             className="block w-full h-auto"
           />
         </div>
-
-        {/* Press Links */}
         {pressLinks.map((item) => (
           <div key={item.label} className="border border-black rounded-xl">
             <GlowButton

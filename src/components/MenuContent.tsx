@@ -4,28 +4,30 @@
 import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
+import StickyCloseButton from "./StickyCloseButton";
 
 const menuItems = [
-  { label: "O galerii", href: "#o-galerii" },
-  { label: "Program", href: "#program" },
-  { label: "Aktuální", href: "#aktualni" },
-  { label: "Uplynulé", href: "#uplynule" },
+  { label: "O galerii", href: "#o-galerii", action: null },
+  { label: "Program", href: "#program", action: null },
+  { label: "Aktuální", href: "#aktualni", action: null },
+  { label: "Uplynulé", href: "#uplynule", action: null },
+  { label: "Kontakty", href: null, action: "contact" },
+  { label: "Ke Stažení", href: null, action: "press" },
 ];
 
-const MenuContent = ({ onClose }: { onClose?: () => void }) => (
-  <div className="max-w-4xl mx-auto"> {/* match ContactContent's max width */}
+const MenuContent = ({
+  onClose,
+  onContactClick,
+  onPressClick,
+}: {
+  onClose?: () => void;
+  onContactClick?: () => void;
+  onPressClick?: () => void;
+}) => (
+  <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      {/* Sticky ZAVŘÍT button */}
-      {onClose && (
-        <div className="fixed left-4 top-[7.5rem] z-50">
-          <GlowButton onClick={onClose} glowColor="bg-orange-400">
-            ZAVŘÍT
-          </GlowButton>
-        </div>
-      )}
-
+      {onClose && <StickyCloseButton onClick={onClose} />}
       <div className="mt-2 sm:mt-0 relative space-y-4">
-        {/* Logo */}
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
@@ -33,16 +35,22 @@ const MenuContent = ({ onClose }: { onClose?: () => void }) => (
             className="block w-full h-auto"
           />
         </div>
-
-        {/* Menu Items */}
         {menuItems.map((item) => (
           <div key={item.label} className="border border-black rounded-xl">
             <GlowButton
               className="w-full py-4 text-xl uppercase text-black"
               glowColor="bg-[#a3f730]"
               onClick={() => {
-                window.location.href = item.href;
-                if (onClose) onClose();
+                if (item.action === "contact" && onContactClick) {
+                  onContactClick();
+                  if (onClose) onClose();
+                } else if (item.action === "press" && onPressClick) {
+                  onPressClick();
+                  if (onClose) onClose();
+                } else if (item.href) {
+                  window.location.href = item.href;
+                  if (onClose) onClose();
+                }
               }}
             >
               {item.label}

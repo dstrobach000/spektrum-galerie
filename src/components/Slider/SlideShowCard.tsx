@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import GlowButton from "@/components/GlowButton";
 
 type SlideShowCardProps = {
   images: string[];
@@ -11,6 +12,7 @@ type SlideShowCardProps = {
   interval?: number;
   onPillClick?: () => void;
   buttonClassName?: string;
+  isCurrent?: boolean;
 };
 
 const SlideShowCard: React.FC<SlideShowCardProps> = ({
@@ -21,6 +23,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   interval = 4,
   onPillClick,
   buttonClassName,
+  isCurrent = false,
 }) => {
   const [index, setIndex] = useState(0);
 
@@ -39,7 +42,6 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           alt={`${author} ${index + 1}`}
           className="absolute inset-0 w-full h-full object-cover"
         />
-
         <div className="absolute inset-0 flex items-center justify-center overflow-visible">
           <button
             className={`${buttonClassName} animate-float-pulse`}
@@ -51,10 +53,22 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
         </div>
       </div>
 
-      <div className="mt-2 text-left text-sm text-black font-light">
-        {author}
-        <br />
-        {date}
+      {/* Author, Date, and Aktuální button below image */}
+      <div className="mt-2 w-full flex flex-row items-center justify-between">
+        <div className="text-left text-sm text-black font-light">
+          {author}
+          <br />
+          {date}
+        </div>
+        {isCurrent && (
+          <GlowButton
+            glowColor="bg-[#ffb2de]"
+            className="px-6 py-2 text-sm font-light text-black ml-2"
+            type="button"
+          >
+            Aktuální
+          </GlowButton>
+        )}
       </div>
     </div>
   );

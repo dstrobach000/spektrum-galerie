@@ -1,3 +1,4 @@
+// Gallery.tsx
 "use client";
 
 import React from "react";
@@ -80,6 +81,7 @@ const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
             interval={1}
             onPillClick={onOverlayOpen}
             buttonClassName="inline-block px-6 py-2 text-sm font-light text-black animate-float-pulse"
+            isCurrent={card.buttonText === "Weary Shout"} // <-- set to your running exhibition
           />
         ))}
       </div>
