@@ -61,7 +61,7 @@ export default function Home() {
       />
 
       {/* Menu modal */}
-      <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)} title="">
+      <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
         <MenuContent
           onClose={() => setMenuOpen(false)}
           onContactClick={() => {
@@ -84,7 +84,6 @@ export default function Home() {
           setContactsOpen(false);
           if (contactsSource === "menu") setMenuOpen(true);
         }}
-        title=""
       >
         <ContactContent
           onClose={() => {
@@ -97,7 +96,6 @@ export default function Home() {
       <Modal
         isOpen={overlayOpen}
         onClose={() => setOverlayOpen(false)}
-        title="Project Details"
         fullscreen
       >
         <GalleryOverlay />
@@ -109,7 +107,7 @@ export default function Home() {
           setPressOpen(false);
           if (pressSource === "menu") setMenuOpen(true);
         }}
-        title="Press"
+      >
       >
         <PressContent
           onClose={() => {
