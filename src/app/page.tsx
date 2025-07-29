@@ -108,7 +108,6 @@ export default function Home() {
           if (pressSource === "menu") setMenuOpen(true);
         }}
       >
-      >
         <PressContent
           onClose={() => {
             setPressOpen(false);
