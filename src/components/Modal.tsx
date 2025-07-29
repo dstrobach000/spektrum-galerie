@@ -1,3 +1,4 @@
+// Modal.tsx
 "use client";
 
 import React, { useEffect } from "react";
@@ -5,19 +6,24 @@ import React, { useEffect } from "react";
 type ModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
   children: React.ReactNode;
   fullscreen?: boolean;
+  noPadding?: boolean;
 };
 
-const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalProps) => {
+const Modal = ({
+  isOpen,
+  onClose,
+  children,
+  fullscreen = false,
+  noPadding = false,
+}: ModalProps) => {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -25,33 +31,22 @@ const Modal = ({ isOpen, onClose, title, children, fullscreen = false }: ModalPr
 
   if (!isOpen) return null;
 
-  const hasTitle = Boolean(title && title.trim().length > 0);
-
   return (
     <div
       className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
-        fullscreen ? "p-10" : "p-6"
+        fullscreen ? "p-10" : noPadding ? "p-0" : "p-6"
       }`}
       style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
+      onClick={onClose}
     >
-      {hasTitle && (
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-3xl font-bold"
-        >
-          ×
-        </button>
-      )}
       <div
-        className={`mx-auto ${
+        className={`mx-auto h-full ${
           fullscreen
             ? "bg-white"
-            : hasTitle
-            ? "max-w-lg w-full p-6 rounded border border-black shadow-lg bg-white relative"
-            : "w-full max-w-xl bg-transparent shadow-none border-none p-0"
+            : "w-full max-w-4xl bg-transparent shadow-none border-none p-0 h-full"
         }`}
+        onClick={e => e.stopPropagation()}
       >
-        {hasTitle && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
         <div className="font-light text-base">{children}</div>
       </div>
     </div>

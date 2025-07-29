@@ -1,3 +1,4 @@
+// SlideShowCard.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -31,7 +32,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   }, [images.length, interval]);
 
   return (
-    <div className="w-full aspect-[3/4] flex flex-col items-start overflow-visible">
+    <div className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
       <div className="relative w-full h-full overflow-visible shadow-md">
         <img
           src={images[index]}

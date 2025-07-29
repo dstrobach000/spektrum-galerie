@@ -5,25 +5,34 @@ import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
 
-const ContactContent = ({ onClose }: { onClose?: () => void }) => {
-  return (
-    <div className="space-y-10 px-6 sm:px-10 py-10 w-full text-black">
-      {/* ✅ Rotating Logo at top */}
-      <div className="flex justify-center">
-        <div className="border border-black rounded-xl inline-block leading-none">
+const ContactContent = ({ onClose }: { onClose?: () => void }) => (
+  <section className="px-6 sm:px-10 py-6">
+    <div className="border border-black rounded-xl p-6">
+      {onClose && (
+        <div className="fixed left-4 top-[7.5rem] z-50">
+          <GlowButton
+            glowColor="bg-orange-400"
+            onClick={onClose}
+            className="uppercase text-xl"
+          >
+            Zavřít
+          </GlowButton>
+        </div>
+      )}
+
+      {/* Logo and content, matching header spacing */}
+      <div className="mt-2 sm:mt-0 relative space-y-4">
+        {/* Logo */}
+        <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
-            width={600}
             speed={10}
             className="block w-full h-auto"
           />
         </div>
-      </div>
 
-      {/* Address blocks */}
-      <div className="flex flex-col sm:flex-row gap-6">
-        {/* Block 1 */}
-        <div className="border border-black rounded-xl p-6 flex-1">
+        {/* Address block 1 */}
+        <div className="border border-black rounded-xl p-6">
           <p className="font-light">Spektrum galerie</p>
           <p className="font-light">Štefánikova 95/24</p>
           <p className="font-light mb-4">Brno 602 00</p>
@@ -32,7 +41,7 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => {
             glowColor="bg-[#a3f730]"
             onClick={() =>
               window.open(
-                "https://www.google.com/maps/place/Štefánikova+95%2F24,+Brno+602+00",
+                "https://maps.app.goo.gl/1dfvm2mG5KwDseGZA",
                 "_blank"
               )
             }
@@ -41,40 +50,38 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => {
           </GlowButton>
         </div>
 
-        {/* Block 2 */}
-        <div className="border border-black rounded-xl p-6 flex-1">
+        {/* Address block 2 */}
+        <div className="border border-black rounded-xl p-6">
           <p className="font-light">Fléda Art z.s.</p>
           <p className="font-light">Cejl 514/46, Zábrdovice</p>
           <p className="font-light">602 00 Brno</p>
           <p className="font-light">IČ: 27002977</p>
         </div>
-      </div>
 
-      {/* Centered note */}
-      <p className="text-center text-lg font-light">
-        Otevírací doba galerie se odvíjí od formátu jednotlivých výstavy. Aktuální informace najdete na našem Instagramu. Návštěvu mimo otevírací dobu je možné domluvit individuálně.
-      </p>
+        {/* Info text (no border) */}
+        <p className="text-center text-lg font-light">
+          Otevírací doba galerie se odvíjí od formátu jednotlivých výstavy. Aktuální informace najdete na našem Instagramu. Návštěvu mimo otevírací dobu je možné domluvit individuálně.
+        </p>
 
-      {/* Socials */}
-      <div className="flex justify-center gap-4">
-        <GlowButton
-          className="px-6 py-2 text-sm font-light text-black"
-          glowColor="bg-[#a3f730]"
-          onClick={() => window.open("https://facebook.com", "_blank")}
-        >
-          Facebook
-        </GlowButton>
-        <GlowButton
-          className="px-6 py-2 text-sm font-light text-black"
-          glowColor="bg-[#a3f730]"
-          onClick={() => window.open("https://instagram.com/spektrumgalerie", "_blank")}
-        >
-          Instagram
-        </GlowButton>
-      </div>
+        {/* Socials (no border) */}
+        <div className="flex justify-center gap-4">
+          <GlowButton
+            className="px-6 py-2 text-sm font-light text-black"
+            glowColor="bg-[#a3f730]"
+            onClick={() => window.open("https://facebook.com", "_blank")}
+          >
+            Facebook
+          </GlowButton>
+          <GlowButton
+            className="px-6 py-2 text-sm font-light text-black"
+            glowColor="bg-[#a3f730]"
+            onClick={() => window.open("https://instagram.com/spektrumgalerie", "_blank")}
+          >
+            Instagram
+          </GlowButton>
+        </div>
 
-      {/* Contacts */}
-      <div className="space-y-6">
+        {/* Contact 1 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Adéla Petříčková</p>
           <p className="font-light mb-4">Kurátorka</p>
@@ -86,7 +93,7 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => {
             adela@spektrumgalerie.cz
           </GlowButton>
         </div>
-
+        {/* Contact 2 */}
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Kateřina Pražáková</p>
           <p className="font-light mb-4">PR</p>
@@ -99,19 +106,8 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => {
           </GlowButton>
         </div>
       </div>
-
-      {/* Zavřít button at bottom */}
-      <div className="pt-4">
-        <GlowButton
-          className="w-full py-4 text-xl uppercase text-black"
-          glowColor="bg-orange-400"
-          onClick={onClose}
-        >
-          Zavřít
-        </GlowButton>
-      </div>
     </div>
-  );
-};
+  </section>
+);
 
 export default ContactContent;

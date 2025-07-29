@@ -1,3 +1,4 @@
+// page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -21,18 +22,11 @@ export default function Home() {
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      {/* ✅ Floating sticky MENU button */}
-      <div className="fixed left-4 top-[7.5rem] z-50">
-        <GlowButton onClick={() => setMenuOpen(true)} glowColor="bg-[#a3f730]">
-          MENU
-        </GlowButton>
-      </div>
-
-      {/* ✅ Floating sticky ZAVŘÍT button (only when menu is open) */}
-      {menuOpen && (
-        <div className="fixed left-4 top-[12.5rem] z-50">
-          <GlowButton onClick={() => setMenuOpen(false)} glowColor="bg-orange-400">
-            ZAVŘÍT
+      {/* Show MENU button only when menu is closed */}
+      {!menuOpen && (
+        <div className="fixed left-4 top-[7.5rem] z-50">
+          <GlowButton onClick={() => setMenuOpen(true)} glowColor="bg-[#a3f730]">
+            MENU
           </GlowButton>
         </div>
       )}
@@ -54,13 +48,13 @@ export default function Home() {
         onPressClick={() => setPressOpen(true)}
       />
 
-      {/* ✅ Menu modal */}
+      {/* Menu modal */}
       <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)} title="">
         <MenuContent onClose={() => setMenuOpen(false)} />
       </Modal>
 
-      {/* ✅ Contact modal (title removed) */}
-      <Modal isOpen={contactsOpen} onClose={() => setContactsOpen(false)} title="">
+      {/* Contact modal (title removed, noPadding added) */}
+      <Modal isOpen={contactsOpen} onClose={() => setContactsOpen(false)} title="" noPadding>
         <ContactContent onClose={() => setContactsOpen(false)} />
       </Modal>
 
@@ -74,7 +68,7 @@ export default function Home() {
       </Modal>
 
       <Modal isOpen={pressOpen} onClose={() => setPressOpen(false)} title="Press">
-        <PressContent />
+        <PressContent onClose={() => setPressOpen(false)} />
       </Modal>
     </main>
   );

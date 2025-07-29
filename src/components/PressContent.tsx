@@ -1,7 +1,55 @@
-const PressContent = () => (
-  <div className="space-y-2">
-    <p>Download our press kit, brand assets, or reach out for media inquiries.</p>
-    <p>Email: press@spektrumgalerie.cz</p>
+// PressContent.tsx
+"use client";
+
+import React from "react";
+import GlowButton from "./GlowButton";
+import RotatingLogo from "@/components/Logo/RotatingLogo";
+
+// Your actual press materials/links
+const pressLinks = [
+  { label: "Presskit 2025 (PDF)", href: "#" },
+  { label: "Loga Spektrum galerie", href: "#" },
+  { label: "Tisková zpráva", href: "#" },
+];
+
+const PressContent = ({ onClose }: { onClose?: () => void }) => (
+  <div className="max-w-4xl mx-auto">
+    <div className="border border-black rounded-xl p-6 relative">
+      {/* Sticky ZAVŘÍT button */}
+      {onClose && (
+        <div className="fixed left-4 top-[7.5rem] z-50">
+          <GlowButton onClick={onClose} glowColor="bg-orange-400">
+            ZAVŘÍT
+          </GlowButton>
+        </div>
+      )}
+
+      <div className="mt-2 sm:mt-0 relative space-y-4">
+        {/* Logo */}
+        <div className="border border-black rounded-xl w-full leading-none">
+          <RotatingLogo
+            src="/logos/spektrum_galerie.svg"
+            speed={10}
+            className="block w-full h-auto"
+          />
+        </div>
+
+        {/* Press Links */}
+        {pressLinks.map((item) => (
+          <div key={item.label} className="border border-black rounded-xl">
+            <GlowButton
+              className="w-full py-4 text-xl uppercase text-black"
+              glowColor="bg-[#a3f730]"
+              asChild
+            >
+              <a href={item.href} target="_blank" rel="noopener noreferrer">
+                {item.label}
+              </a>
+            </GlowButton>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 );
 
