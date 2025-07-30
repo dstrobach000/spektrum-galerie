@@ -1,10 +1,9 @@
-// CuratorialText.tsx
 "use client";
 
 import React from "react";
 
 const CuratorialText = ({ children }: { children: React.ReactNode }) => (
-  <div className="border border-black rounded-xl p-6 font-light text-base w-full">
+  <div className="font-light text-base w-full">
     {children}
   </div>
 );

@@ -23,7 +23,7 @@ const NameCard = ({
   thanks: string;
   keyImage: string;
 }) => (
-  <div className="border border-black rounded-xl p-4 flex flex-col gap-4">
+  <div className="flex flex-col gap-4 w-full">
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
       {/* Column 1 */}
       <div className="space-y-4">
