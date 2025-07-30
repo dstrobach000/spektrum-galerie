@@ -6,6 +6,10 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx}',
     './src/components/**/*.{js,ts,jsx,tsx}',
   ],
+  safelist: [
+    "aspect-[16/9]",
+    "aspect-[4/5]",
+  ],
   theme: {
     extend: {
       fontFamily: {
