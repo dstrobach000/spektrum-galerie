@@ -1,7 +1,7 @@
-// Modal.tsx
 "use client";
 
 import React, { useEffect } from "react";
+import StickyCloseButton from "./StickyCloseButton";
 
 type ModalProps = {
   isOpen: boolean;
@@ -34,11 +34,16 @@ const Modal = ({
   return (
     <div
       className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
-        fullscreen ? "p-10" : noPadding ? "p-0" : "p-6"
+        fullscreen
+          ? "p-10 pb-12"
+          : noPadding
+          ? "p-0 pb-8"
+          : "p-6 pb-8"
       }`}
       style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
       onClick={onClose}
     >
+      <StickyCloseButton onClick={onClose} />
       <div
         className={`mx-auto h-full ${
           fullscreen

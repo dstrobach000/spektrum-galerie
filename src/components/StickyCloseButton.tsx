@@ -13,7 +13,7 @@ const StickyCloseButton = ({
   label?: string;
   className?: string;
 }) => (
-  <div className="fixed left-4 top-[7.5rem] z-50">
+  <div className="fixed right-4 top-[7.5rem] z-50">
     <GlowButton
       glowColor="bg-orange-400"
       onClick={onClick}

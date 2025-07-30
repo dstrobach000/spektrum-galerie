@@ -1,16 +1,13 @@
-// ContactContent.tsx
 "use client";
 
 import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
-import StickyCloseButton from "./StickyCloseButton";
 
-const ContactContent = ({ onClose }: { onClose?: () => void }) => (
+const ContactContent = () => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      {onClose && <StickyCloseButton onClick={onClose} />}
-      <div className="mt-2 sm:mt-0 relative space-y-4">
+      <div className="relative space-y-4">
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"
@@ -82,8 +79,11 @@ const ContactContent = ({ onClose }: { onClose?: () => void }) => (
             katerina@spektrumgalerie.cz
           </GlowButton>
         </div>
+        {/* Add bottom spacing */}
+        <div style={{ height: "1.5rem" }} />
       </div>
     </div>
+    <div className="h-8"></div>
   </div>
 );
 

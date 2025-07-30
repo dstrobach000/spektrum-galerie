@@ -4,12 +4,11 @@
 import React from "react";
 import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
-import StickyCloseButton from "./StickyCloseButton";
 
 const menuItems = [
   { label: "O galerii", href: "#o-galerii", action: null },
   { label: "Program", href: "#program", action: null },
-  { label: "Aktuální", href: "#aktualni", action: null },
+  { label: "Aktuální", href: null, action: "currentExhibition" }, // <- CHANGED
   { label: "Uplynulé", href: "#uplynule", action: null },
   { label: "Kontakty", href: null, action: "contact" },
   { label: "Ke Stažení", href: null, action: "press" },
@@ -19,14 +18,15 @@ const MenuContent = ({
   onClose,
   onContactClick,
   onPressClick,
+  onCurrentExhibitionClick,
 }: {
   onClose?: () => void;
   onContactClick?: () => void;
   onPressClick?: () => void;
+  onCurrentExhibitionClick?: () => void; // <- ADDED
 }) => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      {onClose && <StickyCloseButton onClick={onClose} />}
       <div className="mt-2 sm:mt-0 relative space-y-4">
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
@@ -47,6 +47,9 @@ const MenuContent = ({
                 } else if (item.action === "press" && onPressClick) {
                   onPressClick();
                   if (onClose) onClose();
+                } else if (item.action === "currentExhibition" && onCurrentExhibitionClick) {
+                  onCurrentExhibitionClick(); // <- ADDED
+                  if (onClose) onClose();
                 } else if (item.href) {
                   window.location.href = item.href;
                   if (onClose) onClose();
@@ -59,6 +62,7 @@ const MenuContent = ({
         ))}
       </div>
     </div>
+    <div className="h-8"></div>
   </div>
 );
 

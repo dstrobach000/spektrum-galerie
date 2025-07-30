@@ -25,6 +25,7 @@ export default function Home() {
   // ------------------------------------------------
 
   const [overlayOpen, setOverlayOpen] = useState(false);
+  const [gallerySource, setGallerySource] = useState<"menu" | "main">("main"); // NEW
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
@@ -46,7 +47,10 @@ export default function Home() {
           date="17. 6. - 31. 8. 2025"
         />
 
-        <Gallery onOverlayOpen={() => setOverlayOpen(true)} />
+        <Gallery onOverlayOpen={() => {
+          setGallerySource("main");
+          setOverlayOpen(true);
+        }} />
       </div>
 
       <Footer
@@ -74,6 +78,10 @@ export default function Home() {
             setPressOpen(true);
             setMenuOpen(false);
           }}
+          onCurrentExhibitionClick={() => {
+            setGallerySource("menu");
+            setOverlayOpen(true);
+          }}
         />
       </Modal>
 
@@ -95,10 +103,18 @@ export default function Home() {
 
       <Modal
         isOpen={overlayOpen}
-        onClose={() => setOverlayOpen(false)}
+        onClose={() => {
+          setOverlayOpen(false);
+          if (gallerySource === "menu") setMenuOpen(true);
+        }}
         fullscreen
       >
-        <GalleryOverlay />
+        <GalleryOverlay
+          onClose={() => {
+            setOverlayOpen(false);
+            if (gallerySource === "menu") setMenuOpen(true);
+          }}
+        />
       </Modal>
 
       <Modal
