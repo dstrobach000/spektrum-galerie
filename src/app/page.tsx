@@ -1,4 +1,3 @@
-// page.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -93,12 +92,7 @@ export default function Home() {
           if (contactsSource === "menu") setMenuOpen(true);
         }}
       >
-        <ContactContent
-          onClose={() => {
-            setContactsOpen(false);
-            if (contactsSource === "menu") setMenuOpen(true);
-          }}
-        />
+        <ContactContent />
       </Modal>
 
       <Modal
@@ -109,12 +103,7 @@ export default function Home() {
         }}
         fullscreen
       >
-        <GalleryOverlay
-          onClose={() => {
-            setOverlayOpen(false);
-            if (gallerySource === "menu") setMenuOpen(true);
-          }}
-        />
+        <GalleryOverlay />
       </Modal>
 
       <Modal
@@ -124,12 +113,7 @@ export default function Home() {
           if (pressSource === "menu") setMenuOpen(true);
         }}
       >
-        <PressContent
-          onClose={() => {
-            setPressOpen(false);
-            if (pressSource === "menu") setMenuOpen(true);
-          }}
-        />
+        <PressContent />
       </Modal>
     </main>
   );
