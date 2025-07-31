@@ -7,7 +7,7 @@ import RotatingLogo from "@/components/Logo/RotatingLogo";
 const ContactContent = () => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      <div className="relative space-y-4">
+      <div className="mt-2 sm:mt-0 relative space-y-4">
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
             src="/logos/spektrum_galerie.svg"

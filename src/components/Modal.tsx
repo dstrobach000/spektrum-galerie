@@ -9,6 +9,7 @@ type ModalProps = {
   children: React.ReactNode;
   fullscreen?: boolean;
   noPadding?: boolean;
+  closeOnBackdropClick?: boolean;
 };
 
 const Modal = ({
@@ -17,6 +18,7 @@ const Modal = ({
   children,
   fullscreen = false,
   noPadding = false,
+  closeOnBackdropClick = true, // default true, but you will now pass false
 }: ModalProps) => {
   useEffect(() => {
     if (isOpen) {
@@ -35,13 +37,13 @@ const Modal = ({
     <div
       className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
         fullscreen
-          ? "p-10 pb-12"
+          ? "p-0 pb-8"
           : noPadding
           ? "p-0 pb-8"
           : "p-6 pb-8"
       }`}
       style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
-      onClick={onClose}
+      onClick={closeOnBackdropClick ? onClose : undefined}
     >
       <StickyCloseButton onClick={onClose} />
       <div

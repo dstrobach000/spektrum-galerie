@@ -9,9 +9,9 @@ import PhotoGallery from "./PhotoGallery";
 import GalleryOverlayHeader from "./GalleryOverlayHeader";
 
 const GalleryOverlay = () => (
-  <div className="relative w-full min-h-screen">
-    <div className="border border-black rounded-xl p-6 relative bg-white max-w-4xl mx-auto">
-      <div className="relative space-y-4 w-full">
+  <div className="max-w-4xl mx-auto">
+    <div className="border border-black rounded-xl p-6 relative">
+      <div className="mt-2 sm:mt-0 relative space-y-4">
         {/* Logo */}
         <div className="border border-black rounded-xl w-full leading-none">
           <RotatingLogo
@@ -64,7 +64,7 @@ const GalleryOverlay = () => (
         <PhotoGallery />
       </div>
     </div>
-    <div className="h-8" />
+    <div className="h-8"></div>
   </div>
 );
 

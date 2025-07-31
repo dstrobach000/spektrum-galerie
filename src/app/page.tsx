@@ -63,7 +63,7 @@ export default function Home() {
       />
 
       {/* Menu modal */}
-      <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
+      <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)} closeOnBackdropClick={false}>
         <MenuContent
           onClose={() => setMenuOpen(false)}
           onContactClick={() => {
@@ -90,27 +90,31 @@ export default function Home() {
           setContactsOpen(false);
           if (contactsSource === "menu") setMenuOpen(true);
         }}
+        closeOnBackdropClick={false}
       >
         <ContactContent />
       </Modal>
 
+      {/* GalleryOverlay modal */}
       <Modal
         isOpen={overlayOpen}
         onClose={() => {
           setOverlayOpen(false);
           if (gallerySource === "menu") setMenuOpen(true);
         }}
-        fullscreen
+        closeOnBackdropClick={false}
       >
         <GalleryOverlay />
       </Modal>
 
+      {/* Press modal */}
       <Modal
         isOpen={pressOpen}
         onClose={() => {
           setPressOpen(false);
           if (pressSource === "menu") setMenuOpen(true);
         }}
+        closeOnBackdropClick={false}
       >
         <PressContent />
       </Modal>
