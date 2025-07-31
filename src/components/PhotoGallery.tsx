@@ -35,7 +35,7 @@ const PhotoGallery: React.FC = () => {
           <GlowButton
             onClick={handleNext}
             glowColor="bg-[#a3f730]"
-            className="font-light uppercase"
+            className="font-light uppercase text-xs"
           >
             DÁL
           </GlowButton>
@@ -53,7 +53,7 @@ const PhotoGallery: React.FC = () => {
           <GlowButton
             onClick={handlePrev}
             glowColor="bg-[#a3f730]"
-            className="font-light uppercase"
+            className="font-light uppercase text-xs"
           >
             ZPĚT
           </GlowButton>
@@ -75,14 +75,14 @@ const PhotoGallery: React.FC = () => {
           <GlowButton
             onClick={handleNext}
             glowColor="bg-[#a3f730]"
-            className="font-light uppercase flex-1"
+            className="font-light uppercase flex-1 text-xs"
           >
             DÁL
           </GlowButton>
           <GlowButton
             onClick={handlePrev}
             glowColor="bg-[#a3f730]"
-            className="font-light uppercase flex-1"
+            className="font-light uppercase flex-1 text-xs"
           >
             ZPĚT
           </GlowButton>

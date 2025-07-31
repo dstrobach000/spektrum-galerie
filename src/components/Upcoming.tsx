@@ -12,14 +12,14 @@ interface UpcomingProps {
 const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date }) => {
   return (
     <>
-      <section className="my-12 px-6 sm:px-10">
+      <section className="my-4 px-6 sm:px-10">
         <GlowButton
           className="w-full py-4 text-xl font-light uppercase"
           glowColor="bg-[#a3f730]"
         >
           <div className="upcoming-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
             <span className="w-full upcoming-item text-center">Připravujeme:</span>
-            <span className="w-full upcoming-item text-center pulse-text">
+            <span className="w-full upcoming-item text-center pulse-text text-lg">
               {artist} – {exhibition}
             </span>
             <span className="w-full upcoming-item text-center">{date}</span>

@@ -23,7 +23,7 @@ const GalleryOverlayHeader: React.FC<GalleryOverlayHeaderProps> = ({
         >
           <div className="overlayheader-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
             <span className="w-full overlayheader-item text-center">{artist}</span>
-            <span className="w-full overlayheader-item text-center pulse-text">
+            <span className="w-full overlayheader-item text-center pulse-text text-lg">
               {exhibitionName}
             </span>
             <span className="w-full overlayheader-item text-center">{date}</span>

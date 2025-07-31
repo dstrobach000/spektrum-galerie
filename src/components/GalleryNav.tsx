@@ -14,14 +14,14 @@ const GalleryNav: React.FC<GalleryNavProps> = ({ onNext, onPrev }) => (
     <GlowButton
       onClick={onNext}
       glowColor="bg-[#a3f730]"
-      className="min-w-[140px] font-light uppercase"
+      className="min-w-[140px] font-light uppercase text-xs"
     >
       NÁSLEDUJÍCÍ
     </GlowButton>
     <GlowButton
       onClick={onPrev}
       glowColor="bg-[#a3f730]"
-      className="min-w-[140px] font-light uppercase"
+      className="min-w-[140px] font-light uppercase text-xs"
     >
       PŘEDCHÁZEJÍCÍ
     </GlowButton>
