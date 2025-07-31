@@ -38,10 +38,10 @@ const GalleryOverlay = () => (
         />
         {/* CuratorialText */}
         <CuratorialText>
-          <p className="mb-4 p-4 bg-white text-lg text-center">
+          <p className="mb-4 border border-black rounded-xl p-4 bg-white text-lg">
             Výstava Weary Shout představuje tvorbu Marie Vařekové jako citlivou, intuitivně vedenou odpověď na každodenní tlak neustálého rozhodování a vnějších podnětů, které mohou v člověku zanechávat pocit hlubokého vyčerpání. Namísto hledání narativu otevírá liminální prostor, ve kterém rudé rámy v ostrém kontrastu s monochromními plochami vytváří na straně jedné hraniční pásmo mezi vnějším světem a vnitřním stavem a na straně druhé uzavírají vizuální rezidua vnitřního napětí. Monochromy nenabízejí záchytné body, ale otevírají portály, kde se nejednoznačnost stává zcela konkrétním zážitkem – introspektivní a znejišťující stav mezi orientací a dezorientací.
           </p>
-          <p className="mb-4 p-4 bg-white text-lg text-center">
+          <p className="mb-4 p-4 bg-white text-xl text-center">
             Obrazy, které nejsou vytvořené kvůli reprezentaci, ale kvůli zachycení pocitu, rytmu, trvání. Jako stopy, které zůstávají po pohybu, jako vizuální ekvivalent pauzy mezi neustálým tokem informací nebo jako prostor pro dech mezi jednotlivými výkřiky.
           </p>
           <div className="flex flex-col gap-4 md:flex-row md:gap-4 md:items-stretch">
