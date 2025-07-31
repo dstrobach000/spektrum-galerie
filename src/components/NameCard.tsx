@@ -16,8 +16,7 @@ const NameCard = ({
   thanks: string;
 }) => (
   <div className="flex flex-col gap-4 w-full">
-    {/* 2 columns on mobile, 3 columns from md up, all fields are single cells */}
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 items-start">
+    <div className="flex flex-col gap-4 w-full md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4">
       {/* kurátorka */}
       <div>
         <div className="text-xs font-light mb-1">kurátorka:</div>
@@ -44,7 +43,7 @@ const NameCard = ({
         <div className="border border-black rounded-xl text-lg font-light px-3 py-2 w-full">{install}</div>
       </div>
       {/* speciální poděkování */}
-      <div>
+      <div className="md:col-span-2 lg:col-span-3">
         <div className="text-xs font-light mb-1">speciální poděkování:</div>
         <div className="border border-black rounded-xl p-4 font-light w-full">{thanks}</div>
       </div>

@@ -7,14 +7,15 @@ import RotatingLogo from "@/components/Logo/RotatingLogo";
 const ContactContent = () => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
+      {/* LOGO - direct in card */}
+      <div className="border border-black rounded-xl w-full leading-none p-4 flex items-center justify-center">
+        <RotatingLogo
+          src="/logos/spektrum_galerie.svg"
+          speed={10}
+          className="block w-full h-auto"
+        />
+      </div>
       <div className="mt-2 sm:mt-0 relative space-y-4">
-        <div className="border border-black rounded-xl w-full leading-none">
-          <RotatingLogo
-            src="/logos/spektrum_galerie.svg"
-            speed={10}
-            className="block w-full h-auto"
-          />
-        </div>
         <div className="border border-black rounded-xl p-6">
           <p className="font-light">Spektrum galerie</p>
           <p className="font-light">Štefánikova 95/24</p>
