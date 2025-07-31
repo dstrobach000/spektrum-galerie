@@ -6,11 +6,11 @@ import GlowButton from "./GlowButton";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
 
 const menuItems = [
-  { label: "O galerii", href: "#o-galerii", action: null },
-  { label: "Program", href: "#program", action: null },
-  { label: "Aktuální", href: null, action: "currentExhibition" }, // <- CHANGED
-  { label: "Uplynulé", href: "#uplynule", action: null },
+  { label: "O galerii", href: "#header", action: null },
+  { label: "Aktuální", href: null, action: "currentExhibition" },
+  { label: "Uplynulé", href: "#gallery", action: null },
   { label: "Kontakty", href: null, action: "contact" },
+  { label: "Newsletter", href: "#footer", action: null },
   { label: "Ke Stažení", href: null, action: "press" },
 ];
 
@@ -23,7 +23,7 @@ const MenuContent = ({
   onClose?: () => void;
   onContactClick?: () => void;
   onPressClick?: () => void;
-  onCurrentExhibitionClick?: () => void; // <- ADDED
+  onCurrentExhibitionClick?: () => void;
 }) => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
@@ -48,10 +48,14 @@ const MenuContent = ({
                   onPressClick();
                   if (onClose) onClose();
                 } else if (item.action === "currentExhibition" && onCurrentExhibitionClick) {
-                  onCurrentExhibitionClick(); // <- ADDED
+                  onCurrentExhibitionClick();
                   if (onClose) onClose();
                 } else if (item.href) {
-                  window.location.href = item.href;
+                  const id = item.href.replace('#', '');
+                  const target = document.getElementById(id);
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth" });
+                  }
                   if (onClose) onClose();
                 }
               }}

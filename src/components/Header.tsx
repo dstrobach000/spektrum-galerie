@@ -38,7 +38,7 @@ const Header = () => {
   const modelHeight = is3Col && logoSize?.height ? `${logoSize.height}px` : "auto";
 
   return (
-    <section className="px-6 sm:px-10 py-6">
+    <section className="px-6 sm:px-10 py-6" id="header">
       <div className="border border-black rounded-xl p-6 space-y-6">
         <div className={`
           grid gap-8

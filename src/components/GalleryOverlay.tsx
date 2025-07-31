@@ -2,15 +2,15 @@
 
 import React from "react";
 import RotatingLogo from "@/components/Logo/RotatingLogo";
-import StickyGalleryNav from "./StickyGalleryNav";
+import GalleryNav from "./GalleryNav";
 import NameCard from "./NameCard";
 import CuratorialText from "./CuratorialText";
 import PhotoGallery from "./PhotoGallery";
+import GalleryOverlayHeader from "./GalleryOverlayHeader";
 
 const GalleryOverlay = () => {
   return (
     <div className="relative w-full min-h-screen">
-      <StickyGalleryNav onNext={() => {}} onPrev={() => {}} />
       <div className="border border-black rounded-xl p-6 relative bg-white max-w-4xl mx-auto">
         <div className="relative space-y-4 w-full">
           {/* Logo */}
@@ -21,11 +21,19 @@ const GalleryOverlay = () => {
               className="block w-full h-auto"
             />
           </div>
+          {/* Nav buttons above header */}
+          <GalleryNav
+            onNext={() => {}}
+            onPrev={() => {}}
+          />
+          {/* Static, styled overlay header */}
+          <GalleryOverlayHeader
+            artist="Marie Vařeková"
+            exhibitionName="Weary Shout"
+            date="22. 5. – 11. 6. 2025"
+          />
           {/* NameCard */}
           <NameCard
-            exhibitionName="Weary Shout"
-            artist="Marie Vařeková"
-            date="22. 5. – 11. 6. 2025"
             curator="Adéla Petříčková"
             promo="Kateřina Pražáková"
             install="Jakub Nečas"

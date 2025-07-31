@@ -12,7 +12,7 @@ const Footer = ({
   onPressClick?: () => void;
 }) => {
   return (
-    <footer className="border-t border-black bg-white px-6 sm:px-10 py-10 sm:py-6">
+    <footer className="border-t border-black bg-white px-6 sm:px-10 py-10 sm:py-6" id="footer">
       <div className="max-w-7xl mx-auto">
         {/* Main grid with 3 columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">

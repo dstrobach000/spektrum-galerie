@@ -28,7 +28,6 @@ export default function Home() {
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      {/* Show MENU button only when menu is closed */}
       {!menuOpen && (
         <div className="fixed left-4 top-[7.5rem] z-50">
           <GlowButton onClick={() => setMenuOpen(true)} glowColor="bg-[#a3f730]">
