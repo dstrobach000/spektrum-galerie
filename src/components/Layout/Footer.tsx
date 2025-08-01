@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 const Footer = ({
   onContactClick,

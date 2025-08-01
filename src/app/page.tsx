@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "@/components/Header";
-import Gallery from "@/components/Gallery";
-import Footer from "@/components/Footer";
-import Modal from "@/components/Modal";
+import Header from "@/components/Layout/Header";
+import Gallery from "@/components/Layout/Gallery";
+import Footer from "@/components/Layout/Footer";
+import Modal from "@/components/BuildingBlocks/Modal/Modal";
 
-import MenuContent from "@/components/MenuContent";
-import GalleryOverlay from "@/components/GalleryOverlay";
-import ContactContent from "@/components/ContactContent";
-import PressContent from "@/components/PressContent";
-import Upcoming from "@/components/Upcoming";
-import GlowButton from "@/components/GlowButton";
+import MenuContent from "@/components/Content/MenuContent";
+import ExhibitionContent from "@/components/Content/ExhibitionContent"; // Renamed import
+import ContactContent from "@/components/Content/ContactContent";
+import PressContent from "@/components/Content/PressContent";
+import Upcoming from "@/components/BuildingBlocks/Labels/Upcoming";
+import MenuButton from "@/components/BuildingBlocks/Buttons/MenuButton";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,16 +24,12 @@ export default function Home() {
   // ------------------------------------------------
 
   const [overlayOpen, setOverlayOpen] = useState(false);
-  const [gallerySource, setGallerySource] = useState<"menu" | "main">("main"); // NEW
+  const [gallerySource, setGallerySource] = useState<"menu" | "main">("main");
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
       {!menuOpen && (
-        <div className="fixed left-4 top-[7.5rem] z-50">
-          <GlowButton onClick={() => setMenuOpen(true)} glowColor="bg-[#a3f730]">
-            MENU
-          </GlowButton>
-        </div>
+        <MenuButton onClick={() => setMenuOpen(true)} />
       )}
 
       <div className="flex-grow">
@@ -43,6 +39,7 @@ export default function Home() {
           artist="Marie Hrachovcová"
           exhibition="Atlas neznámých květin"
           date="17. 6. - 31. 8. 2025"
+          link="https://www.instagram.com/mariehrachovcova_/"
         />
 
         <Gallery onOverlayOpen={() => {
@@ -95,7 +92,7 @@ export default function Home() {
         <ContactContent />
       </Modal>
 
-      {/* GalleryOverlay modal */}
+      {/* ExhibitionContent modal */}
       <Modal
         isOpen={overlayOpen}
         onClose={() => {
@@ -104,7 +101,7 @@ export default function Home() {
         }}
         closeOnBackdropClick={false}
       >
-        <GalleryOverlay />
+        <ExhibitionContent />
       </Modal>
 
       {/* Press modal */}

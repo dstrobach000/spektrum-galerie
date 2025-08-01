@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useLayoutEffect } from "react";
-import GlowButton from "./GlowButton";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 const images = [
   "/images/weary_shout/weary_shout_1.jpg",
@@ -68,7 +68,7 @@ const PhotoGallery: React.FC = () => {
   return (
     <div className="w-full flex flex-col items-center justify-center">
       {/* Desktop: unchanged */}
-      <div className="hidden md:flex relative w-full max-w-[900px] h-[70vh] items-center justify-center bg-transparent">
+      <div className="hidden md:flex relative w-full max-w-[900px] h-[70vh] items-center justify-center bg-transparent mt-6">
         <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
           <GlowButton
             onClick={handleNext}

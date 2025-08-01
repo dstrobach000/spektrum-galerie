@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import SlideShowCard from "@/components/Slider/SlideShowCard";
+import SlideShowCard from "@/components/BuildingBlocks/Slider/SlideShowCard";
 
 const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
   const slideshowCards = [
@@ -69,7 +69,7 @@ const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
   ];
 
   return (
-    <section className="px-6 sm:px-10 py-12 bg-white" id="gallery">
+    <section className="py-12 px-6 sm:px-10 bg-white" id="gallery">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 overflow-visible">
         {slideshowCards.map((card, i) => (
           <SlideShowCard

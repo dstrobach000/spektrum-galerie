@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
-import RotatingLogo from "@/components/Logo/RotatingLogo";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
 
 const menuItems = [
   { label: "O galerii", href: "#header", action: null },
@@ -27,7 +27,7 @@ const MenuContent = ({
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
       {/* LOGO - now sits directly in the card, just like in Header */}
-      <div className="border border-black rounded-xl w-full leading-none p-4 flex items-center justify-center">
+      <div className="border border-black rounded-xl w-full leading-none p-4 flex items-center justify-center mb-6">
         <RotatingLogo
           src="/logos/spektrum_galerie.svg"
           speed={10}
@@ -67,7 +67,7 @@ const MenuContent = ({
         ))}
       </div>
     </div>
-    <div className="h-8"></div>
+    <div className="h-6"></div>
   </div>
 );
 

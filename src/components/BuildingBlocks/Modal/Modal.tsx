@@ -1,7 +1,27 @@
 "use client";
 
 import React, { useEffect } from "react";
-import StickyCloseButton from "./StickyCloseButton";
+import StickyCloseButton from "@/components/BuildingBlocks/Buttons/StickyCloseButton";
+
+// --- Scroll lock counter logic ---
+let modalOpenCount = 0;
+
+const lockScroll = () => {
+  if (modalOpenCount === 0) {
+    document.body.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "contain";
+  }
+  modalOpenCount++;
+};
+
+const unlockScroll = () => {
+  modalOpenCount = Math.max(modalOpenCount - 1, 0);
+  if (modalOpenCount === 0) {
+    document.body.style.overflow = "";
+    document.body.style.overscrollBehavior = "";
+  }
+};
+// ---------------------------------
 
 type ModalProps = {
   isOpen: boolean;
@@ -18,16 +38,16 @@ const Modal = ({
   children,
   fullscreen = false,
   noPadding = false,
-  closeOnBackdropClick = true, // default true, but you will now pass false
+  closeOnBackdropClick = true,
 }: ModalProps) => {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+      lockScroll();
     }
     return () => {
-      document.body.style.overflow = "";
+      if (isOpen) {
+        unlockScroll();
+      }
     };
   }, [isOpen]);
 

@@ -1,21 +1,23 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
+import GlowButton from "../Buttons/GlowButton";
 
 interface UpcomingProps {
   artist: string;
   exhibition: string;
   date: string;
+  link?: string; // added link prop
 }
 
-const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date }) => {
+const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, link }) => {
   return (
     <>
-      <section className="my-4 px-6 sm:px-10">
+      <section className="my-6 px-6 sm:px-10">
         <GlowButton
           className="w-full py-4 text-xl font-light uppercase"
           glowColor="bg-[#a3f730]"
+          link={link} // pass link directly to GlowButton
         >
           <div className="upcoming-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
             <span className="w-full upcoming-item text-center">Připravujeme:</span>

@@ -16,7 +16,7 @@ const NameCard = ({
   thanks: string;
 }) => (
   <div className="flex flex-col gap-4 w-full">
-    <div className="flex flex-col gap-4 w-full md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4">
+    <div className="flex flex-col gap-4 w-full md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 mt-6">
       {/* kurátorka */}
       <div>
         <div className="text-xs font-light mb-1">kurátorka:</div>

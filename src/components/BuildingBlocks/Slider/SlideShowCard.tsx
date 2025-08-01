@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import GlowButton from "@/components/GlowButton";
+import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
 
 type SlideShowCardProps = {
   images: string[];
@@ -61,13 +61,9 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           {date}
         </div>
         {isCurrent && (
-          <GlowButton
-            glowColor="bg-[#ffb2de]"
-            className="px-6 py-2 text-sm font-light text-black ml-2"
-            type="button"
-          >
+          <CurrentLabel>
             Aktuální
-          </GlowButton>
+          </CurrentLabel>
         )}
       </div>
     </div>

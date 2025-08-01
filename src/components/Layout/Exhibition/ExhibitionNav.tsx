@@ -2,7 +2,7 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 interface GalleryNavProps {
   onNext: () => void;
@@ -14,14 +14,14 @@ const GalleryNav: React.FC<GalleryNavProps> = ({ onNext, onPrev }) => (
     <GlowButton
       onClick={onNext}
       glowColor="bg-[#a3f730]"
-      className="min-w-[140px] px-6 font-light uppercase text-center text-xs"
+      className="min-w-[140px] px-6 font-light uppercase text-center text-xs mt-6"
     >
       NÁSLEDUJÍCÍ
     </GlowButton>
     <GlowButton
       onClick={onPrev}
       glowColor="bg-[#a3f730]"
-      className="min-w-[140px] px-6 font-light uppercase text-center text-xs"
+      className="min-w-[140px] px-6 font-light uppercase text-center text-xs mt-6"
     >
       PŘEDCHÁZEJÍCÍ
     </GlowButton>

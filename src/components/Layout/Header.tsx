@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef, useLayoutEffect, useState } from "react";
-import RotatingLogo from "@/components/Logo/RotatingLogo";
-import ModelViewer from "@/components/ModelViewer";
+import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
+import ModelViewer from "@/components/BuildingBlocks/3D/ModelViewer";
 
 const Header = () => {
   const logoRef = useRef<HTMLDivElement>(null);

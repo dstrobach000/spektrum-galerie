@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import GlowButton from "./GlowButton";
+import GlowBox from "@/components/BuildingBlocks/Labels/GlowBox";
 
 interface GalleryOverlayHeaderProps {
   artist: string;
@@ -17,8 +17,8 @@ const GalleryOverlayHeader: React.FC<GalleryOverlayHeaderProps> = ({
   return (
     <>
       <div className="my-0 px-0">
-        <GlowButton
-          className="w-full py-4 text-xl font-light uppercase"
+        <GlowBox
+          className="w-full py-4 text-xl font-light uppercase mb-6"
           glowColor="bg-[#a3f730]"
         >
           <div className="overlayheader-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
@@ -28,7 +28,7 @@ const GalleryOverlayHeader: React.FC<GalleryOverlayHeaderProps> = ({
             </span>
             <span className="w-full overlayheader-item text-center">{date}</span>
           </div>
-        </GlowButton>
+        </GlowBox>
       </div>
       <style jsx>{`
         .pulse-text {

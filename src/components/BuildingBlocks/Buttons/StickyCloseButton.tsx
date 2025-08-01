@@ -1,4 +1,3 @@
-// StickyCloseButton.tsx
 "use client";
 
 import React from "react";
@@ -13,7 +12,7 @@ const StickyCloseButton = ({
   label?: string;
   className?: string;
 }) => (
-  <div className="fixed right-4 top-[7.5rem] z-50">
+  <div className="fixed left-4 top-[7.5rem] z-50">
     <GlowButton
       glowColor="bg-[#a3f730]"
       onClick={onClick}
