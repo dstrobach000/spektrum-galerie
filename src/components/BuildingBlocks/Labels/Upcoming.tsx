@@ -21,8 +21,11 @@ const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, link }) =
         >
           <div className="upcoming-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
             <span className="w-full upcoming-item text-center">Připravujeme:</span>
+            <span className="w-full upcoming-item text-center text-lg">
+              {artist}
+            </span>
             <span className="w-full upcoming-item text-center pulse-text text-lg">
-              {artist} – {exhibition}
+              {exhibition}
             </span>
             <span className="w-full upcoming-item text-center">{date}</span>
           </div>
