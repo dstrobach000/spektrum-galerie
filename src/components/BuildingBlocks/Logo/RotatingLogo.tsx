@@ -16,17 +16,16 @@ type RotatingLogoProps = {
 const RotatingLogo: React.FC<RotatingLogoProps> = ({
   src,
   alt = "Rotating Logo",
-  width = 600,
   speed = 6,
   className = "",
 }) => {
   return (
     <div
-      className={clsx("flex justify-center items-center", className)}
+      className={clsx("flex justify-center items-center w-full h-full", className)}
       style={{ perspective: "1000px" }}
     >
       <div
-        className="animate-pendulum"
+        className="animate-pendulum w-full h-full flex items-center justify-center"
         style={{
           transformStyle: "preserve-3d",
           ["--speed" as string]: `${speed}s`,
@@ -35,8 +34,8 @@ const RotatingLogo: React.FC<RotatingLogoProps> = ({
         <Image
           src={src}
           alt={alt}
-          width={width}
-          height={width} // assuming square logo, adjust if not
+          fill
+          className="object-contain w-full h-full"
           priority
         />
       </div>

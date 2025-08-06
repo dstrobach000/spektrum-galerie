@@ -7,7 +7,7 @@ import Footer from "@/components/Layout/Footer";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
 
 import MenuContent from "@/components/Content/MenuContent";
-import ExhibitionContent from "@/components/Content/ExhibitionContent"; // Renamed import
+import ExhibitionContent from "@/components/Content/ExhibitionContent";
 import ContactContent from "@/components/Content/ContactContent";
 import PressContent from "@/components/Content/PressContent";
 import Upcoming from "@/components/BuildingBlocks/Labels/Upcoming";
@@ -16,15 +16,58 @@ import MenuButton from "@/components/BuildingBlocks/Buttons/MenuButton";
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // --- Updated state for modal source tracking ---
+  // track *source* of modal opening
   const [contactsOpen, setContactsOpen] = useState(false);
   const [contactsSource, setContactsSource] = useState<"menu" | "main">("main");
   const [pressOpen, setPressOpen] = useState(false);
   const [pressSource, setPressSource] = useState<"menu" | "main">("main");
-  // ------------------------------------------------
-
   const [overlayOpen, setOverlayOpen] = useState(false);
-  const [gallerySource, setGallerySource] = useState<"menu" | "main">("main");
+  const [overlaySource, setOverlaySource] = useState<"menu" | "main">("main");
+
+  // Menu handlers - pass "menu" as the source
+  const handleContactClick = () => {
+    setContactsOpen(true);
+    setContactsSource("menu");
+    setMenuOpen(false);
+  };
+  const handlePressClick = () => {
+    setPressOpen(true);
+    setPressSource("menu");
+    setMenuOpen(false);
+  };
+  const handleCurrentExhibitionClick = () => {
+    setOverlayOpen(true);
+    setOverlaySource("menu");
+    setMenuOpen(false);
+  };
+
+  // Footer and elsewhere: pass "main" as the source
+  const handleFooterContact = () => {
+    setContactsOpen(true);
+    setContactsSource("main");
+  };
+  const handleFooterPress = () => {
+    setPressOpen(true);
+    setPressSource("main");
+  };
+  const handleGalleryExhibition = () => {
+    setOverlayOpen(true);
+    setOverlaySource("main");
+  };
+
+  // On close: if opened from menu, reopen menu
+  const handleContactClose = () => {
+    setContactsOpen(false);
+    if (contactsSource === "menu") setMenuOpen(true);
+  };
+  const handlePressClose = () => {
+    setPressOpen(false);
+    if (pressSource === "menu") setMenuOpen(true);
+  };
+  const handleExhibitionClose = () => {
+    setOverlayOpen(false);
+    if (overlaySource === "menu") setMenuOpen(true);
+  };
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
@@ -42,51 +85,28 @@ export default function Home() {
           link="https://www.instagram.com/mariehrachovcova_/"
         />
 
-        <Gallery onOverlayOpen={() => {
-          setGallerySource("main");
-          setOverlayOpen(true);
-        }} />
+        <Gallery onOverlayOpen={handleGalleryExhibition} />
       </div>
 
       <Footer
-        onContactClick={() => {
-          setContactsSource("main");
-          setContactsOpen(true);
-        }}
-        onPressClick={() => {
-          setPressSource("main");
-          setPressOpen(true);
-        }}
+        onContactClick={handleFooterContact}
+        onPressClick={handleFooterPress}
       />
 
       {/* Menu modal */}
       <Modal isOpen={menuOpen} onClose={() => setMenuOpen(false)} closeOnBackdropClick={false}>
         <MenuContent
           onClose={() => setMenuOpen(false)}
-          onContactClick={() => {
-            setContactsSource("menu");
-            setContactsOpen(true);
-            setMenuOpen(false);
-          }}
-          onPressClick={() => {
-            setPressSource("menu");
-            setPressOpen(true);
-            setMenuOpen(false);
-          }}
-          onCurrentExhibitionClick={() => {
-            setGallerySource("menu");
-            setOverlayOpen(true);
-          }}
+          onContactClick={handleContactClick}
+          onPressClick={handlePressClick}
+          onCurrentExhibitionClick={handleCurrentExhibitionClick}
         />
       </Modal>
 
       {/* Contact modal */}
       <Modal
         isOpen={contactsOpen}
-        onClose={() => {
-          setContactsOpen(false);
-          if (contactsSource === "menu") setMenuOpen(true);
-        }}
+        onClose={handleContactClose}
         closeOnBackdropClick={false}
       >
         <ContactContent />
@@ -95,10 +115,7 @@ export default function Home() {
       {/* ExhibitionContent modal */}
       <Modal
         isOpen={overlayOpen}
-        onClose={() => {
-          setOverlayOpen(false);
-          if (gallerySource === "menu") setMenuOpen(true);
-        }}
+        onClose={handleExhibitionClose}
         closeOnBackdropClick={false}
       >
         <ExhibitionContent />
@@ -107,10 +124,7 @@ export default function Home() {
       {/* Press modal */}
       <Modal
         isOpen={pressOpen}
-        onClose={() => {
-          setPressOpen(false);
-          if (pressSource === "menu") setMenuOpen(true);
-        }}
+        onClose={handlePressClose}
         closeOnBackdropClick={false}
       >
         <PressContent />

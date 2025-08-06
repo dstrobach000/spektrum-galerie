@@ -16,7 +16,8 @@ const StickyCloseButton = ({
     <GlowButton
       glowColor="bg-[#a3f730]"
       onClick={onClick}
-      className={`uppercase text-lg ${className}`}
+      className={`text-lg ${className}`}
+      floating={false}
     >
       {label}
     </GlowButton>

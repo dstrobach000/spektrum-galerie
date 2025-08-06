@@ -1,7 +1,7 @@
-// Footer.tsx
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 const Footer = ({
@@ -16,26 +16,41 @@ const Footer = ({
       <div className="max-w-7xl mx-auto">
         {/* Main grid with 3 columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full w-full">
-            <GlowButton onClick={onContactClick} className="px-8 py-4 text-xl w-full" glowColor="bg-[#a3f730]">
-              KONTAKTY
+          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
+            <GlowButton
+              onClick={onContactClick}
+              className="px-4 py-2 text-lg w-1/2 self-center"
+              glowColor="bg-[#a3f730]"
+              floating={false}
+            >
+              Kontakty
             </GlowButton>
           </div>
-          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full w-full">
+          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
             <form className="space-y-4 w-full max-w-sm flex flex-col items-center">
               <input
                 type="email"
                 placeholder="Zadejte svůj e-mail"
-                className="px-4 py-2 border border-black rounded-full w-full focus:outline-none font-light text-center uppercase"
+                className="px-4 py-2 border border-black rounded-full w-full focus:outline-none font-light text-center"
               />
-              <GlowButton className="w-full px-6 py-2 text-base" type="submit" glowColor="bg-[#a3f730]">
-                ODEBÍRAT NEWSLETTER
+              <GlowButton
+                className="px-4 py-2 text-lg w-3/4 self-center"
+                type="submit"
+                glowColor="bg-[#a3f730]"
+                floating={false}
+              >
+                Odebírat newsletter
               </GlowButton>
             </form>
           </div>
-          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full w-full">
-            <GlowButton onClick={onPressClick} className="px-8 py-4 text-xl w-full" glowColor="bg-[#a3f730]">
-              KE STAŽENÍ
+          <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
+            <GlowButton
+              onClick={onPressClick}
+              className="px-4 py-2 text-lg w-1/2 self-center"
+              glowColor="bg-[#a3f730]"
+              floating={false}
+            >
+              Ke stažení
             </GlowButton>
           </div>
         </div>
@@ -47,16 +62,20 @@ const Footer = ({
             Děkujeme statutárnímu městu Brnu a Ministerstvu kultury České republiky za finanční podporu tohoto projektu.
           </p>
           {/* Logos */}
-          <div className="flex gap-8 justify-center items-center mb-3">
-            <img
+          <div className="flex gap-4 justify-center items-center">
+            <Image
               src="/logos/ministerstvo_kultury.png"
               alt="Ministerstvo kultury"
+              height={32}
+              width={100}
               className="h-8 object-contain"
             />
-            <img
+            <Image
               src="/logos/brno.png"
               alt="Brno"
-              className="h-8 object-contain"
+              height={32}
+              width={100}
+              className="h-12 object-contain"
             />
           </div>
           {/* Copyright */}

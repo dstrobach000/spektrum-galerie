@@ -1,4 +1,3 @@
-// GlowButton.tsx
 import React from "react";
 
 interface GlowButtonProps {
@@ -7,7 +6,8 @@ interface GlowButtonProps {
   className?: string;
   glowColor?: string; // e.g. "bg-[#a3f730]" or "bg-orange-400"
   type?: "button" | "submit" | "reset";
-  link?: string; // Add this line
+  link?: string;
+  floating?: boolean;
 }
 
 const GlowButton = ({
@@ -17,11 +17,12 @@ const GlowButton = ({
   glowColor = "bg-[#a3f730]",
   type = "button",
   link,
+  floating = true,
 }: GlowButtonProps) => {
+  const animationClass = floating ? "animate-float-pulse" : "";
   const commonProps = {
-    className: `relative inline-block rounded-full px-6 py-2 text-lg font-light text-black transition-transform duration-300 hover:scale-105 animate-float-pulse ${className}`,
+    className: `relative inline-block rounded-full px-6 py-2 text-lg font-light text-black transition-transform duration-300 ${animationClass} ${className}`,
     tabIndex: 0,
-    style: { width: "100%" }
   };
 
   const inner = (
@@ -31,22 +32,33 @@ const GlowButton = ({
     </>
   );
 
+  // If onClick is provided, always render a <button>
+  if (onClick) {
+    return (
+      <button type={type} onClick={onClick} {...commonProps}>
+        {inner}
+      </button>
+    );
+  }
+
+  // If link is provided, render an <a> tag with NO target if it's an anchor link
   if (link) {
+    const isAnchor = link.startsWith("#");
     return (
       <a
         href={link}
-        target="_blank"
-        rel="noopener noreferrer"
         {...commonProps}
-        style={{ ...commonProps.style, textDecoration: "none" }}
+        {...(!isAnchor && { target: "_blank", rel: "noopener noreferrer" })}
+        style={{ textDecoration: "none" }}
       >
         {inner}
       </a>
     );
   }
 
+  // Fallback
   return (
-    <button type={type} onClick={onClick} {...commonProps}>
+    <button type={type} {...commonProps}>
       {inner}
     </button>
   );

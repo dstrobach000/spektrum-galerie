@@ -1,43 +1,45 @@
 "use client";
 
 import React from "react";
-import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
-// Your actual press materials/links
 const pressLinks = [
-  { label: "Presskit 2025 (PDF)", href: "#" },
-  { label: "Loga Spektrum galerie", href: "#" },
-  { label: "Tisková zpráva", href: "#" },
+  { label: "Půdorys", href: "#" },
+  { label: "Logo Spektrum galerie", href: "#" },
+  { label: "Výroční zpráva 2024", href: "#" },
 ];
 
 const PressContent = () => (
-  <div className="max-w-4xl mx-auto">
-    <div className="border border-black rounded-xl p-6 relative">
-      {/* LOGO - direct in card */}
-      <div className="border border-black rounded-xl w-full leading-none p-4 flex items-center justify-center mb-6">
-        <RotatingLogo
-          src="/logos/spektrum_galerie.svg"
-          speed={10}
-          className="block w-full h-auto"
-        />
-      </div>
-      <div className="mt-2 sm:mt-0 relative space-y-4">
-        {pressLinks.map((item) => (
-          <div key={item.label} className="border border-black rounded-xl">
-            <GlowButton
-              className="w-full py-4 text-xl uppercase text-black"
-              glowColor="bg-[#a3f730]"
-            >
-              <a href={item.href} target="_blank" rel="noopener noreferrer">
-                {item.label}
-              </a>
-            </GlowButton>
-          </div>
-        ))}
-      </div>
+  <div className="max-w-2xl mx-auto w-full p-6">
+    {/* Logo */}
+    <div className="border border-black rounded-full w-full leading-none p-4 flex items-center justify-center mb-8 aspect-[3/1]">
+      <RotatingLogo
+        src="/logos/spektrum_galerie.svg"
+        speed={10}
+        className="block w-full h-full"
+      />
     </div>
-    <div className="h-6"></div>
+    {/* Buttons - single column, centered */}
+    <div className="flex flex-col gap-4 items-center">
+      {pressLinks.map((item) => (
+        <GlowButton
+          key={item.label}
+          className="px-6 py-4 text-base text-black"
+          glowColor="bg-[#a3f730]"
+          floating={false}
+        >
+          <a
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center"
+          >
+            {item.label}
+          </a>
+        </GlowButton>
+      ))}
+    </div>
   </div>
 );
 

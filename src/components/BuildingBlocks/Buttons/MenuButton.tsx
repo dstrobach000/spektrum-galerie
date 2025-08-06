@@ -15,8 +15,9 @@ const MenuButton = ({
       onClick={onClick}
       glowColor="bg-[#a3f730]"
       className={className}
+      floating={false}
     >
-      MENU
+      Menu
     </GlowButton>
   </div>
 );

@@ -78,9 +78,9 @@ const Gallery = ({ onOverlayOpen }: { onOverlayOpen?: () => void }) => {
             buttonText={card.buttonText}
             author={card.author}
             date={card.date}
-            interval={1}
+            interval={2}
             onPillClick={onOverlayOpen}
-            buttonClassName="inline-block px-6 py-2 text-sm font-light text-black animate-float-pulse"
+            buttonClassName="inline-block px-6 py-2 text-sm font-light text-black"
             isCurrent={card.buttonText === "Weary Shout"} // <-- set to your running exhibition
           />
         ))}

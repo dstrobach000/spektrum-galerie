@@ -1,78 +1,38 @@
 "use client";
 
-import React, { useRef, useLayoutEffect, useState } from "react";
+import React from "react";
 import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
 import ModelViewer from "@/components/BuildingBlocks/3D/ModelViewer";
 
+const aspect = "aspect-[3/1]"; // Change ratio here if you want a bit taller or shorter
+
 const Header = () => {
-  const logoRef = useRef<HTMLDivElement>(null);
-  const [logoSize, setLogoSize] = useState<{ width: number; height: number } | null>(null);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-
-  useLayoutEffect(() => {
-    function updateSize() {
-      if (logoRef.current) {
-        const { offsetWidth, offsetHeight } = logoRef.current;
-        setLogoSize(prev => {
-          if (!prev || prev.width !== offsetWidth || prev.height !== offsetHeight) {
-            return { width: offsetWidth, height: offsetHeight };
-          }
-          return prev;
-        });
-      }
-      setWindowWidth(window.innerWidth);
-    }
-    updateSize();
-
-    let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
-    function onResize() {
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(updateSize, 100);
-    }
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  // Use custom 1500px breakpoint for 3 columns
-  const is3Col = windowWidth >= 1500;
-  const modelHeight = is3Col && logoSize?.height ? `${logoSize.height}px` : "auto";
-
   return (
     <section className="px-6 sm:px-10 py-6" id="header">
       <div className="border border-black rounded-xl p-6 space-y-6">
         <div className={`
-          grid gap-8
+          grid gap-4
           grid-cols-1
           lg:grid-cols-2
-          min-[1500px]:grid-cols-3
+          3xl:grid-cols-3
           items-start
         `}>
           {/* LEFT COL (logo + model stacked on 2col; logo only on 3col) */}
           <div className="flex flex-col space-y-4">
-            <div
-              className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"
-              ref={logoRef}
-            >
+            {/* Logo always uses aspect ratio */}
+            <div className={`border border-black rounded-full overflow-hidden p-4 w-full flex items-center justify-center ${aspect}`}>
               <RotatingLogo
                 src="/logos/spektrum_galerie.svg"
-                width={600}
                 speed={10}
-                className="block w-full h-auto"
+                className="w-full h-full"
               />
             </div>
-            {/* Model: under logo in left col for 2-col; logo only on 3col */}
-            {!is3Col && (
-              <div
-                className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"
-                style={{
-                  height: modelHeight,
-                }}
-              >
-                <ModelViewer />
-              </div>
-            )}
+            {/* Model under logo only on <3xl (not on 3col) */}
+            <div className={`border border-black rounded-full overflow-hidden w-full flex items-center justify-center ${aspect} 3xl:hidden`}>
+              <ModelViewer />
+            </div>
           </div>
-          {/* TEXTS (right col on 2col, right col on 3col) */}
+          {/* TEXTS */}
           <div className="flex flex-col items-start justify-center text-left space-y-4 w-full">
             <div className="border border-black rounded-xl overflow-hidden p-4 w-full">
               <p className="font-light">
@@ -86,17 +46,9 @@ const Header = () => {
             </div>
           </div>
           {/* MODEL in own col for 3col layout */}
-          {is3Col && (
-            <div
-              className="border border-black rounded-xl overflow-hidden p-4 w-full flex items-center justify-center"
-              style={{
-                height: modelHeight,
-                minHeight: "300px", // <-- only for is3Col!
-              }}
-            >
-              <ModelViewer />
-            </div>
-          )}
+          <div className={`border border-black rounded-xl overflow-hidden w-full flex items-center justify-center ${aspect} hidden 3xl:flex`}>
+            <ModelViewer />
+          </div>
         </div>
       </div>
     </section>

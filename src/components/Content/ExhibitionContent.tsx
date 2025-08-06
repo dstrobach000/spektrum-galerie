@@ -5,14 +5,15 @@ import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
 import ExhibitionNav from "@/components/Layout/Exhibition/ExhibitionNav";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
-import ExhibitionGallery from "@/components/Layout/Exhibition/ExhibitionGallery";
 import ExhibitionTitle from "@/components/Layout/Exhibition/ExhibitionTitle";
+import ExGaPortrait from "@/components/Layout/Exhibition/ExGaPortrait";
+import ExGaLandscape from "@/components/Layout/Exhibition/ExGaLandscape";
 
-const GalleryContent = () => (
-  <div className="max-w-4xl mx-auto">
+const ExhibitionContent = () => (
+  <div className="max-w-4xl mx-auto w-full">
     <div className="border border-black rounded-xl p-6 relative">
       {/* LOGO - direct in card */}
-      <div className="border border-black rounded-xl w-full leading-none p-4 flex items-center justify-center mb-6">
+      <div className="border border-black rounded-full w-full leading-none p-4 flex items-center justify-center mb-6 aspect-[3/1]">
         <RotatingLogo
           src="/logos/spektrum_galerie.svg"
           speed={10}
@@ -41,27 +42,26 @@ const GalleryContent = () => (
             <p className="mb-4 p-4 bg-white text-xl text-center">
               Obrazy, které nejsou vytvořené kvůli reprezentaci, ale kvůli zachycení pocitu, rytmu, trvání. Jako stopy, které zůstávají po pohybu, jako vizuální ekvivalent pauzy mezi neustálým tokem informací nebo jako prostor pro dech mezi jednotlivými výkřiky.
             </p>
+
+            {/* --- Portrait gallery directly below this paragraph --- */}
+            <div className="mb-8">
+              <ExGaLandscape />
+            </div>
+
             <div className="flex flex-col gap-4 md:flex-row md:gap-4 md:items-stretch">
               <div className="md:w-1/2 h-full flex flex-col">
                 <p className="border border-black rounded-xl p-4 bg-white text-base flex-1 m-0">
                   Marie Vařeková je umělkyně, scénografka a kurátorka působící v Brně, vychází z osobní zkušenosti, fyzické práce a každodenního napětí. Zajímá se o to, co znamená být umělkyní pracující třídy. Její práce často tematizuje únavu a úzkost a pohybuje se mezi malbou, performancí, instalací a objektem. Záměrně se vzdaluje od narativní přímočarosti – místo toho nabízí otevřený prostor vnitřního napětí i tiše kladeného odporu. Vystudovala Divadelní fakultu Akademie múzických umění v Praze a v současnosti pokračuje ve studiu malby na Fakultě výtvarných umění VUT v Brně.
                 </p>
               </div>
+              {/* --- Portrait gallery in place of the graphic --- */}
               <div className="md:w-1/2 flex bg-white p-0">
-                <img
-                  src="/images/weary_shout/weary_shout_10.jpg"
-                  alt="Exhibition key visual"
-                  className="w-full h-full object-cover"
-                  style={{ display: "block" }}
-                />
+                <ExGaPortrait />
               </div>
             </div>
           </ExhibitionText>
         </div>
-        {/* PhotoGallery */}
-        <div>
-          <ExhibitionGallery />
-        </div>
+
         {/* ExhibitionNameCard AT BOTTOM */}
         <div>
           <ExhibitionNameCard
@@ -78,4 +78,4 @@ const GalleryContent = () => (
   </div>
 );
 
-export default GalleryContent;
+export default ExhibitionContent;

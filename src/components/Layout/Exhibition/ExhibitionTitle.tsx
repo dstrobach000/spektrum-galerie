@@ -18,10 +18,10 @@ const GalleryOverlayHeader: React.FC<GalleryOverlayHeaderProps> = ({
     <>
       <div className="my-0 px-0">
         <GlowBox
-          className="w-full py-4 text-xl font-light uppercase mb-6"
+          className="w-full py-4 text-xl font-light mb-6"
           glowColor="bg-[#a3f730]"
         >
-          <div className="overlayheader-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
+          <div className="overlayheader-content w-full text-sm md:text-xl font-light gap-1 px-2 md:px-6">
             <span className="w-full overlayheader-item text-center">{artist}</span>
             <span className="w-full overlayheader-item text-center pulse-text text-lg">
               {exhibitionName}

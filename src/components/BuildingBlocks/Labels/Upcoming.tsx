@@ -15,11 +15,11 @@ const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, link }) =
     <>
       <section className="my-6 px-6 sm:px-10">
         <GlowButton
-          className="w-full py-4 text-xl font-light uppercase"
+          className="w-full py-4 text-xl font-light"
           glowColor="bg-[#a3f730]"
           link={link} // pass link directly to GlowButton
         >
-          <div className="upcoming-content w-full text-sm md:text-xl font-light uppercase gap-1 px-2 md:px-6">
+          <div className="upcoming-content w-full text-sm md:text-xl font-light gap-1 px-2 md:px-6">
             <span className="w-full upcoming-item text-center">Připravujeme:</span>
             <span className="w-full upcoming-item text-center text-lg">
               {artist}

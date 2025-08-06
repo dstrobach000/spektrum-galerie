@@ -1,8 +1,8 @@
-// SlideShowCard.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton"; // ← Add import
 
 type SlideShowCardProps = {
   images: string[];
@@ -28,6 +28,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (images.length === 0) return;
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % images.length);
     }, interval * 1000);
@@ -43,13 +44,15 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center overflow-visible">
-          <button
-            className={`${buttonClassName} animate-float-pulse`}
+          <GlowButton
             onClick={onPillClick}
+            className={`inline-block px-6 py-2 text-sm font-light text-black ${buttonClassName || ""}`}
+            glowColor="bg-[#a3f730]"
+            floating={false}
+            type="button"
           >
-            <span className="absolute -inset-2 rounded-full bg-[#a3f730] blur-sm pointer-events-none"></span>
-            <span className="relative z-10">{buttonText}</span>
-          </button>
+            {buttonText}
+          </GlowButton>
         </div>
       </div>
 
