@@ -10,6 +10,8 @@ export const sanity = createClient({
 
 const builder = imageUrlBuilder(sanity)
 
+// No ImageUrlSource type in @sanity/image-url, so use 'any' or define your own type if needed
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function urlFor(source: any) {
   return builder.image(source)
 }
