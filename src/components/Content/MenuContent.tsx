@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
+import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 const menuItems = [
@@ -10,7 +10,7 @@ const menuItems = [
   { label: "Uplynulé", href: "#gallery", action: null },
   { label: "Kontakty", href: null, action: "contact" },
   { label: "Newsletter", href: "#footer", action: null },
-  { label: "Ke Stažení", href: null, action: "press" },
+  { label: "Ke stažení", href: null, action: "press" },
 ];
 
 const MenuContent = ({
@@ -30,7 +30,6 @@ const MenuContent = ({
     press: onPressClick,
   };
 
-  // Helper for anchor scroll and close
   const handleAnchorClick = (href: string) => {
     if (href.startsWith("#")) {
       const id = href.replace("#", "");
@@ -43,44 +42,37 @@ const MenuContent = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto w-full p-6">
-      {/* Logo */}
-      <div className="border border-black rounded-full w-full leading-none p-4 flex items-center justify-center mb-8 aspect-[3/1]">
-        <RotatingLogo
-          src="/logos/spektrum_galerie.svg"
-          speed={10}
-          className="block w-full h-full"
-        />
+    <div className="max-w-4xl mx-auto w-full">
+      <div className="border border-black rounded-xl p-6 relative">
+        <div className="border border-black rounded-full w-full leading-none p-4 flex items-center justify-center mb-6 aspect-[3/1]">
+          <RotatingLogo3D src="/3D/logo.glb" speed={10} className="w-full h-full" />
+        </div>
+        <div className="flex flex-col gap-4 items-center">
+          {menuItems.map((item) => {
+            const actionHandler =
+              item.action && typeof actionHandlers[item.action] === "function"
+                ? actionHandlers[item.action]
+                : undefined;
+            return (
+              <div key={item.label} className="inline-flex p-2 bg-white">
+                <GlowButton
+                  className="px-6 py-2 text-black text-8xl"
+                  glowColor="bg-[#a3f730]"
+                  floating={false}
+                  onClick={
+                    item.href
+                      ? () => handleAnchorClick(item.href!)
+                      : actionHandler
+                  }
+                >
+                  {item.label}
+                </GlowButton>
+              </div>
+            );
+          })}
+        </div>
       </div>
-
-      {/* Buttons as tags */}
-      <div className="flex flex-wrap gap-4">
-        {menuItems.map((item) => {
-          const actionHandler =
-            item.action && typeof actionHandlers[item.action] === "function"
-              ? actionHandlers[item.action]
-              : undefined;
-          return (
-            <div
-              key={item.label}
-              className="inline-flex p-2 bg-white"
-            >
-              <GlowButton
-                className="px-6 py-2 text-base text-black"
-                glowColor="bg-[#a3f730]"
-                floating={false}
-                onClick={
-                  item.href
-                    ? () => handleAnchorClick(item.href!)
-                    : actionHandler
-                }
-              >
-                {item.label}
-              </GlowButton>
-            </div>
-          );
-        })}
-      </div>
+      <div className="h-6"></div>
     </div>
   );
 };

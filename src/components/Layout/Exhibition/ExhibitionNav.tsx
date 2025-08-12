@@ -17,7 +17,7 @@ const GalleryNav: React.FC<GalleryNavProps> = ({ onNext, onPrev }) => (
       className="min-w-[140px] px-6 font-light text-center text-xs mt-6"
       floating={false}
     >
-      Následující
+      &lt;
     </GlowButton>
     <GlowButton
       onClick={onPrev}
@@ -25,7 +25,7 @@ const GalleryNav: React.FC<GalleryNavProps> = ({ onNext, onPrev }) => (
       className="min-w-[140px] px-6 font-light text-center text-xs mt-6"
       floating={false}
     >
-      Předcházející
+      &gt;
     </GlowButton>
   </div>
 );

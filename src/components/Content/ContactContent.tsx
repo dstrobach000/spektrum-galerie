@@ -2,21 +2,19 @@
 
 import React from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-import RotatingLogo from "@/components/BuildingBlocks/Logo/RotatingLogo";
+import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 
 const ContactContent = () => (
   <div className="max-w-4xl mx-auto">
     <div className="border border-black rounded-xl p-6 relative">
-      {/* LOGO - direct in card */}
       <div className="border border-black rounded-full w-full leading-none p-4 flex items-center justify-center mb-6 aspect-[3/1]">
-        <RotatingLogo
-          src="/logos/spektrum_galerie.svg"
+        <RotatingLogo3D
+          src="/3D/logo.glb"
           speed={10}
           className="block w-full h-auto"
         />
       </div>
       <div className="mt-2 sm:mt-0 relative">
-        {/* ADDRESS CONTAINERS SIDE BY SIDE */}
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <div className="border border-black rounded-xl p-6 flex-1">
             <p className="font-light">Spektrum galerie</p>
@@ -46,15 +44,18 @@ const ContactContent = () => (
           </div>
         </div>
         <p className="text-center text-lg font-light mb-4">
-          Otevírací doba galerie se odvíjí od formátu jednotlivých výstavy. Aktuální informace najdete na našem Instagramu. Návštěvu mimo otevírací dobu je možné domluvit individuálně.
+          Otevírací doba galerie se odvíjí od formátu jednotlivých výstavy.
+          Aktuální informace najdete na našem Instagramu. Návštěvu mimo
+          otevírací dobu je možné domluvit individuálně.
         </p>
-        {/* FACEBOOK/INSTAGRAM BUTTONS WITH SPACE BELOW */}
         <div className="flex justify-center gap-4 mb-8">
           <GlowButton
             className="px-6 py-2 text-sm font-light text-black"
             glowColor="bg-[#a3f730]"
             floating={false}
-            onClick={() => window.open("https://facebook.com/spektrumgalerie", "_blank")}
+            onClick={() =>
+              window.open("https://facebook.com/spektrumgalerie", "_blank")
+            }
           >
             Facebook
           </GlowButton>
@@ -62,12 +63,13 @@ const ContactContent = () => (
             className="px-6 py-2 text-sm font-light text-black"
             glowColor="bg-[#a3f730]"
             floating={false}
-            onClick={() => window.open("https://instagram.com/spektrum___galerie/", "_blank")}
+            onClick={() =>
+              window.open("https://instagram.com/spektrum___galerie/", "_blank")
+            }
           >
             Instagram
           </GlowButton>
         </div>
-        {/* CONTACT CONTAINERS SIDE BY SIDE */}
         <div className="flex flex-col md:flex-row gap-4">
           <div className="border border-black rounded-xl p-6 flex-1">
             <p className="font-light">Adéla Petříčková</p>
@@ -77,7 +79,9 @@ const ContactContent = () => (
                 className="w-auto py-2 text-sm font-light text-black"
                 glowColor="bg-[#a3f730]"
                 floating={false}
-                onClick={() => (window.location.href = "mailto:adela@spektrumgalerie.cz")}
+                onClick={() =>
+                  (window.location.href = "mailto:adela@spektrumgalerie.cz")
+                }
               >
                 adela@spektrumgalerie.cz
               </GlowButton>
@@ -91,7 +95,9 @@ const ContactContent = () => (
                 className="w-auto py-2 text-sm font-light text-black"
                 glowColor="bg-[#a3f730]"
                 floating={false}
-                onClick={() => (window.location.href = "mailto:katerina@spektrumgalerie.cz")}
+                onClick={() =>
+                  (window.location.href = "mailto:katerina@spektrumgalerie.cz")
+                }
               >
                 katerina@spektrumgalerie.cz
               </GlowButton>

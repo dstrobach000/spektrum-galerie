@@ -18,10 +18,8 @@ const NameCard = ({
   thanks: string;
   graphic?: string;
 }) => {
-  // Fullscreen logic for the graphic image
   const [fullscreen, setFullscreen] = useState(false);
 
-  // Regular fields
   const fields = [
     { label: "kurátorka:", value: curator },
     { label: "promo:", value: promo },
@@ -30,7 +28,6 @@ const NameCard = ({
     { label: "grafika:", value: graphic },
   ];
 
-  // Thanks list
   const thanksList = thanks
     .split(/[;,]/)
     .map((s) => s.trim())
@@ -39,16 +36,15 @@ const NameCard = ({
   return (
     <div className="w-full mt-6">
       <div className="flex flex-col md:flex-row gap-4 items-start">
-        {/* Graphic section - 1/2 width on desktop */}
-        <div className="w-full md:w-1/2 relative flex items-end">
+        {/* Graphic */}
+        <div className="w-full md:w-1/2 relative flex items-center justify-center">
           <img
             src="/images/weary_shout/weary_shout_10.jpg"
             alt="Weary Shout graphic"
             className="w-full h-auto block"
             draggable={false}
           />
-          {/* Fullscreen Button at bottom center */}
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-2 z-10">
+          <div className="absolute inset-0 flex items-center justify-center z-10">
             <GlowButton
               onClick={() => setFullscreen(true)}
               glowColor="bg-[#a3f730]"
@@ -56,10 +52,9 @@ const NameCard = ({
               floating={false}
             >
               <span className="text-md font-light">⛶</span>
-              <span className="ml-1 text-sm font-light">Fullscreen</span>
             </GlowButton>
           </div>
-          {/* Fullscreen Modal */}
+
           {fullscreen && (
             <div className="fixed inset-0 bg-white bg-opacity-95 z-[100] flex items-center justify-center p-8">
               <div className="relative w-full max-w-3xl flex flex-col items-center">
@@ -82,20 +77,24 @@ const NameCard = ({
           )}
         </div>
 
-        {/* Fields section - 1/2 width on desktop, full on mobile */}
+        {/* Text Info */}
         <div className="w-full md:w-1/2 flex flex-col">
-          <div className="flex flex-wrap gap-x-3 gap-y-0.5 items-start">
+          <div className="flex flex-wrap gap-x-4 gap-y-3">
+            {/* Label on top, tag below — horizontally flowing blocks */}
             {fields.map((f) => (
-              <div key={f.label} className="flex flex-col w-full md:w-[200px] mb-1">
+              <div key={f.label} className="flex flex-col">
                 <span className="text-xs font-light mb-0.5">{f.label}</span>
-                <span className="border border-black rounded-xl text-xs font-light px-3 py-2">{f.value}</span>
+                <span className="border border-black rounded-xl text-xs font-light px-3 py-2 w-fit">
+                  {f.value}
+                </span>
               </div>
             ))}
-            {/* Thanks field: description + tag row */}
+
+            {/* Special thanks */}
             {thanksList.length > 0 && (
-              <div className="flex flex-col w-full md:w-[420px] mb-1">
+              <div className="flex flex-col w-full mt-2">
                 <span className="text-xs font-light mb-0.5">speciální poděkování:</span>
-                <div className="flex flex-wrap gap-x-3 gap-y-1 mt-0.5">
+                <div className="flex flex-wrap gap-x-3 gap-y-2 mt-0.5">
                   {thanksList.map((name, i) => (
                     <span
                       key={name + i}
