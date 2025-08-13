@@ -64,7 +64,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           {date}
         </div>
         {isCurrent && (
-          <CurrentLabel>
+          <CurrentLabel>te
             Aktuální
           </CurrentLabel>
         )}

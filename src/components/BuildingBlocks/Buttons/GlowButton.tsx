@@ -4,7 +4,7 @@ interface GlowButtonProps {
   onClick?: () => void;
   children: React.ReactNode;
   className?: string;
-  glowColor?: string; // e.g. "bg-[#a3f730]" or "bg-orange-400"
+  glowColor?: string;
   type?: "button" | "submit" | "reset";
   link?: string;
   floating?: boolean;
@@ -21,18 +21,23 @@ const GlowButton = ({
 }: GlowButtonProps) => {
   const animationClass = floating ? "animate-float-pulse" : "";
   const commonProps = {
-    className: `relative inline-block rounded-full px-6 py-2 text-lg font-light text-black transition-transform duration-300 ${animationClass} ${className}`,
+    className: `relative inline-block rounded-full px-6 py-2 text-lg font-light text-black isolate ${animationClass} ${className}`,
     tabIndex: 0,
   };
 
   const inner = (
     <>
-      <span className={`absolute -inset-2 rounded-full blur-md pointer-events-none ${glowColor}`}></span>
+      <span
+        className={`absolute inset-0 -m-2 rounded-full blur-md pointer-events-none ${glowColor}`}
+        style={{
+          willChange: "transform, filter",
+          transform: "translateZ(0)", // forces GPU layer
+        }}
+      ></span>
       <span className="relative z-10">{children}</span>
     </>
   );
 
-  // If onClick is provided, always render a <button>
   if (onClick) {
     return (
       <button type={type} onClick={onClick} {...commonProps}>
@@ -41,7 +46,6 @@ const GlowButton = ({
     );
   }
 
-  // If link is provided, render an <a> tag with NO target if it's an anchor link
   if (link) {
     const isAnchor = link.startsWith("#");
     return (
@@ -56,7 +60,6 @@ const GlowButton = ({
     );
   }
 
-  // Fallback
   return (
     <button type={type} {...commonProps}>
       {inner}

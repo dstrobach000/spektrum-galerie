@@ -24,21 +24,22 @@ const ExhibitionHeader: React.FC<Props> = ({
   return (
     <div className="my-0 px-0">
       <GlowBox className="w-full py-4 text-xl font-light mb-6" glowColor={glowColor}>
-        {/* LEFT | CONTENT | RIGHT — all in the same container, no absolute positioning */}
         <div className="grid grid-cols-[auto,1fr,auto] items-center w-full gap-3">
-          {/* left button */}
-          <GlowButton
-            type="button"
-            onClick={onPrev}
-            glowColor={glowColor}
-            className="min-w-0 w-auto px-3 py-1 text-sm md:text-base font-light"
-            floating={false}
-            aria-label="Previous exhibition"
-          >
-            &lt;
-          </GlowButton>
+          {/* left button (wrapped to fix blur glitch) */}
+          <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
+            <GlowButton
+              type="button"
+              onClick={onPrev}
+              glowColor={glowColor}
+              className="min-w-0 w-auto px-3 py-1 text-sm md:text-base font-light"
+              floating={false}
+              aria-label="Previous exhibition"
+            >
+              &lt;
+            </GlowButton>
+          </div>
 
-          {/* ORIGINAL CONTENT (unchanged) */}
+          {/* content */}
           <div className="min-w-0">
             <div className="overlayheader-content w-full text-sm md:text-xl font-light gap-1">
               <span className="overlayheader-item">{artist}</span>
@@ -47,17 +48,19 @@ const ExhibitionHeader: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* right button */}
-          <GlowButton
-            type="button"
-            onClick={onNext}
-            glowColor={glowColor}
-            className="min-w-0 w-auto px-3 py-1 text-sm md:text-base font-light"
-            floating={false}
-            aria-label="Next exhibition"
-          >
-            &gt;
-          </GlowButton>
+          {/* right button (wrapped to fix blur glitch) */}
+          <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
+            <GlowButton
+              type="button"
+              onClick={onNext}
+              glowColor={glowColor}
+              className="min-w-0 w-auto px-3 py-1 text-sm md:text-base font-light"
+              floating={false}
+              aria-label="Next exhibition"
+            >
+              &gt;
+            </GlowButton>
+          </div>
         </div>
       </GlowBox>
 
@@ -71,7 +74,6 @@ const ExhibitionHeader: React.FC<Props> = ({
           50% { transform: scale(1.1); }
         }
 
-        /* original responsive layout for the three text parts */
         .overlayheader-content {
           display: flex;
           flex-direction: column;

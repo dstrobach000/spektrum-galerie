@@ -23,19 +23,16 @@ const ExGaLandscape = () => {
           alt={`Artwork ${index + 7}`}
           className="w-full h-auto block"
         />
-        {/* Left arrow */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
           <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
             <span className="text-md font-light">&lt;</span>
           </GlowButton>
         </div>
-        {/* Right arrow */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
           <GlowButton onClick={nextImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
             <span className="text-md font-light">&gt;</span>
           </GlowButton>
         </div>
-        {/* Fullscreen button */}
         <div className="absolute left-1/2 -translate-x-1/2 bottom-2 z-10">
           <GlowButton onClick={() => setFullscreen(true)} glowColor="bg-[#a3f730]" className="!px-4 !py-2" floating={false}>
             <span className="text-sm font-light">⛶</span>
@@ -44,10 +41,8 @@ const ExGaLandscape = () => {
         </div>
       </div>
 
-      {/* FULLSCREEN MODAL */}
       {fullscreen && (
         <div className="fixed inset-0 bg-white bg-opacity-95 z-[100] flex flex-col items-center justify-center p-8">
-          {/* Fullscreen image */}
           <div className="w-full max-w-3xl mx-auto">
             <img
               src={landscapeImages[index]}
@@ -55,18 +50,15 @@ const ExGaLandscape = () => {
               className="w-full h-auto block"
             />
           </div>
-          {/* Navigation and close row */}
           <div className="mt-8 flex w-full max-w-3xl justify-between items-center mx-auto">
-            <div>
-              <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2 mr-2" floating={false}>
-                <span className="text-2xl font-light">&lt;</span>
-              </GlowButton>
-              <GlowButton onClick={nextImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
-                <span className="text-2xl font-light">&gt;</span>
-              </GlowButton>
-            </div>
+            <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
+              <span className="text-2xl font-light">&lt;</span>
+            </GlowButton>
             <GlowButton onClick={() => setFullscreen(false)} glowColor="bg-[#a3f730]" className="!px-4 !py-2" floating={false}>
               <span className="font-light">Zavřít</span>
+            </GlowButton>
+            <GlowButton onClick={nextImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
+              <span className="text-2xl font-light">&gt;</span>
             </GlowButton>
           </div>
         </div>

@@ -20,18 +20,19 @@ const NameCard = ({
 }) => {
   const [fullscreen, setFullscreen] = useState(false);
 
+  const thanksList = thanks
+    .split(/[;,]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
   const fields = [
     { label: "kurátorka:", value: curator },
     { label: "promo:", value: promo },
     { label: "foto:", value: photo },
     { label: "instalace:", value: install },
     { label: "grafika:", value: graphic },
+    { label: "speciální poděkování:", value: thanksList.join(", ") },
   ];
-
-  const thanksList = thanks
-    .split(/[;,]/)
-    .map((s) => s.trim())
-    .filter(Boolean);
 
   return (
     <div className="w-full mt-6">
@@ -78,35 +79,22 @@ const NameCard = ({
         </div>
 
         {/* Text Info */}
-        <div className="w-full md:w-1/2 flex flex-col">
-          <div className="flex flex-wrap gap-x-4 gap-y-3">
-            {/* Label on top, tag below — horizontally flowing blocks */}
-            {fields.map((f) => (
-              <div key={f.label} className="flex flex-col">
-                <span className="text-xs font-light mb-0.5">{f.label}</span>
-                <span className="border border-black rounded-xl text-xs font-light px-3 py-2 w-fit">
-                  {f.value}
-                </span>
+        <div className="w-full md:w-1/2 grid grid-cols-2">
+          {fields.map((f, i) => {
+            const isTopRow = i < 2;
+            const isLeftCol = i % 2 === 0;
+            return (
+              <div
+                key={i}
+                className={`flex flex-col p-3 font-light ${
+                  !isTopRow ? "border-t border-black" : ""
+                } ${!isLeftCol ? "border-l border-black" : ""}`}
+              >
+                <span className="text-xs mb-1">{f.label}</span>
+                <span className="text-base leading-snug">{f.value}</span>
               </div>
-            ))}
-
-            {/* Special thanks */}
-            {thanksList.length > 0 && (
-              <div className="flex flex-col w-full mt-2">
-                <span className="text-xs font-light mb-0.5">speciální poděkování:</span>
-                <div className="flex flex-wrap gap-x-3 gap-y-2 mt-0.5">
-                  {thanksList.map((name, i) => (
-                    <span
-                      key={name + i}
-                      className="border border-black rounded-xl text-xs font-light px-3 py-2"
-                    >
-                      {name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

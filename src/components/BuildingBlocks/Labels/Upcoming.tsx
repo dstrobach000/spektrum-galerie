@@ -7,10 +7,11 @@ interface UpcomingProps {
   artist: string;
   exhibition: string;
   date: string;
-  link?: string; // added link prop
+  vernissage: string;
+  link?: string;
 }
 
-const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, link }) => {
+const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, vernissage, link }) => {
   return (
     <>
       <section className="my-6 px-6 sm:px-10">
@@ -28,6 +29,7 @@ const Upcoming: React.FC<UpcomingProps> = ({ artist, exhibition, date, link }) =
               {exhibition}
             </span>
             <span className="w-full upcoming-item text-center">{date}</span>
+            <span className="w-full upcoming-item text-center">{vernissage}</span>
           </div>
         </GlowButton>
       </section>

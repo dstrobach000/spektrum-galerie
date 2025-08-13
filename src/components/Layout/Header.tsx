@@ -9,20 +9,20 @@ const aspect = "aspect-[3/1]";
 const Header = () => {
   return (
     <section className="px-6 sm:px-10 py-6" id="header">
-      <div className="border border-black rounded-xl p-6 space-y-6">
-        {/* ===== MOBILE + MEDIUM (new order only) ===== */}
+      <div className="border border-black rounded-xl p-6 grid gap-6">
+        {/* ===== MOBILE + MEDIUM ===== */}
         <div
           className={`
             3xl:hidden
-            grid gap-4
+            grid gap-6
             grid-cols-1
             md:grid-cols-2
             items-start
           `}
         >
           {/* 1) Logo */}
-          <div className={`border border-black rounded-full overflow-hidden p-4 w-full flex items-center justify-center ${aspect} order-1 md:order-1`}>
-            <RotatingLogo3D src="/3D/logo.glb" speed={10} className="w-full h-full" />
+          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[200px] md:min-h-0 flex items-center justify-center ${aspect} order-1 md:order-1`}>
+            <RotatingLogo3D src="/3D/logo.glb" speed={5} className="w-full h-full" />
           </div>
 
           {/* 2) Czech text */}
@@ -36,7 +36,7 @@ const Header = () => {
           </div>
 
           {/* 3) Model */}
-          <div className={`border border-black rounded-full overflow-hidden w-full flex items-center justify-center ${aspect} order-3 md:order-2`}>
+          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[200px] md:min-h-0 flex items-center justify-center ${aspect} order-3 md:order-2`}>
             <ModelViewer />
           </div>
 
@@ -53,14 +53,14 @@ const Header = () => {
         </div>
 
         {/* ===== LARGE (>=3xl) — preserved styling & proportions ===== */}
-        <div className="hidden 3xl:grid grid-cols-3 gap-4 items-start">
+        <div className="hidden 3xl:grid grid-cols-3 gap-6 items-start">
           {/* Left: Logo (pill, same wrapper as model) */}
           <div className={`border border-black rounded-full overflow-hidden p-4 w-full flex items-center justify-center ${aspect} col-start-1 col-end-2`}>
             <RotatingLogo3D src="/3D/logo.glb" speed={10} className="w-full h-full" />
           </div>
 
           {/* Middle: texts stacked */}
-          <div className="flex flex-col items-start justify-center text-left space-y-4 w-full col-start-2 col-end-3">
+          <div className="flex flex-col items-start justify-center text-left space-y-6 w-full col-start-2 col-end-3">
             <div className="border border-black rounded-xl overflow-hidden p-4 w-full">
               <p className="font-light">
                 Spektrum galerie je experimentálním polem pro zkoumání rozmanitých forem současného umění. V kontextu mezioborových
