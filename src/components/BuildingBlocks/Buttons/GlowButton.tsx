@@ -21,7 +21,7 @@ const GlowButton = ({
 }: GlowButtonProps) => {
   const animationClass = floating ? "animate-float-pulse" : "";
   const commonProps = {
-    className: `relative inline-block rounded-full px-6 py-2 text-lg font-light text-black isolate ${animationClass} ${className}`,
+    className: `relative inline-block rounded-full px-6 py-2 font-light text-black isolate ${animationClass} ${className}`,
     tabIndex: 0,
   };
 
@@ -31,7 +31,7 @@ const GlowButton = ({
         className={`absolute inset-0 -m-2 rounded-full blur-md pointer-events-none ${glowColor}`}
         style={{
           willChange: "transform, filter",
-          transform: "translateZ(0)", // forces GPU layer
+          transform: "translateZ(0)",
         }}
       ></span>
       <span className="relative z-10">{children}</span>
