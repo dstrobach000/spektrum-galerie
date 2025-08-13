@@ -21,7 +21,7 @@ const Header = () => {
           `}
         >
           {/* 1) Logo */}
-          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[200px] md:min-h-0 flex items-center justify-center ${aspect} order-1 md:order-1`}>
+          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[150px] md:min-h-0 flex items-center justify-center ${aspect} order-1 md:order-1`}>
             <RotatingLogo3D src="/3D/logo.glb" speed={5} className="w-full h-full" />
           </div>
 
@@ -36,7 +36,7 @@ const Header = () => {
           </div>
 
           {/* 3) Model */}
-          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[200px] md:min-h-0 flex items-center justify-center ${aspect} order-3 md:order-2`}>
+          <div className={`border border-black rounded-full overflow-hidden w-full min-h-[150px] md:min-h-0 flex items-center justify-center ${aspect} order-3 md:order-2`}>
             <ModelViewer />
           </div>
 
