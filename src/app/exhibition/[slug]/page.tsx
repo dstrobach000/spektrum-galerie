@@ -32,7 +32,9 @@ async function getExhibition(slug: string): Promise<Exhibition | null> {
 
 export default async function ExhibitionPage({
   params,
-}: { params: { slug: string } }) {
+}: {
+  params: { slug: string }
+}) {
   const exhibition = await getExhibition(params.slug);
 
   if (!exhibition) {
