@@ -1,0 +1,175 @@
+.
+├── README.md
+├── eslint.config.mjs
+├── file-structure.txt
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+│   ├── 3D
+│   │   ├── logo.glb
+│   │   ├── spektrum_galerie.glb
+│   │   ├── spektrum_galerie.mtl
+│   │   └── spektrum_galerie.obj
+│   ├── file.svg
+│   ├── fonts
+│   │   ├── Replica-Bold.ttf
+│   │   ├── Replica-Bold.woff2
+│   │   ├── Replica-Heavy.ttf
+│   │   ├── Replica-Heavy.woff2
+│   │   ├── Replica-Light.ttf
+│   │   ├── Replica-Light.woff2
+│   │   ├── Replica-Regular.ttf
+│   │   └── Replica-Regular.woff2
+│   ├── globe.svg
+│   ├── images
+│   │   ├── bodily_transformations
+│   │   │   ├── bodily_transformations1.jpg
+│   │   │   ├── bodily_transformations2.jpg
+│   │   │   ├── bodily_transformations3.jpg
+│   │   │   ├── bodily_transformations4.jpg
+│   │   │   ├── bodily_transformations5.jpg
+│   │   │   ├── bodily_transformations6.jpg
+│   │   │   └── bodily_transformations7.jpg
+│   │   ├── crazy_fuga
+│   │   │   ├── crazy_fuga1.jpg
+│   │   │   ├── crazy_fuga2.jpg
+│   │   │   ├── crazy_fuga3.jpg
+│   │   │   ├── crazy_fuga4.jpg
+│   │   │   ├── crazy_fuga5.jpg
+│   │   │   ├── crazy_fuga6.jpg
+│   │   │   ├── crazy_fuga7.jpg
+│   │   │   └── crazy_fuga8.jpg
+│   │   ├── navsteva
+│   │   │   └── navsteva1.jpg
+│   │   ├── no_points
+│   │   │   ├── no_points1.jpg
+│   │   │   ├── no_points2.jpg
+│   │   │   └── no_points3.jpg
+│   │   ├── on_spectrum
+│   │   │   ├── on_spectrum1.jpg
+│   │   │   ├── on_spectrum2.jpg
+│   │   │   ├── on_spectrum3.jpg
+│   │   │   ├── on_spectrum4.jpg
+│   │   │   ├── on_spectrum5.jpg
+│   │   │   └── on_spectrum6.jpg
+│   │   ├── salimeli
+│   │   │   ├── salimeli1.jpg
+│   │   │   ├── salimeli2.jpg
+│   │   │   ├── salimeli3.jpg
+│   │   │   ├── salimeli4.jpg
+│   │   │   ├── salimeli5.jpg
+│   │   │   └── salimeli6.jpg
+│   │   ├── sound_performance
+│   │   │   ├── sound_performance1.jpg
+│   │   │   ├── sound_performance2.jpg
+│   │   │   └── sound_performance3.jpg
+│   │   ├── travnikar
+│   │   │   ├── travnikar1.jpg
+│   │   │   ├── travnikar2.jpg
+│   │   │   ├── travnikar3.jpg
+│   │   │   ├── travnikar4.jpg
+│   │   │   ├── travnikar5.jpg
+│   │   │   └── travnikar6.jpg
+│   │   ├── volno_od_velkeho_sveta
+│   │   │   ├── volno_od_velkeho_sveta1.jpg
+│   │   │   ├── volno_od_velkeho_sveta2.jpg
+│   │   │   ├── volno_od_velkeho_sveta3.jpg
+│   │   │   ├── volno_od_velkeho_sveta4.jpg
+│   │   │   ├── volno_od_velkeho_sveta5.jpg
+│   │   │   ├── volno_od_velkeho_sveta6.jpg
+│   │   │   ├── volno_od_velkeho_sveta7.jpg
+│   │   │   └── volno_od_velkeho_sveta8.jpg
+│   │   └── weary_shout
+│   │       ├── weary_shout_1.jpg
+│   │       ├── weary_shout_10.jpg
+│   │       ├── weary_shout_2.jpg
+│   │       ├── weary_shout_3.jpg
+│   │       ├── weary_shout_4.jpg
+│   │       ├── weary_shout_5.jpg
+│   │       ├── weary_shout_6.jpg
+│   │       ├── weary_shout_7.jpg
+│   │       ├── weary_shout_8.jpg
+│   │       └── weary_shout_9.jpg
+│   ├── logos
+│   │   ├── brno.png
+│   │   ├── ministerstvo_kultury.png
+│   │   └── spektrum_galerie.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── spektrum-galerie
+├── spektrum-galerie.pub
+├── src
+│   ├── app
+│   │   ├── (modals)
+│   │   │   ├── layout.tsx
+│   │   │   └── modal-exhibition
+│   │   │       └── [slug]
+│   │   │           └── page.tsx
+│   │   ├── api
+│   │   │   └── exhibitions-list
+│   │   │       └── route.ts
+│   │   ├── exhibition
+│   │   │   └── [slug]
+│   │   │       ├── ExhibitionHeaderClient.tsx
+│   │   │       └── page.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.module.css
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── BuildingBlocks
+│   │   │   ├── 3D
+│   │   │   │   └── ModelViewer.tsx
+│   │   │   ├── Buttons
+│   │   │   │   ├── GlowButton.tsx
+│   │   │   │   ├── MenuButton.tsx
+│   │   │   │   └── StickyCloseButton.tsx
+│   │   │   ├── Labels
+│   │   │   │   ├── CurrentLabel.tsx
+│   │   │   │   ├── GlowBox.tsx
+│   │   │   │   └── Upcoming.tsx
+│   │   │   ├── Logo
+│   │   │   │   ├── RotatingLogo.tsx
+│   │   │   │   └── RotatingLogo3D.tsx
+│   │   │   ├── Modal
+│   │   │   │   └── Modal.tsx
+│   │   │   └── Slider
+│   │   │       └── SlideShowCard.tsx
+│   │   ├── Content
+│   │   │   ├── ContactContent.tsx
+│   │   │   ├── ExhibitionContent.tsx
+│   │   │   ├── MenuContent.tsx
+│   │   │   └── PressContent.tsx
+│   │   └── Layout
+│   │       ├── Exhibition
+│   │       │   ├── ExGaLandscape.tsx
+│   │       │   ├── ExGaPortrait.tsx
+│   │       │   ├── ExhibitionHeader.tsx
+│   │       │   ├── ExhibitionNameCard.tsx
+│   │       │   └── ExhibitionText.tsx
+│   │       ├── Footer.tsx
+│   │       ├── Gallery.tsx
+│   │       └── Header.tsx
+│   └── sanity
+│       └── client.ts
+├── studio
+│   ├── README.md
+│   ├── eslint.config.mjs
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── sanity.cli.ts
+│   ├── sanity.config.ts
+│   ├── schemaTypes
+│   │   ├── exhibition.ts
+│   │   └── index.ts
+│   ├── static
+│   └── tsconfig.json
+├── tailwind.config.js
+└── tsconfig.json
+
+40 directories, 133 files

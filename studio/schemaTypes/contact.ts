@@ -1,0 +1,54 @@
+export default {
+  name: "contact",
+  type: "document",
+  title: "Kontakt",
+  fields: [
+    {
+      name: "address",
+      title: "Adresa",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "mapLink",
+      title: "Odkaz na Mapy",
+      type: "url",
+    },
+    {
+      name: "invoiceDetails",
+      title: "Fakturační údaje",
+      type: "array",
+      of: [{ type: "string" }],
+    },
+    {
+      name: "openingHours",
+      title: "Otevírací doba",
+      type: "text",
+    },
+    {
+      name: "facebook",
+      title: "Facebook",
+      type: "url",
+    },
+    {
+      name: "instagram",
+      title: "Instagram",
+      type: "url",
+    },
+    {
+      name: "roles",
+      title: "Role a kontakty",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            { name: "name", type: "string", title: "Jméno" },
+            { name: "role", type: "string", title: "Role" },
+            { name: "email", type: "string", title: "E-mail" },
+          ],
+        },
+      ],
+    },
+  ],
+};

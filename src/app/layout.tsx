@@ -1,15 +1,14 @@
-import './globals.css';
+import "./globals.css";
+import type { ReactNode } from "react";
 
-export const metadata = {
-  title: 'Spektrum Galerie',
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <html lang="en">
-      <body className="font-sans text-black bg-white">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

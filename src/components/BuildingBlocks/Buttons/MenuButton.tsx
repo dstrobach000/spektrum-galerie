@@ -14,7 +14,7 @@ const MenuButton = ({
     <GlowButton
       onClick={onClick}
       glowColor="bg-[#a3f730]"
-      className={className}
+      className={`text-lg ${className}`}
       floating={true}
     >
       Menu

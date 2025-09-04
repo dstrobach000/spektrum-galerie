@@ -22,10 +22,9 @@ const ExhibitionHeader: React.FC<Props> = ({
   glowColor = "bg-[#a3f730]",
 }) => {
   return (
-    <div className="my-0 px-0">
-      <GlowBox className="w-full py-4 text-xl font-light mb-6" glowColor={glowColor}>
+    <div className="px-0">
+      <GlowBox className="w-full py-4 text-xl font-light" glowColor={glowColor}>
         <div className="grid grid-cols-[auto,1fr,auto] items-center w-full gap-3">
-          {/* left button (wrapped to fix blur glitch) */}
           <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
             <GlowButton
               type="button"
@@ -38,8 +37,6 @@ const ExhibitionHeader: React.FC<Props> = ({
               &lt;
             </GlowButton>
           </div>
-
-          {/* content */}
           <div className="min-w-0">
             <div className="overlayheader-content w-full text-sm md:text-xl font-light gap-1">
               <span className="overlayheader-item">{artist}</span>
@@ -47,8 +44,6 @@ const ExhibitionHeader: React.FC<Props> = ({
               <span className="overlayheader-item">{date}</span>
             </div>
           </div>
-
-          {/* right button (wrapped to fix blur glitch) */}
           <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
             <GlowButton
               type="button"
@@ -63,7 +58,6 @@ const ExhibitionHeader: React.FC<Props> = ({
           </div>
         </div>
       </GlowBox>
-
       <style jsx>{`
         .pulse-text {
           display: inline-block;

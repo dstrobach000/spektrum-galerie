@@ -1,28 +1,28 @@
 "use client";
-
 import React, { useState } from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import { ImageAsset } from "@/types/Exhibition";
 
-const landscapeImages = [
-  "/images/weary_shout/weary_shout_7.jpg",
-  "/images/weary_shout/weary_shout_9.jpg",
-];
-
-const ExGaLandscape = () => {
+const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
 
-  const prevImg = () => setIndex((prev) => (prev === 0 ? landscapeImages.length - 1 : prev - 1));
-  const nextImg = () => setIndex((prev) => (prev === landscapeImages.length - 1 ? 0 : prev + 1));
+  if (!images.length) return null;
+
+  const prevImg = () => setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  const nextImg = () => setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  const currentImgUrl = images[index]?.asset?.url || "";
 
   return (
     <>
       <div className="relative w-full">
-        <img
-          src={landscapeImages[index]}
-          alt={`Artwork ${index + 7}`}
-          className="w-full h-auto block"
-        />
+        {currentImgUrl && (
+          <img
+            src={currentImgUrl}
+            alt={`Artwork ${index + 1}`}
+            className="w-full h-auto block"
+          />
+        )}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
           <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
             <span className="text-md font-light">&lt;</span>
@@ -44,11 +44,13 @@ const ExGaLandscape = () => {
       {fullscreen && (
         <div className="fixed inset-0 bg-white bg-opacity-95 z-[100] flex flex-col items-center justify-center p-8">
           <div className="w-full max-w-3xl mx-auto">
-            <img
-              src={landscapeImages[index]}
-              alt={`Artwork ${index + 7}`}
-              className="w-full h-auto block"
-            />
+            {currentImgUrl && (
+              <img
+                src={currentImgUrl}
+                alt={`Artwork ${index + 1}`}
+                className="w-full h-auto block"
+              />
+            )}
           </div>
           <div className="mt-8 flex w-full max-w-3xl justify-between items-center mx-auto">
             <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>

@@ -2,10 +2,23 @@
 
 import React from "react";
 
-const CuratorialText = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-light text-base w-full">
-    {children}
-  </div>
-);
+const ExhibitionText = ({
+  children,
+  variant,
+}: {
+  children: React.ReactNode;
+  variant?: "bordered";
+}) => {
+  return (
+    <div
+      className={[
+        "font-light w-full p-4 bg-white text-lg [&>*:not(:last-child)]:mb-6", // <-- both are text-lg now
+        variant === "bordered" ? "border border-black rounded-xl" : ""
+      ].join(" ")}
+    >
+      {children}
+    </div>
+  );
+};
 
-export default CuratorialText;
+export default ExhibitionText;

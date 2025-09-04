@@ -3,65 +3,105 @@
 import React, { useState } from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
-const NameCard = ({
-  curator,
-  promo,
-  install,
-  photo,
-  thanks,
-  graphic = "Paul Gate",
-}: {
-  curator: string;
-  promo: string;
-  install: string;
-  photo: string;
-  thanks: string;
-  graphic?: string;
+type NameCardEntry = {
+  role: string;
+  name: string;
+};
+
+type ExhibitionNameCardProps = {
+  namecard: NameCardEntry[];
+  graphic?: { url: string };
+};
+
+const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
+  namecard,
+  graphic,
 }) => {
   const [fullscreen, setFullscreen] = useState(false);
 
-  const thanksList = thanks
-    .split(/[;,]/)
-    .map((s) => s.trim())
-    .filter(Boolean);
+  // For "speciální poděkování", split on , ; (or just treat as normal if not present)
+  const thanksEntry = namecard.find(
+    (entry) =>
+      entry.role.toLowerCase().includes("poděkování") ||
+      entry.role.toLowerCase().includes("dík") ||
+      entry.role.toLowerCase().includes("thanks")
+  );
+  const thanksList = thanksEntry
+    ? thanksEntry.name
+        .split(/[;,]/)
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : [];
 
-  const fields = [
-    { label: "kurátorka:", value: curator },
-    { label: "promo:", value: promo },
-    { label: "foto:", value: photo },
-    { label: "instalace:", value: install },
-    { label: "grafika:", value: graphic },
-    { label: "speciální poděkování:", value: thanksList.join(", ") },
+  // For all other fields, keep the original field order/labels where possible
+  // You can set your preferred order and labels here if needed:
+  const preferredOrder = [
+    "kurátorka",
+    "promo",
+    "foto",
+    "instalace",
+    "grafika",
+    "speciální poděkování",
   ];
 
+  // Sort fields to match preferredOrder, others at the end
+  const sortedFields = [
+    ...preferredOrder.map((label) => {
+      // handle "speciální poděkování" specially
+      if (label === "speciální poděkování" && thanksList.length) {
+        return { label, value: thanksList.join(", ") };
+      }
+      const entry = namecard.find(
+        (e) => e.role.trim().toLowerCase() === label
+      );
+      if (entry) return { label, value: entry.name };
+      return null;
+    }),
+    // Add any remaining fields not in preferredOrder
+    ...namecard
+      .filter(
+        (e) =>
+          !preferredOrder.includes(e.role.trim().toLowerCase()) &&
+          !(
+            e.role.toLowerCase().includes("poděkování") ||
+            e.role.toLowerCase().includes("dík") ||
+            e.role.toLowerCase().includes("thanks")
+          )
+      )
+      .map((e) => ({ label: e.role, value: e.name })),
+  ].filter(Boolean);
+
   return (
-    <div className="w-full mt-6">
-      <div className="flex flex-col md:flex-row gap-4 items-start">
+    <div className="w-full">
+      <div className="flex flex-col md:flex-row gap-6 items-start">
         {/* Graphic */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
-          <img
-            src="/images/weary_shout/weary_shout_10.jpg"
-            alt="Weary Shout graphic"
-            className="w-full h-auto block"
-            draggable={false}
-          />
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <GlowButton
-              onClick={() => setFullscreen(true)}
-              glowColor="bg-[#a3f730]"
-              className="!px-2 !py-1"
-              floating={false}
-            >
-              <span className="text-md font-light">⛶</span>
-            </GlowButton>
-          </div>
-
+          {graphic?.url && (
+            <>
+              <img
+                src={graphic.url}
+                alt="Exhibition graphic"
+                className="w-full h-auto block"
+                draggable={false}
+              />
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <GlowButton
+                  onClick={() => setFullscreen(true)}
+                  glowColor="bg-[#a3f730]"
+                  className="!px-2 !py-1"
+                  floating={false}
+                >
+                  <span className="text-md font-light">⛶</span>
+                </GlowButton>
+              </div>
+            </>
+          )}
           {fullscreen && (
             <div className="fixed inset-0 bg-white bg-opacity-95 z-[100] flex items-center justify-center p-8">
               <div className="relative w-full max-w-3xl flex flex-col items-center">
                 <img
-                  src="/images/weary_shout/weary_shout_10.jpg"
-                  alt="Weary Shout graphic fullscreen"
+                  src={graphic?.url}
+                  alt="Exhibition graphic fullscreen"
                   className="w-full h-auto block"
                   draggable={false}
                 />
@@ -80,7 +120,7 @@ const NameCard = ({
 
         {/* Text Info */}
         <div className="w-full md:w-1/2 grid grid-cols-2">
-          {fields.map((f, i) => {
+          {sortedFields.map((f, i) => {
             const isTopRow = i < 2;
             const isLeftCol = i % 2 === 0;
             return (
@@ -90,8 +130,8 @@ const NameCard = ({
                   !isTopRow ? "border-t border-black" : ""
                 } ${!isLeftCol ? "border-l border-black" : ""}`}
               >
-                <span className="text-xs mb-1">{f.label}</span>
-                <span className="text-base leading-snug">{f.value}</span>
+                <span className="text-xs mb-1">{f?.label}:</span>
+                <span className="text-sm leading-snug">{f?.value}</span>
               </div>
             );
           })}
@@ -101,4 +141,4 @@ const NameCard = ({
   );
 };
 
-export default NameCard;
+export default ExhibitionNameCard;
