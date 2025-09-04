@@ -34,9 +34,7 @@ const MenuContent = ({
     if (href.startsWith("#")) {
       const id = href.replace("#", "");
       const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
+      if (target) target.scrollIntoView({ behavior: "smooth" });
       if (onClose) onClose();
     }
   };
@@ -57,10 +55,7 @@ const MenuContent = ({
               <div
                 key={item.label}
                 className="inline-flex p-2 bg-white"
-                style={{
-                  willChange: "transform",
-                  transform: "translateZ(0)",
-                }}
+                style={{ willChange: "transform", transform: "translateZ(0)" }}
               >
                 <GlowButton
                   className="px-6 py-2 text-black text-5xl"

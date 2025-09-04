@@ -3,15 +3,11 @@
 import React from "react";
 import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import type { PressLinkUI } from "@/types/Press";
 
-const pressLinks = [
-  { label: "Manuál", href: "#" },
-  { label: "Logo Spektrum galerie", href: "#" },
-  { label: "Výroční zprávy", href: "#" },
-  { label: "Open call", href: "#" },
-];
+type Props = { links?: PressLinkUI[] };
 
-const PressContent = () => (
+const PressContent = ({ links = [] }: Props) => (
   <div className="max-w-4xl mx-auto w-full">
     <div className="border border-black rounded-xl p-6 relative">
       {/* Logo */}
@@ -21,14 +17,11 @@ const PressContent = () => (
 
       {/* Buttons - wrapped to contain glow */}
       <div className="flex flex-col gap-4 items-center">
-        {pressLinks.map((item) => (
+        {links.map((item) => (
           <div
             key={item.label}
             className="inline-flex p-2 bg-white"
-            style={{
-              willChange: "transform",
-              transform: "translateZ(0)",
-            }}
+            style={{ willChange: "transform", transform: "translateZ(0)" }}
           >
             <GlowButton
               link={item.href}
