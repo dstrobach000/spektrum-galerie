@@ -30,12 +30,12 @@ async function getExhibition(slug: string): Promise<Exhibition | null> {
   return data;
 }
 
-export default async function ExhibitionPage({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  const exhibition = await getExhibition(params.slug);
+export default async function ExhibitionPage(
+  props: PageProps<"/exhibition/[slug]">
+) {
+  const { slug } = await props.params;
+
+  const exhibition = await getExhibition(slug);
 
   if (!exhibition) {
     return <div>Exhibition not found.</div>;
