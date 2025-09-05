@@ -166,6 +166,14 @@ export default function Home() {
     if (contactsSource === "menu") setMenuOpen(true);
   };
 
+  // New: go to the most recent exhibition for "Aktuální"
+  const handleCurrentExhibitionClick = () => {
+    const slug = exhibitions[0]?.slug;
+    if (!slug) return;
+    setMenuOpen(false);
+    router.push(`/exhibition/${slug}`);
+  };
+
   const footerRef = useRef<HTMLElement | null>(null);
   const [showScrollButton, setShowScrollButton] = useState(false);
   useEffect(() => {
@@ -235,6 +243,7 @@ export default function Home() {
             setMenuOpen(false);
             router.push("/press");
           }}
+          onCurrentExhibitionClick={handleCurrentExhibitionClick}
         />
       </Modal>
 
