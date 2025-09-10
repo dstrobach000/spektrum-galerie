@@ -1,18 +1,11 @@
-// app/@modal/(..)press/page.tsx (Server Component)
 import { sanityClient } from "@/sanity/client";
 import PressModalClient from "@/components/Content/PressModalClient";
 import type { PressDoc, PressLinkUI } from "@/types/Press";
 
-// Keep this in sync with your full-page query
 const query = `
 *[_type == "press"][0]{
   title,
-  links[]{
-    label,
-    note,
-    "fileUrl": file.asset->url,
-    url
-  }
+  links[]{ label, note, "fileUrl": file.asset->url, url }
 }
 `;
 

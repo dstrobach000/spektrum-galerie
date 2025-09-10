@@ -1,25 +1,25 @@
-// src/components/Content/KontaktModalClient.tsx
 "use client";
 
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
 import ContactContent from "@/components/Content/ContactContent";
+import type { Contact } from "@/types/Contact";
 
-type ContactRole = { name: string; role: string; email: string };
-type Contact = {
-  address: string[];
-  mapLink: string;
-  invoiceDetails: string[];
-  openingHours: string;
-  facebook: string;
-  instagram: string;
-  roles: ContactRole[];
-};
-
+/**
+ * Unify Kontakt with the same close behavior.
+ */
 export default function KontaktModalClient({ contact }: { contact: Contact }) {
   const router = useRouter();
+  const [open, setOpen] = useState(true);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    router.push("/", { scroll: false });
+  }, [router]);
+
   return (
-    <Modal isOpen={true} onClose={() => router.back()} closeOnBackdropClick={false}>
+    <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>
       <ContactContent contact={contact} />
     </Modal>
   );

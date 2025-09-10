@@ -146,32 +146,64 @@ export default function Home() {
   }, []);
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [contactsSource, setContactsSource] = useState<"menu" | "main">("main");
+
+  // Unified "return-to-menu" flag for Kontakt, Press, Exhibition
+  // Values: 'none' | 'kontakt' | 'press' | 'exhibition'
+  const [returnToMenu, setReturnToMenu] = useState<
+    "none" | "kontakt" | "press" | "exhibition"
+  >("none");
 
   const router = useRouter();
   const pathname = usePathname();
   const isContactRoute = pathname === "/kontakt";
 
+  // When we come back to '/', reopen the Menu if we started from it
+  useEffect(() => {
+    if (pathname === "/" && returnToMenu !== "none") {
+      setMenuOpen(true);
+      setReturnToMenu("none");
+    }
+  }, [pathname, returnToMenu]);
+
+  // --- OPENERS (from main page) ---
   const handleContactClick = () => {
-    setContactsSource("main");
+    setReturnToMenu("none"); // opened from main/footer, do not reopen menu
     router.push("/kontakt", { scroll: false });
   };
+
+  // --- OPENERS (from menu) ---
   const handleMenuContactClick = () => {
-    setContactsSource("menu");
+    setReturnToMenu("kontakt");
     setMenuOpen(false);
     router.push("/kontakt", { scroll: false });
   };
-  const handleContactClose = () => {
-    router.back();
-    if (contactsSource === "menu") setMenuOpen(true);
-  };
 
-  // New: go to the most recent exhibition for "Aktuální"
   const handleCurrentExhibitionClick = () => {
     const slug = exhibitions[0]?.slug;
     if (!slug) return;
+    setReturnToMenu("exhibition");
     setMenuOpen(false);
-    router.push(`/exhibition/${slug}`);
+    router.push(`/exhibition/${slug}`, { scroll: false });
+  };
+
+  const handleMenuPressClick = () => {
+    setReturnToMenu("press");
+    setMenuOpen(false);
+    router.push("/press", { scroll: false });
+  };
+
+  // Contact modal in the home page (route-driven)
+  // Keep your safe-close logic, and make it use the unified flag
+  const handleContactClose = () => {
+    const canGoBack =
+      typeof window !== "undefined" && (window.history.state?.idx ?? 0) > 0;
+    if (canGoBack) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
+    // The effect above will reopen the menu when we land on "/"
+    // (no need to directly setMenuOpen(true) here)
   };
 
   const footerRef = useRef<HTMLElement | null>(null);
@@ -214,7 +246,7 @@ export default function Home() {
 
       <Footer
         onContactClick={handleContactClick}
-        onPressClick={() => router.push("/press")}
+        onPressClick={() => router.push("/press")} // Footer should NOT reopen menu later
         ref={footerRef}
       />
 
@@ -231,22 +263,21 @@ export default function Home() {
         </div>
       )}
 
+      {/* MENU OVERLAY */}
       <Modal
         isOpen={menuOpen}
         onClose={() => setMenuOpen(false)}
         closeOnBackdropClick={false}
       >
         <MenuContent
-          onClose={() => setMenuOpen(false)}
+          onClose={() => setMenuOpen(false)} // used only by #anchor items
           onContactClick={handleMenuContactClick}
-          onPressClick={() => {
-            setMenuOpen(false);
-            router.push("/press");
-          }}
+          onPressClick={handleMenuPressClick}
           onCurrentExhibitionClick={handleCurrentExhibitionClick}
         />
       </Modal>
 
+      {/* KONTAKT MODAL (route-driven) */}
       <Modal
         isOpen={isContactRoute}
         onClose={handleContactClose}

@@ -1,27 +1,38 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import GlowButton from "./GlowButton";
 
-const StickyCloseButton = ({
-  onClick,
-  label = "Zavřít",
-  className = "",
-}: {
-  onClick: () => void;
+type Props = {
   label?: string;
   className?: string;
-}) => (
-  <div className="fixed left-4 top-[7.5rem] z-50">
-    <GlowButton
-      glowColor="bg-[#a3f730]"
-      onClick={onClick}
-      className={`text-lg ${className}`}
-      floating={true}
-    >
-      {label}
-    </GlowButton>
-  </div>
-);
+  onClick?: () => void; // optional override used by Modal
+};
+
+/**
+ * Sticky close button. If no onClick is provided, it defaults to
+ * navigating home using router.push("/").
+ */
+const StickyCloseButton = ({ label = "Zavřít", className = "", onClick }: Props) => {
+  const router = useRouter();
+
+  const handleDefault = () => {
+    router.push("/", { scroll: false });
+  };
+
+  return (
+    <div className="fixed left-4 top-[7.5rem] z-50">
+      <GlowButton
+        glowColor="bg-[#a3f730]"
+        onClick={onClick ?? handleDefault}
+        className={`text-lg ${className}`}
+        floating={true}
+      >
+        {label}
+      </GlowButton>
+    </div>
+  );
+};
 
 export default StickyCloseButton;

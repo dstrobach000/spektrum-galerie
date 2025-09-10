@@ -1,6 +1,7 @@
-// app/press/page.tsx
-import PressContent from "@/components/Content/PressContent";
+// src/app/press/page.tsx (Server Component)
+// Reuse the same modal client for direct URL visits, just like Kontakt.
 import { sanityClient } from "@/sanity/client";
+import PressModalClient from "@/components/Content/PressModalClient";
 import type { PressDoc, PressLinkUI } from "@/types/Press";
 
 const query = `
@@ -15,7 +16,7 @@ const query = `
 }
 `;
 
-export default async function Page() {
+export default async function PressPage() {
   const data = await sanityClient.fetch<PressDoc>(query);
 
   const links: PressLinkUI[] =
@@ -24,5 +25,6 @@ export default async function Page() {
       href: l.url ?? l.fileUrl ?? "#",
     })) ?? [];
 
-  return <PressContent links={links} />;
+  // Render the modal client even on the direct page:
+  return <PressModalClient links={links} />;
 }
