@@ -7,16 +7,19 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
 
+  const hasMultiple = images.length > 1;
   const currentImgUrl = images[index]?.asset?.url || "";
 
   // Memoized navigation handlers
   const prevImg = useCallback(() => {
+    if (!hasMultiple) return;
     setIndex((i) => (i === 0 ? images.length - 1 : i - 1));
-  }, [images.length]);
+  }, [images.length, hasMultiple]);
 
   const nextImg = useCallback(() => {
+    if (!hasMultiple) return;
     setIndex((i) => (i === images.length - 1 ? 0 : i + 1));
-  }, [images.length]);
+  }, [images.length, hasMultiple]);
 
   // Keyboard navigation while fullscreen
   useEffect(() => {
@@ -24,13 +27,13 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setFullscreen(false);
-      if (e.key === "ArrowLeft") prevImg();
-      if (e.key === "ArrowRight") nextImg();
+      if (hasMultiple && e.key === "ArrowLeft") prevImg();
+      if (hasMultiple && e.key === "ArrowRight") nextImg();
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [fullscreen, prevImg, nextImg]);
+  }, [fullscreen, prevImg, nextImg, hasMultiple]);
 
   // Lock page scroll while overlay is open (desktop + iOS)
   useEffect(() => {
@@ -65,26 +68,47 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
     };
   }, [fullscreen]);
 
-  if (!images.length) return null;
-
   return (
     <>
-      {/* Inline carousel (unchanged) */}
+      {/* Inline viewer */}
       <div className="relative w-full">
-        {currentImgUrl && <img src={currentImgUrl} alt="" className="w-full h-auto block" />}
+        {currentImgUrl && (
+          <img
+            src={currentImgUrl}
+            alt=""
+            className="w-full h-auto block"
+            draggable={false}
+          />
+        )}
 
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-          <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
-            <span className="text-md font-light">&lt;</span>
-          </GlowButton>
-        </div>
+        {/* Side arrows (hidden if single image) */}
+        {hasMultiple && (
+          <>
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
+              <GlowButton
+                onClick={prevImg}
+                glowColor="bg-[#a3f730]"
+                className="!p-2"
+                floating={false}
+              >
+                <span className="text-md font-light">&lt;</span>
+              </GlowButton>
+            </div>
 
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
-          <GlowButton onClick={nextImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
-            <span className="text-md font-light">&gt;</span>
-          </GlowButton>
-        </div>
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
+              <GlowButton
+                onClick={nextImg}
+                glowColor="bg-[#a3f730]"
+                className="!p-2"
+                floating={false}
+              >
+                <span className="text-md font-light">&gt;</span>
+              </GlowButton>
+            </div>
+          </>
+        )}
 
+        {/* Fullscreen trigger */}
         <div className="absolute left-1/2 -translate-x-1/2 bottom-2 z-10">
           <GlowButton
             onClick={() => setFullscreen(true)}
@@ -93,7 +117,7 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
             floating={false}
           >
             <span className="text-sm font-light">⛶</span>
-            <span className="ml-2 font-light text-sm">Fullscreen</span>
+            <span className="ml-2 font-light text-sm">full screen</span>
           </GlowButton>
         </div>
       </div>
@@ -110,14 +134,25 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
                 src={currentImgUrl}
                 alt=""
                 className="block h-full w-auto max-w-full object-contain"
+                draggable={false}
               />
             )}
           </div>
 
           <div className="p-4 sm:p-6 flex w-full max-w-3xl justify-between items-center mx-auto">
-            <GlowButton onClick={prevImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
-              <span className="text-2xl font-light">&lt;</span>
-            </GlowButton>
+            {/* Prev (hidden if single image) */}
+            {hasMultiple ? (
+              <GlowButton
+                onClick={prevImg}
+                glowColor="bg-[#a3f730]"
+                className="!p-2"
+                floating={false}
+              >
+                <span className="text-2xl font-light">&lt;</span>
+              </GlowButton>
+            ) : (
+              <span />
+            )}
 
             <GlowButton
               onClick={() => setFullscreen(false)}
@@ -128,9 +163,19 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
               <span className="font-light">Zavřít</span>
             </GlowButton>
 
-            <GlowButton onClick={nextImg} glowColor="bg-[#a3f730]" className="!p-2" floating={false}>
-              <span className="text-2xl font-light">&gt;</span>
-            </GlowButton>
+            {/* Next (hidden if single image) */}
+            {hasMultiple ? (
+              <GlowButton
+                onClick={nextImg}
+                glowColor="bg-[#a3f730]"
+                className="!p-2"
+                floating={false}
+              >
+                <span className="text-2xl font-light">&gt;</span>
+              </GlowButton>
+            ) : (
+              <span />
+            )}
           </div>
         </div>
       )}

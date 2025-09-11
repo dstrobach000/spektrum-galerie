@@ -11,7 +11,7 @@ export default {
     },
     {
       name: "mapLink",
-      title: "Odkaz na Mapy",
+      title: "Odkaz na Google Maps",
       type: "url",
     },
     {
@@ -51,4 +51,12 @@ export default {
       ],
     },
   ],
+
+  preview: {
+    prepare() {
+      return {
+        title: "Kontakty",
+      };
+    },
+  },
 };

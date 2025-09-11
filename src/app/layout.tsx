@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { ReactNode } from "react";
+import CookieBanner from "@/components/Legal/CookieBanner";
 
 export default function RootLayout({
   children,
@@ -13,6 +14,7 @@ export default function RootLayout({
       <body>
         {children}
         {modal}
+        <CookieBanner />
       </body>
     </html>
   );

@@ -3,21 +3,16 @@
 import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
-import PressContent from "@/components/Content/PressContent";
-import type { PressLinkUI } from "@/types/Press";
+import PrivacyContent from "@/components/Content/PrivacyContent";
 
-type Props = {
-  links: PressLinkUI[];
-};
-
-export default function PressModalClient({ links }: Props) {
+export default function PrivacyModalClient() {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
 
-  // Reopen when navigating back to /press (handles App Router cache)
+  // Re-open when navigating to /privacy again (handles App Router cache)
   useEffect(() => {
-    if (pathname === "/press") setOpen(true);
+    if (pathname === "/privacy") setOpen(true);
   }, [pathname]);
 
   const handleClose = useCallback(() => {
@@ -27,7 +22,7 @@ export default function PressModalClient({ links }: Props) {
 
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>
-      <PressContent links={links} />
+      <PrivacyContent />
     </Modal>
   );
 }

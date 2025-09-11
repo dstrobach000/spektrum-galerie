@@ -12,7 +12,7 @@ const PressContent = ({ links = [] }: Props) => (
     <div className="border border-black rounded-xl p-6 relative">
       {/* Logo */}
       <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center mb-6 aspect-[3/1]">
-        <RotatingLogo3D src="/3D/logo.glb" speed={10} className="w-full h-full" />
+        <RotatingLogo3D src="/3D/logo.glb" className="w-full h-full" />
       </div>
 
       {/* Buttons - wrapped to contain glow */}

@@ -1,11 +1,20 @@
-import React, { Suspense, useRef, useEffect, useMemo } from "react";
-import { Canvas, useLoader, useFrame, useThree } from "@react-three/fiber";
-import { Bounds, OrthographicCamera } from "@react-three/drei";
+import React, { Suspense, useMemo, useRef, useEffect, useCallback } from "react";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
-import * as THREE from "three";
 
-// Chrome-like material
+/**
+ * Deterministic, manual ortho-fit:
+ * - We compute a stable bounding box for the model (Z-up).
+ * - Zoom is derived from (viewport / modelSize) with padding.
+ * - Re-run only when the canvas size actually changes.
+ * This avoids the slight rescale after closing modals.
+ */
+
+const PADDING = 2.1; // space around the model
+const ROT_SPEED = 0.005;
+
 function useChrome() {
   return useMemo(
     () =>
@@ -21,80 +30,116 @@ function useChrome() {
   );
 }
 
-function GalleryModel() {
+function GalleryModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
   const gltf = useLoader(GLTFLoader, "/3D/spektrum_galerie.glb");
-  const groupRef = useRef<THREE.Group>(null);
-  const chromeMaterial = useChrome();
+  const chrome = useChrome();
+  const group = useRef<THREE.Group>(null);
 
+  // Prepare materials + orientation (model is Z-up)
   useEffect(() => {
     gltf.scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        mesh.material = chromeMaterial;
-        if (mesh.geometry && !mesh.geometry.attributes.normal) {
-          mesh.geometry.computeVertexNormals();
-        }
+        mesh.material = chrome;
+        if (!mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals();
       }
     });
+    gltf.scene.rotation.x = -Math.PI / 2; // convert Z-up → Y-up
+  }, [gltf, chrome]);
 
-    // Match original Z-up coordinate system
-    gltf.scene.rotation.x = -Math.PI / 2;
-  }, [gltf, chromeMaterial]);
+  // Compute the box once the model is ready
+  useEffect(() => {
+    if (!group.current) return;
+    const box = new THREE.Box3().setFromObject(group.current);
+    onBox(box);
+  }, [onBox]);
 
+  // Slow rotation, like before
   useFrame(() => {
-    if (groupRef.current?.rotation) {
-      groupRef.current.rotation.z += 0.005;
-    }
+    if (group.current) group.current.rotation.z += ROT_SPEED;
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={group}>
       <primitive object={gltf.scene} />
     </group>
   );
 }
 
-function CameraController() {
-  const { camera } = useThree();
+function OrthoController({
+  box,
+  padding = PADDING,
+}: {
+  box: THREE.Box3 | null;
+  padding?: number;
+}) {
+  const { camera, size } = useThree();
+  const cam = camera as THREE.OrthographicCamera;
+
+  const fit = useCallback(() => {
+    if (!box || size.width === 0 || size.height === 0) return;
+
+    // model dimensions in world units (after rotation)
+    const dims = new THREE.Vector3();
+    box.getSize(dims);
+
+    const vw = size.width;
+    const vh = size.height;
+    if (vw <= 0 || vh <= 0) return;
+
+    // compute zoom to fit with padding
+    const w = Math.max(dims.x, 1e-6);
+    const h = Math.max(dims.y, 1e-6);
+    const zoom = Math.min(vw / (w * padding), vh / (h * padding));
+    cam.zoom = zoom;
+
+    // center the view on the model's bounding-box center
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+
+    const dir = new THREE.Vector3(-1, 1, 1).normalize();
+    const dist = 200; // feel free to tweak
+    cam.position.copy(center).addScaledVector(dir, dist);
+
+    cam.up.set(0, 0, 1);
+    cam.lookAt(center);
+    cam.updateProjectionMatrix();
+  }, [box, size.width, size.height, cam, padding]);
+
   useEffect(() => {
-    const d = 200;
-    camera.position.set(-d, d, d);
-    camera.up.set(0, 0, 1); // Z-up
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
-    camera.updateProjectionMatrix();
-  }, [camera]);
+    fit();
+  }, [fit]);
+
   return null;
 }
 
-const ModelViewer = () => (
-  <Canvas
-    className="w-full h-full block"
-    style={{
-      background: "#fff",
-      width: "100%",
-      height: "100%",
-      display: "block",
-    }}
-    dpr={[1, 2]}
-    onCreated={({ gl, scene }) => {
-      gl.toneMapping = THREE.ACESFilmicToneMapping;
-      gl.toneMappingExposure = 1.5;
-      gl.outputColorSpace = THREE.SRGBColorSpace;
+export default function ModelViewer() {
+  const [box, setBox] = React.useState<THREE.Box3 | null>(null);
 
-      const pmrem = new THREE.PMREMGenerator(gl);
-      const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-      scene.environment = envTex;
-    }}
-  >
-    <OrthographicCamera makeDefault zoom={60} near={-1000} far={1000} />
-    <CameraController />
-    <ambientLight intensity={0.4} />
-    <Suspense fallback={null}>
-      <Bounds fit clip observe margin={1.1}>
-        <GalleryModel />
-      </Bounds>
-    </Suspense>
-  </Canvas>
-);
+  return (
+    <Canvas
+      className="w-full h-full block"
+      style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
+      dpr={[1, 2]}
+      orthographic
+      camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
+      onCreated={({ gl, scene }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.5;
+        gl.outputColorSpace = THREE.SRGBColorSpace;
 
-export default ModelViewer;
+        const pmrem = new THREE.PMREMGenerator(gl);
+        const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+        scene.environment = envTex;
+      }}
+    >
+      <ambientLight intensity={0.4} />
+      <Suspense fallback={null}>
+        {/* Model reports its bounding box once ready */}
+        <GalleryModel onBox={setBox} />
+        {/* Camera fits deterministically; recomputes on real size changes only */}
+        <OrthoController box={box} />
+      </Suspense>
+    </Canvas>
+  );
+}

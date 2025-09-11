@@ -25,12 +25,15 @@ const query = `
   }
 `;
 
-type Params = { params: { slug: string } };
+export default async function ExhibitionPage({
+  params,
+}: {
+  // Next 15.5: params is async (a Promise)
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
 
-export default async function ExhibitionPage({ params }: Params) {
-  const exhibition = await sanityClient.fetch<Exhibition | null>(query, {
-    slug: params.slug,
-  });
+  const exhibition = await sanityClient.fetch<Exhibition | null>(query, { slug });
 
   // Render the modal client even on the direct page:
   return <ExhibitionModalClient exhibition={exhibition} />;

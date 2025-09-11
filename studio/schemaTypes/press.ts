@@ -4,17 +4,10 @@ import {DocumentTextIcon} from '@sanity/icons'
 
 export default defineType({
   name: 'press',
-  title: 'Press / Downloads Page',
+  title: 'Ke stažení',
   type: 'document',
   icon: DocumentTextIcon,
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Page Title',
-      type: 'string',
-      initialValue: 'Press / Downloads',
-      validation: (Rule) => Rule.required(),
-    }),
     defineField({
       name: 'links',
       title: 'Links',
@@ -24,12 +17,9 @@ export default defineType({
     }),
   ],
   preview: {
-    select: {title: 'title', links: 'links'},
-    prepare({title, links}) {
-      const count = Array.isArray(links) ? links.length : 0
+    prepare() {
       return {
-        title: title || 'Press / Downloads',
-        subtitle: `${count} link${count === 1 ? '' : 's'}`,
+        title: 'Soubory',
       }
     },
   },

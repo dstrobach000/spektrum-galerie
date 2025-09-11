@@ -8,26 +8,25 @@ export default defineType({
   fields: [
     defineField({
       name: 'label',
-      title: 'Label',
+      title: 'Název',
       type: 'string',
       validation: (Rule) => Rule.required().min(2),
     }),
     defineField({
       name: 'file',
-      title: 'File (Sanity asset)',
+      title: 'Soubor',
       type: 'file',
-      description: 'Upload a file OR provide an external URL below.',
+      description: 'Nahraj soubor ANEBO zadej externí URL níže.',
       options: {storeOriginalFilename: true},
     }),
     defineField({
       name: 'url',
-      title: 'External URL',
+      title: 'Externí URL',
       type: 'url',
-      description: 'Use this if the asset lives outside Sanity.',
     }),
     defineField({
       name: 'note',
-      title: 'Note (optional)',
+      title: 'Poznámka',
       type: 'string',
     }),
   ],
@@ -46,7 +45,7 @@ export default defineType({
     Rule.custom((value) => {
       if (!value) return 'Required'
       if (!value.file && !value.url) {
-        return 'Provide either a File or an External URL'
+        return 'Přidej soubor nebo externí URL.'
       }
       return true
     }),

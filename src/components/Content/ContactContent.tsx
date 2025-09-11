@@ -12,7 +12,6 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
         <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
           <RotatingLogo3D
             src="/3D/logo.glb"
-            speed={10}
             className="block w-full h-auto"
           />
         </div>

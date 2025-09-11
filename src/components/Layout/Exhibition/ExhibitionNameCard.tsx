@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 type NameCardEntry = {
@@ -19,6 +19,51 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
 }) => {
   const [fullscreen, setFullscreen] = useState(false);
 
+  // Keyboard: allow Esc to close while fullscreen (matching ExGa*)
+  useEffect(() => {
+    if (!fullscreen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFullscreen(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [fullscreen]);
+
+  // Lock page scroll while overlay is open (desktop + iOS), same approach as ExGa*
+  useEffect(() => {
+    if (!fullscreen) return;
+
+    const scrollY = window.scrollY;
+    const preventTouch = (e: TouchEvent) => e.preventDefault();
+
+    Object.assign(document.body.style, {
+      position: "fixed",
+      top: `-${scrollY}px`,
+      left: "0",
+      right: "0",
+      width: "100%",
+      overflow: "hidden",
+    } as CSSStyleDeclaration);
+    document.documentElement.style.overflow = "hidden";
+    document.addEventListener("touchmove", preventTouch, { passive: false });
+
+    return () => {
+      document.removeEventListener("touchmove", preventTouch);
+      Object.assign(document.body.style, {
+        position: "",
+        top: "",
+        left: "",
+        right: "",
+        width: "",
+        overflow: "",
+      } as CSSStyleDeclaration);
+      document.documentElement.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, [fullscreen]);
+
   // For "speciální poděkování", split on , ; (or just treat as normal if not present)
   const thanksEntry = namecard.find(
     (entry) =>
@@ -33,8 +78,7 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
         .filter(Boolean)
     : [];
 
-  // For all other fields, keep the original field order/labels where possible
-  // You can set your preferred order and labels here if needed:
+  // Preferred order (unchanged)
   const preferredOrder = [
     "kurátorka",
     "promo",
@@ -44,10 +88,9 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
     "speciální poděkování",
   ];
 
-  // Sort fields to match preferredOrder, others at the end
+  // Sort fields (unchanged)
   const sortedFields = [
     ...preferredOrder.map((label) => {
-      // handle "speciální poděkování" specially
       if (label === "speciální poděkování" && thanksList.length) {
         return { label, value: thanksList.join(", ") };
       }
@@ -57,7 +100,6 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
       if (entry) return { label, value: entry.name };
       return null;
     }),
-    // Add any remaining fields not in preferredOrder
     ...namecard
       .filter(
         (e) =>
@@ -69,17 +111,19 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
           )
       )
       .map((e) => ({ label: e.role, value: e.name })),
-  ].filter(Boolean);
+  ].filter(Boolean) as { label: string; value: string }[];
+
+  const graphicUrl = graphic?.url || "";
 
   return (
     <div className="w-full">
-      <div className="flex flex-col md:flex-row gap-6 items-start">
+      <div className="flex flex-col md:flex-row gap-12 md:gap-6 items-start">
         {/* Graphic */}
         <div className="w-full md:w-1/2 relative flex items-center justify-center">
-          {graphic?.url && (
+          {graphicUrl && (
             <>
               <img
-                src={graphic.url}
+                src={graphicUrl}
                 alt="Exhibition graphic"
                 className="w-full h-auto block"
                 draggable={false}
@@ -91,24 +135,35 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
                   className="!px-2 !py-1"
                   floating={false}
                 >
-                  <span className="text-md font-light">⛶</span>
+                  <span className="text-sm font-light">⛶</span>
+                  <span className="ml-2 font-light text-sm">full screen</span>
                 </GlowButton>
               </div>
             </>
           )}
+
+          {/* Fullscreen overlay — consistent with ExGaPortrait/Landscape */}
           {fullscreen && (
-            <div className="fixed inset-0 bg-white bg-opacity-95 z-[100] flex items-center justify-center p-8">
-              <div className="relative w-full max-w-3xl flex flex-col items-center">
-                <img
-                  src={graphic?.url}
-                  alt="Exhibition graphic fullscreen"
-                  className="w-full h-auto block"
-                  draggable={false}
-                />
+            <div
+              className="fixed inset-0 z-[100] bg-white grid"
+              style={{ minHeight: "100dvh", gridTemplateRows: "1fr auto" }}
+            >
+              <div className="min-h-0 overflow-hidden flex items-center justify-center p-4 sm:p-8">
+                {graphicUrl && (
+                  <img
+                    src={graphicUrl}
+                    alt="Exhibition graphic fullscreen"
+                    className="block h-full w-auto max-w-full object-contain"
+                    draggable={false}
+                  />
+                )}
+              </div>
+
+              <div className="p-4 sm:p-6 flex w-full max-w-2xl justify-center items-center mx-auto">
                 <GlowButton
                   onClick={() => setFullscreen(false)}
                   glowColor="bg-[#a3f730]"
-                  className="!px-4 !py-2 mt-6"
+                  className="!px-4 !py-2"
                   floating={false}
                 >
                   <span className="font-light">Zavřít</span>
@@ -125,13 +180,13 @@ const ExhibitionNameCard: React.FC<ExhibitionNameCardProps> = ({
             const isLeftCol = i % 2 === 0;
             return (
               <div
-                key={i}
+                key={`${f.label}-${i}`}
                 className={`flex flex-col p-3 font-light ${
                   !isTopRow ? "border-t border-black" : ""
                 } ${!isLeftCol ? "border-l border-black" : ""}`}
               >
-                <span className="text-xs mb-1">{f?.label}:</span>
-                <span className="text-sm leading-snug">{f?.value}</span>
+                <span className="text-xs mb-1">{f.label}:</span>
+                <span className="text-sm leading-snug">{f.value}</span>
               </div>
             );
           })}

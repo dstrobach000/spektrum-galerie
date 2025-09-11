@@ -37,13 +37,18 @@ const ExhibitionHeader: React.FC<Props> = ({
               &lt;
             </GlowButton>
           </div>
+
           <div className="min-w-0">
+            {/* Keep original layout; only adjust mobile sizes to match Upcoming */}
             <div className="overlayheader-content w-full text-sm md:text-xl font-light gap-1">
-              <span className="overlayheader-item">{artist}</span>
-              <span className="overlayheader-item pulse-text">{exhibitionName}</span>
+              <span className="overlayheader-item text-lg md:text-xl">{artist}</span>
+              <span className="overlayheader-item pulse-text text-lg md:text-xl">
+                {exhibitionName}
+              </span>
               <span className="overlayheader-item">{date}</span>
             </div>
           </div>
+
           <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
             <GlowButton
               type="button"
@@ -58,6 +63,7 @@ const ExhibitionHeader: React.FC<Props> = ({
           </div>
         </div>
       </GlowBox>
+
       <style jsx>{`
         .pulse-text {
           display: inline-block;

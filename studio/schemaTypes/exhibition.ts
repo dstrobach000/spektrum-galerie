@@ -3,24 +3,24 @@
 export default {
   name: 'exhibition',
   type: 'document',
-  title: 'Exhibition',
+  title: 'Výstavy',
   fields: [
-    { name: 'title', title: 'Title', type: 'string' },
-    { name: 'artist', title: 'Artist', type: 'string' },
+    { name: 'title', title: 'Název', type: 'string' },
+    { name: 'artist', title: 'Vystavující', type: 'string' },
     { name: 'slug', title: 'Slug', type: 'slug', options: { source: 'title', maxLength: 96 } },
-    { name: 'startDate', title: 'Start Date', type: 'datetime' },
-    { name: 'endDate', title: 'End Date', type: 'datetime' },
+    { name: 'startDate', title: 'Od', type: 'datetime' },
+    { name: 'endDate', title: 'Do', type: 'datetime' },
 
     // Replace pressText array of blocks with three editors: intro, main, bio
     {
       name: 'intro',
-      title: 'Intro',
+      title: 'Úvod',
       type: 'array',
       of: [{ type: 'block' }]
     },
     {
       name: 'mainText',
-      title: 'Main Text',
+      title: 'Hlavní text',
       type: 'array',
       of: [{ type: 'block' }]
     },
@@ -33,13 +33,13 @@ export default {
 
     {
       name: 'landscapeImages',
-      title: 'Landscape Images',
+      title: 'Lansdcape fotky',
       type: 'array',
       of: [{ type: 'image' }]
     },
     {
       name: 'landscapeVideos',
-      title: 'Landscape Videos',
+      title: 'Landscape videa',
       type: 'array',
       of: [{
         type: 'file',
@@ -51,13 +51,13 @@ export default {
     },
     {
       name: 'portraitImages',
-      title: 'Portrait Images',
+      title: 'Portrait fotky',
       type: 'array',
       of: [{ type: 'image' }]
     },
     {
       name: 'portraitVideos',
-      title: 'Portrait Videos',
+      title: 'Portrait videa',
       type: 'array',
       of: [{
         type: 'file',
@@ -69,7 +69,7 @@ export default {
     },
     {
       name: 'namecard',
-      title: 'Namecard',
+      title: 'Credits',
       type: 'array',
       of: [
         {
@@ -83,7 +83,7 @@ export default {
     },
     {
       name: 'poster',
-      title: 'Poster',
+      title: 'Grafika',
       type: 'image'
     }
   ]

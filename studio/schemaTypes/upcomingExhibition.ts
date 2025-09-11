@@ -2,44 +2,44 @@ import type { Rule } from "sanity";
 
 const upcomingExhibition = {
   name: "upcomingExhibition",
-  title: "Upcoming Exhibition",
+  title: "Připravujeme",
   type: "document",
   fields: [
     {
       name: "artist",
-      title: "Artist",
+      title: "Vystavující",
       type: "string",
       validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "exhibition",
-      title: "Exhibition Name",
+      title: "Název výstavy",
       type: "string",
       validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "startDate",
-      title: "Start Date",
+      title: "Od",
       type: "date",
       options: { dateFormat: "DD.MM.YY" },
       validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "endDate",
-      title: "End Date",
+      title: "Do",
       type: "date",
       options: { dateFormat: "DD.MM.YY" },
       validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "vernissageDate",
-      title: "Vernisáž (Opening)",
+      title: "Vernisáž",
       type: "datetime",
       validation: (Rule: Rule) => Rule.required(),
     },
     {
       name: "link",
-      title: "Link (optional)",
+      title: "Odkaz",
       type: "url",
     },
   ],

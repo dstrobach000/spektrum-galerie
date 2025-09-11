@@ -1,3 +1,4 @@
+// src/app/@modal/(.)press/page.tsx
 import { sanityClient } from "@/sanity/client";
 import PressModalClient from "@/components/Content/PressModalClient";
 import type { PressDoc, PressLinkUI } from "@/types/Press";
@@ -5,7 +6,12 @@ import type { PressDoc, PressLinkUI } from "@/types/Press";
 const query = `
 *[_type == "press"][0]{
   title,
-  links[]{ label, note, "fileUrl": file.asset->url, url }
+  links[]{
+    label,
+    note,
+    "fileUrl": file.asset->url,
+    url
+  }
 }
 `;
 

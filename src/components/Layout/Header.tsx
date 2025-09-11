@@ -22,7 +22,7 @@ const Header = () => {
         >
           {/* 1) Logo */}
           <div className={`border border-black rounded-full overflow-hidden w-full min-h-[150px] md:min-h-0 flex items-center justify-center ${aspect} order-1 md:order-1`}>
-            <RotatingLogo3D src="/3D/logo.glb" speed={5} className="w-full h-full" />
+            <RotatingLogo3D src="/3D/logo.glb" className="w-full h-full" />
           </div>
 
           {/* 2) Czech text */}
@@ -56,7 +56,7 @@ const Header = () => {
         <div className="hidden 3xl:grid grid-cols-3 gap-6 items-start">
           {/* Left: Logo (pill, same wrapper as model) */}
           <div className={`border border-black rounded-full overflow-hidden p-4 w-full flex items-center justify-center ${aspect} col-start-1 col-end-2`}>
-            <RotatingLogo3D src="/3D/logo.glb" speed={10} className="w-full h-full" />
+            <RotatingLogo3D src="/3D/logo.glb" className="w-full h-full" />
           </div>
 
           {/* Middle: texts stacked */}
