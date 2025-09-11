@@ -106,12 +106,7 @@ const Footer = forwardRef<HTMLElement, FooterProps>(
 
                 {/* GDPR note */}
                 <p className="text-xs font-light text-black">
-                  Přihlášením souhlasíte se zpracováním e-mailu pro zasílání novinek.
-                  Více v{" "}
-                  <a href="/privacy" className="underline">
-                    Zásadách ochrany osobních údajů
-                  </a>
-                  .
+                <a href="/privacy" className="underline">Zásady ochrany osobních údajů</a>
                 </p>
 
                 {/* Feedback message — same size as GDPR note, subtle color */}
