@@ -49,8 +49,8 @@ export default function PrivacyContent() {
         <h2 className="text-2xl font-light mt-6">Kontakt</h2>
         <p>
           V případě dotazů se na nás obraťte na{" "}
-          <a className="underline" href="mailto:info@spektrumgalerie.cz">
-            info@spektrumgalerie.cz
+          <a className="underline" href="mailto:hello@spektrumgalerie.cz">
+            hello@spektrumgalerie.cz
           </a>.
         </p>
       </div>
