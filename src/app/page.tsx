@@ -87,40 +87,6 @@ const upcomingQuery = `
   }
 `;
 
-// --- DATE HELPERS ---
-function pad(n: number) {
-  return n < 10 ? "0" + n : n;
-}
-function shortYear(date: Date) {
-  return pad(date.getFullYear() % 100);
-}
-function formatRange(start?: string, end?: string) {
-  if (!start || !end) return "";
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-  if (
-    startDate.getFullYear() === endDate.getFullYear() &&
-    startDate.getMonth() === endDate.getMonth()
-  ) {
-    return `${startDate.getDate()}. – ${endDate.getDate()}. ${
-      endDate.getMonth() + 1
-    }. ${shortYear(endDate)}`;
-  } else {
-    return `${startDate.getDate()}. ${startDate.getMonth() + 1}. ${shortYear(
-      startDate
-    )} – ${endDate.getDate()}. ${endDate.getMonth() + 1}. ${shortYear(
-      endDate
-    )}`;
-  }
-}
-function formatVernissage(vernissage?: string) {
-  if (!vernissage) return "";
-  const date = new Date(vernissage);
-  return `Vernisáž: ${date.getDate()}. ${date.getMonth() + 1}. ${shortYear(
-    date
-  )} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-// ---
 
 export default async function Home() {
   // Server-side data fetching

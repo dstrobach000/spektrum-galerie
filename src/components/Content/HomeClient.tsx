@@ -61,11 +61,6 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
     }
   }, [pathname, returnToMenu]);
 
-  // --- OPENERS (from main page) ---
-  const handleContactClick = () => {
-    setReturnToMenu("none"); // opened from main/footer, do not reopen menu
-    router.push("/kontakt", { scroll: false });
-  };
 
   // --- OPENERS (from menu) ---
   const handleMenuContactClick = () => {

@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import Image from "next/image";
 import FooterClient from "./FooterClient";
 
-const Footer = forwardRef<HTMLElement, {}>((props, ref) => {
+const Footer = forwardRef<HTMLElement, Record<string, never>>((props, ref) => {
   return (
     <footer
       ref={ref}
