@@ -1,5 +1,6 @@
 // src/app/@modal/(.)kontakt/page.tsx
 import { sanityClient } from "@/sanity/client";
+import type { Metadata } from "next";
 import KontaktModalClient from "@/components/Content/KontaktModalClient";
 
 const query = `
@@ -24,3 +25,7 @@ export default async function KontaktModalPage() {
   // Pass only serializable data to a client wrapper (which owns onClose).
   return <KontaktModalClient contact={data} />;
 }
+
+export const metadata: Metadata = {
+  title: "Kontakty",
+};

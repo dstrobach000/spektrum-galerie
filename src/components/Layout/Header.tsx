@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import ModelViewer from "@/components/BuildingBlocks/3D/ModelViewer";
 import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";

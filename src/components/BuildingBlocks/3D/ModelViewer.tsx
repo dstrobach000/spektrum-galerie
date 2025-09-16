@@ -1,8 +1,10 @@
+"use client";
+
 import React, { Suspense, useMemo, useRef, useEffect, useCallback } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+// Import RoomEnvironment dynamically to avoid chunk loading issues
 
 /**
  * Deterministic, manual ortho-fit:
@@ -128,9 +130,21 @@ export default function ModelViewer() {
         gl.toneMappingExposure = 1.5;
         gl.outputColorSpace = THREE.SRGBColorSpace;
 
-        const pmrem = new THREE.PMREMGenerator(gl);
-        const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-        scene.environment = envTex;
+        // Load environment asynchronously to avoid chunk loading issues
+        const loadEnvironment = async () => {
+          try {
+            const { RoomEnvironment } = await import("three/examples/jsm/environments/RoomEnvironment.js");
+            const pmrem = new THREE.PMREMGenerator(gl);
+            const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+            scene.environment = envTex;
+          } catch (error) {
+            console.warn('Failed to load RoomEnvironment:', error);
+            // Fallback to a simple environment
+            scene.environment = null;
+          }
+        };
+        
+        loadEnvironment();
       }}
     >
       <ambientLight intensity={0.4} />

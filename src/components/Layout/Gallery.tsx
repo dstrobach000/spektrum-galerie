@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import SlideShowCard from "@/components/BuildingBlocks/Slider/SlideShowCard";
 import Link from "next/link";

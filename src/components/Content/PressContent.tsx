@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";

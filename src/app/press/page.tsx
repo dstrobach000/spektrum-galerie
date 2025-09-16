@@ -1,6 +1,7 @@
 // src/app/press/page.tsx (Server Component)
 // Reuse the same modal client for direct URL visits, just like Kontakt.
 import { sanityClient } from "@/sanity/client";
+import type { Metadata } from "next";
 import PressModalClient from "@/components/Content/PressModalClient";
 import type { PressDoc, PressLinkUI } from "@/types/Press";
 
@@ -28,3 +29,7 @@ export default async function PressPage() {
   // Render the modal client even on the direct page:
   return <PressModalClient links={links} />;
 }
+
+export const metadata: Metadata = {
+  title: "Ke stažení",
+};

@@ -1,16 +1,9 @@
-"use client";
-
-import React, { useState, useRef, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import React from "react";
 import Header from "@/components/Layout/Header";
 import Gallery from "@/components/Layout/Gallery";
 import Footer from "@/components/Layout/Footer";
-import Modal from "@/components/BuildingBlocks/Modal/Modal";
-import MenuContent from "@/components/Content/MenuContent";
-import ContactContent from "@/components/Content/ContactContent";
-import Upcoming from "@/components/BuildingBlocks/Labels/Upcoming";
-import MenuButton from "@/components/BuildingBlocks/Buttons/MenuButton";
-import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import HomeClient from "@/components/Content/HomeClient";
+import UpcomingWrapper from "@/components/Content/UpcomingWrapper";
 import { sanityClient } from "@/sanity/client";
 
 type SanityImage = { asset: { url: string } };
@@ -129,162 +122,28 @@ function formatVernissage(vernissage?: string) {
 }
 // ---
 
-export default function Home() {
-  const [exhibitions, setExhibitions] = useState<Exhibition[]>([]);
-  useEffect(() => {
-    fetchExhibitions().then(setExhibitions);
-  }, []);
-
-  const [contact, setContact] = useState<Contact | null>(null);
-  useEffect(() => {
-    sanityClient.fetch(contactQuery).then(setContact);
-  }, []);
-
-  const [upcoming, setUpcoming] = useState<UpcomingExhibition | null>(null);
-  useEffect(() => {
-    sanityClient.fetch(upcomingQuery).then(setUpcoming);
-  }, []);
-
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Unified "return-to-menu" flag for Kontakt, Press, Exhibition
-  // Values: 'none' | 'kontakt' | 'press' | 'exhibition'
-  const [returnToMenu, setReturnToMenu] = useState<
-    "none" | "kontakt" | "press" | "exhibition"
-  >("none");
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const isContactRoute = pathname === "/kontakt";
-
-  // When we come back to '/', reopen the Menu if we started from it
-  useEffect(() => {
-    if (pathname === "/" && returnToMenu !== "none") {
-      setMenuOpen(true);
-      setReturnToMenu("none");
-    }
-  }, [pathname, returnToMenu]);
-
-  // --- OPENERS (from main page) ---
-  const handleContactClick = () => {
-    setReturnToMenu("none"); // opened from main/footer, do not reopen menu
-    router.push("/kontakt", { scroll: false });
-  };
-
-  // --- OPENERS (from menu) ---
-  const handleMenuContactClick = () => {
-    setReturnToMenu("kontakt");
-    setMenuOpen(false);
-    router.push("/kontakt", { scroll: false });
-  };
-
-  const handleCurrentExhibitionClick = () => {
-    const slug = exhibitions[0]?.slug;
-    if (!slug) return;
-    setReturnToMenu("exhibition");
-    setMenuOpen(false);
-    router.push(`/exhibition/${slug}`, { scroll: false });
-  };
-
-  const handleMenuPressClick = () => {
-    setReturnToMenu("press");
-    setMenuOpen(false);
-    router.push("/press", { scroll: false });
-  };
-
-  // Contact modal in the home page (route-driven)
-  // Keep your safe-close logic, and make it use the unified flag
-  const handleContactClose = () => {
-    const canGoBack =
-      typeof window !== "undefined" && (window.history.state?.idx ?? 0) > 0;
-    if (canGoBack) {
-      router.back();
-    } else {
-      router.replace("/");
-    }
-    // The effect above will reopen the menu when we land on "/"
-    // (no need to directly setMenuOpen(true) here)
-  };
-
-  const footerRef = useRef<HTMLElement | null>(null);
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  useEffect(() => {
-    const isMobile = () => window.innerWidth <= 768;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (isMobile()) setShowScrollButton(entry.isIntersecting);
-        else setShowScrollButton(false);
-      },
-      { threshold: 0.1 }
-    );
-    const footerElement = footerRef.current;
-    if (footerElement) observer.observe(footerElement);
-    return () => {
-      if (footerElement) observer.unobserve(footerElement);
-    };
-  }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+export default async function Home() {
+  // Server-side data fetching
+  const [exhibitions, contact, upcoming] = await Promise.all([
+    fetchExhibitions(),
+    sanityClient.fetch<Contact | null>(contactQuery),
+    sanityClient.fetch<UpcomingExhibition | null>(upcomingQuery),
+  ]);
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      {!menuOpen && <MenuButton onClick={() => setMenuOpen(true)} />}
-
       <div className="flex-grow">
         <Header />
-        {upcoming && (
-          <Upcoming
-            artist={upcoming.artist}
-            exhibition={upcoming.exhibition}
-            date={formatRange(upcoming.startDate, upcoming.endDate)}
-            vernissage={formatVernissage(upcoming.vernissageDate)}
-            link={upcoming.link}
-          />
-        )}
+        <UpcomingWrapper upcoming={upcoming} />
         <Gallery exhibitions={exhibitions} />
       </div>
 
-      <Footer
-        onContactClick={handleContactClick}
-        onPressClick={() => router.push("/press")} // Footer should NOT reopen menu later
-        ref={footerRef}
+      <Footer />
+
+      <HomeClient 
+        exhibitions={exhibitions}
+        contact={contact}
       />
-
-      {showScrollButton && (
-        <div className="fixed bottom-4 right-4 z-50 sm:hidden">
-          <GlowButton
-            onClick={scrollToTop}
-            className="p-3 text-xl"
-            glowColor="bg-[#a3f730]"
-            floating
-          >
-            ^
-          </GlowButton>
-        </div>
-      )}
-
-      {/* MENU OVERLAY */}
-      <Modal
-        isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        closeOnBackdropClick={false}
-      >
-        <MenuContent
-          onClose={() => setMenuOpen(false)} // used only by #anchor items
-          onContactClick={handleMenuContactClick}
-          onPressClick={handleMenuPressClick}
-          onCurrentExhibitionClick={handleCurrentExhibitionClick}
-        />
-      </Modal>
-
-      {/* KONTAKT MODAL (route-driven) */}
-      <Modal
-        isOpen={isContactRoute}
-        onClose={handleContactClose}
-        closeOnBackdropClick={false}
-      >
-        {contact && <ContactContent contact={contact} />}
-      </Modal>
     </main>
   );
 }

@@ -1,5 +1,3 @@
-"use client";
-
 import React, { ReactNode, ReactElement, isValidElement, cloneElement, Children } from "react";
 import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";

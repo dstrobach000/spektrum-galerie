@@ -1,5 +1,3 @@
-"use client";
-
 export default function PrivacyContent() {
   return (
     <div className="w-full max-w-3xl mx-auto p-6 sm:p-10">

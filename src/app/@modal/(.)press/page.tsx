@@ -1,5 +1,6 @@
 // src/app/@modal/(.)press/page.tsx
 import { sanityClient } from "@/sanity/client";
+import type { Metadata } from "next";
 import PressModalClient from "@/components/Content/PressModalClient";
 import type { PressDoc, PressLinkUI } from "@/types/Press";
 
@@ -26,3 +27,7 @@ export default async function PressModalPage() {
 
   return <PressModalClient links={links} />;
 }
+
+export const metadata: Metadata = {
+  title: "Ke stažení",
+};
