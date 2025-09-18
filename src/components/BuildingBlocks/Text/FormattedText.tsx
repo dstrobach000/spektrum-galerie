@@ -13,10 +13,29 @@ const FormattedText: React.FC<FormattedTextProps> = ({
 }) => {
   return (
     <div className={`w-full text-base font-light ${className}`}>
-      {/* Centered two-line layout for all screen sizes */}
-      <div className="flex flex-col items-center text-center space-y-1">
+      {/* Desktop: vertical centered layout */}
+      <div className="hidden md:flex flex-col items-center text-center space-y-1">
         <div>{leftContent}</div>
         <div>{rightContent}</div>
+      </div>
+      
+      {/* Mobile: split content into separate lines */}
+      <div className="md:hidden flex flex-col items-center text-center space-y-1">
+        {leftContent.includes(':') ? (
+          <>
+            <div>{leftContent.split(':')[0]}:</div>
+            <div>{leftContent.split(':')[1].trim()}</div>
+          </>
+        ) : (
+          <div>{leftContent}</div>
+        )}
+        {rightContent.includes(',') ? (
+          rightContent.split(',').map((item, index) => (
+            <div key={index}>{item.trim()}</div>
+          ))
+        ) : (
+          <div>{rightContent}</div>
+        )}
       </div>
     </div>
   );
