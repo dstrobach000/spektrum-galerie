@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
 import PressContent from "@/components/Content/PressContent";
+import Footer from "@/components/Layout/Footer";
 import { useUpdateTitle } from "@/components/TitleSetter";
 import type { PressLinkUI } from "@/types/Press";
 
@@ -32,6 +33,7 @@ export default function PressModalClient({ links }: Props) {
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>
       <PressContent links={links} />
+      <Footer noPadding={true} />
     </Modal>
   );
 }

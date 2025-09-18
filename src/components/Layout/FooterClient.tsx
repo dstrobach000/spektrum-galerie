@@ -64,9 +64,9 @@ export default function FooterClient() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+    <div className="flex flex-col md:flex-row gap-6 text-center w-full">
       {/* Kontakty */}
-      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
+      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center flex-1">
         <GlowButton
           onClick={handleContactClick}
           className="px-4 py-2 text-lg self-center"
@@ -78,10 +78,10 @@ export default function FooterClient() {
       </div>
 
       {/* Newsletter (email only) */}
-      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
+      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center flex-1">
         <form
           onSubmit={handleSubmit}
-          className="space-y-3 w-full max-w-sm flex flex-col items-center"
+          className="space-y-3 w-full flex flex-col items-center"
         >
           <input
             type="email"
@@ -116,7 +116,7 @@ export default function FooterClient() {
       </div>
 
       {/* Ke stažení */}
-      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center h-full">
+      <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center flex-1">
         <GlowButton
           onClick={handlePressClick}
           className="px-4 py-2 text-lg self-center"

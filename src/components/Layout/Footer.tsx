@@ -2,14 +2,14 @@ import React, { forwardRef } from "react";
 import Image from "next/image";
 import FooterClient from "./FooterClient";
 
-const Footer = forwardRef<HTMLElement, Record<string, never>>((props, ref) => {
+const Footer = forwardRef<HTMLElement, { noPadding?: boolean }>(({ noPadding = false }, ref) => {
   return (
     <footer
       ref={ref}
-      className="border-t border-black bg-white px-6 sm:px-10 py-10 sm:py-6"
+      className="bg-white py-10 sm:py-6"
       id="footer"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className={`w-full ${noPadding ? '' : 'px-6'}`} style={{ maxWidth: '1500px', margin: '0 auto' }}>
         <FooterClient />
 
         <div className="mt-8 flex flex-col items-center w-full">

@@ -17,7 +17,6 @@ type Exhibition = {
   slug: string;
   startDate?: string;
   endDate?: string;
-  vernissageDate?: string;
   landscapeImages?: SanityImage[];
   portraitImages?: SanityImage[];
   description?: string;

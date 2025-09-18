@@ -15,7 +15,6 @@ type Exhibition = {
   slug: string;
   startDate?: string;
   endDate?: string;
-  vernissageDate?: string;
   landscapeImages?: SanityImage[];
   portraitImages?: SanityImage[];
   description?: string;
@@ -48,13 +47,14 @@ const fetchExhibitions = async (): Promise<Exhibition[]> => {
       title,
       artist,
       "slug": slug.current,
+      isOneDayEvent,
       startDate,
       endDate,
       vernissageDate,
       landscapeImages[]{ asset->{ url } },
       portraitImages[]{ asset->{ url } },
-      landscapeVideos[]{ asset->{ url }, caption },
-      portraitVideos[]{ asset->{ url }, caption },
+             landscapeVideos[]{asset->{url}},
+             portraitVideos[]{asset->{url}},
       description
     }
   `);
@@ -98,13 +98,20 @@ export default async function Home() {
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      <div className="flex-grow">
-        <Header />
-        <UpcomingWrapper upcoming={upcoming} />
-        <Gallery exhibitions={exhibitions} />
+      <div style={{ maxWidth: '1500px', margin: '0 auto', width: '100%' }}>
+        <div className="flex-grow">
+          <Header />
+          <UpcomingWrapper upcoming={upcoming} />
+          <Gallery exhibitions={exhibitions} />
+        </div>
       </div>
-
-      <Footer />
+      
+      {/* Full-width border */}
+      <div className="border-t border-black w-full"></div>
+      
+      <div style={{ maxWidth: '1500px', margin: '0 auto', width: '100%' }}>
+        <Footer />
+      </div>
 
       <HomeClient 
         exhibitions={exhibitions}

@@ -16,9 +16,25 @@ export default defineType({
       validation: (r) => r.required(),
     }),
 
-    defineField({ name: 'startDate', title: 'Začátek', type: 'date', validation: (r) => r.required() }),
-    defineField({ name: 'endDate', title: 'Konec', type: 'date', validation: (r) => r.required() }),
-    defineField({ name: 'vernissageDate', title: 'Vernisáž', type: 'datetime' }),
+    defineField({ 
+      name: 'isOneDayEvent', 
+      title: 'Jednodenní event', 
+      type: 'boolean',
+      initialValue: false,
+      description: 'Zaškrtněte, pokud se jedná o jednodenní akci'
+    }),
+    defineField({ 
+      name: 'startDate', 
+      title: 'Začátek', 
+      type: 'date', 
+      validation: (r) => r.required()
+    }),
+    defineField({ 
+      name: 'endDate', 
+      title: 'Konec', 
+      type: 'date', 
+      hidden: ({ document }) => Boolean(document?.isOneDayEvent)
+    }),
 
     defineField({
       name: 'poster',
@@ -43,29 +59,13 @@ export default defineType({
       name: 'landscapeVideos',
       title: 'Videa (na šířku)',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'asset', title: 'Video URL', type: 'file' },
-            { name: 'caption', title: 'Popisek', type: 'string' },
-          ],
-        },
-      ],
+      of: [{ type: 'file', options: { accept: 'video/*' } }],
     }),
     defineField({
       name: 'portraitVideos',
       title: 'Videa (na výšku)',
       type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            { name: 'asset', title: 'Video URL', type: 'file' },
-            { name: 'caption', title: 'Popisek', type: 'string' },
-          ],
-        },
-      ],
+      of: [{ type: 'file', options: { accept: 'video/*' } }],
     }),
 
     defineField({ name: 'intro', title: 'Intro', type: 'array', of: [{ type: 'block' }] }),
@@ -74,7 +74,7 @@ export default defineType({
 
     defineField({
       name: 'namecard',
-      title: 'Tiráž',
+      title: 'Credits',
       type: 'array',
       of: [
         {
@@ -83,8 +83,25 @@ export default defineType({
             { name: 'role', title: 'Role', type: 'string' },
             { name: 'name', title: 'Jméno', type: 'string' },
           ],
+          preview: {
+            select: {
+              role: 'role',
+              name: 'name'
+            },
+            prepare(selection) {
+              const { role, name } = selection;
+              return {
+                title: `${role || 'Role'} • ${name || 'Jméno'}`,
+                subtitle: 'Credit entry'
+              };
+            }
+          }
         },
       ],
+      options: {
+        layout: 'list',
+        sortable: true,
+      }
     }),
   ],
 
@@ -119,16 +136,18 @@ export default defineType({
       artist: 'artist',
       startDate: 'startDate',
       endDate: 'endDate',
+      isOneDayEvent: 'isOneDayEvent',
       poster: 'poster.asset',
       firstLandscape: 'landscapeImages.0.asset',
       firstPortrait: 'portraitImages.0.asset',
     },
     prepare(sel) {
-      const { title, artist, startDate, endDate, poster, firstLandscape, firstPortrait } = sel as {
+      const { title, artist, startDate, endDate, isOneDayEvent, poster, firstLandscape, firstPortrait } = sel as {
         title?: string;
         artist?: string;
         startDate?: string;
         endDate?: string;
+        isOneDayEvent?: boolean;
         poster?: any;
         firstLandscape?: any;
         firstPortrait?: any;
@@ -143,8 +162,12 @@ export default defineType({
             })
           : '';
 
-      const dates =
-        startDate && endDate ? `${fmt(startDate)} – ${fmt(endDate)}` : startDate ? fmt(startDate) : '';
+      let dates = '';
+      if (isOneDayEvent) {
+        dates = startDate ? fmt(startDate) : '';
+      } else {
+        dates = startDate && endDate ? `${fmt(startDate)} – ${fmt(endDate)}` : startDate ? fmt(startDate) : '';
+      }
 
       const subtitle = [artist, dates].filter(Boolean).join(' • ');
       const media = poster || firstLandscape || firstPortrait || undefined;

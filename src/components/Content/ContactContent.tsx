@@ -6,12 +6,12 @@ import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import type { Contact } from "@/types/Contact";
 
 const ContactContent = ({ contact }: { contact: Contact }) => (
-  <div className="max-w-4xl mx-auto">
+  <div className="w-full">
     <div className="border border-black rounded-xl p-6 relative">
       <div className="flex flex-col space-y-6">
         <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
           <RotatingLogo3D
-            src="/3D/logo.glb"
+            src="/3D/spektrum_galerie_bevel.obj"
             className="block w-full h-auto"
           />
         </div>

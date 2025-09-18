@@ -3,37 +3,17 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ExhibitionHeader from "@/components/Layout/Exhibition/ExhibitionHeader";
+import { formatExhibitionDate } from "@/utils/dateFormat";
 
 type ExhibitionInfo = {
   slug: string;
   artist: string;
   title: string;
+  isOneDayEvent?: boolean;
   startDate?: string;
   endDate?: string;
 };
 
-function formatShortDate(startDate?: string, endDate?: string) {
-  if (startDate && endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const startDay = start.getDate();
-    const startMonth = start.getMonth() + 1;
-    const endDay = end.getDate();
-    const endMonth = end.getMonth() + 1;
-    const endYear = String(end.getFullYear()).slice(-2);
-
-    if (startMonth === endMonth) {
-      return `${startDay}. – ${endDay}. ${endMonth}. ${endYear}`;
-    } else {
-      return `${startDay}. ${startMonth}. – ${endDay}. ${endMonth}. ${endYear}`;
-    }
-  } else if (startDate) {
-    const start = new Date(startDate);
-    return `${start.getDate()}. ${start.getMonth() + 1}. ${String(start.getFullYear()).slice(-2)}`;
-  } else {
-    return "";
-  }
-}
 
 export default function ExhibitionHeaderClient({
   currentSlug,
@@ -41,12 +21,14 @@ export default function ExhibitionHeaderClient({
   exhibitionName,
   startDate,
   endDate,
+  isOneDayEvent,
 }: {
   currentSlug: string;
   artist: string;
   exhibitionName: string;
   startDate?: string;
   endDate?: string;
+  isOneDayEvent?: boolean;
 }) {
   const [exhibitions, setExhibitions] = useState<ExhibitionInfo[]>([]);
   const router = useRouter();
@@ -63,7 +45,7 @@ export default function ExhibitionHeaderClient({
       <ExhibitionHeader
         artist={artist}
         exhibitionName={exhibitionName}
-        date={formatShortDate(startDate, endDate)}
+        date={formatExhibitionDate(startDate, endDate, isOneDayEvent)}
       />
     );
   }
@@ -83,7 +65,7 @@ export default function ExhibitionHeaderClient({
     <ExhibitionHeader
       artist={artist}
       exhibitionName={exhibitionName}
-      date={formatShortDate(startDate, endDate)}
+        date={formatExhibitionDate(startDate, endDate, isOneDayEvent)}
       onPrev={goPrev}
       onNext={goNext}
     />

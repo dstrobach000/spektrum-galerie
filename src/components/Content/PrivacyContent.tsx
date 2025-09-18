@@ -1,24 +1,32 @@
+import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
+
 export default function PrivacyContent() {
   return (
-    <div className="w-full max-w-3xl mx-auto p-6 sm:p-10">
-      <h1 className="text-4xl font-light mb-6">Zásady ochrany osobních údajů</h1>
+    <div className="w-full">
+      <div className="border border-black rounded-xl p-6 relative">
+        {/* Logo */}
+        <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center mb-6 aspect-[3/1]">
+          <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="w-full h-full" />
+        </div>
 
-      <div className="font-light text-black space-y-5 leading-relaxed">
+        <h1 className="text-4xl font-light mb-6">Zásady ochrany osobních údajů</h1>
+
+        <div className="font-light text-black space-y-5 leading-relaxed">
         <p>
           Spektrum galerie, se sídlem v Brně, je správcem osobních údajů shromážděných
-          prostřednictvím tohoto webu (<em>dále jen „správce“</em>).
+          prostřednictvím tohoto webu (dále jen &ldquo;správce&rdquo;).
         </p>
 
         <h2 className="text-2xl font-light mt-6">Jaké údaje zpracováváme</h2>
-        <ul className="list-disc pl-5 space-y-1">
-          <li>
-            <strong>E-mailová adresa</strong> – pouze v případě, že se přihlásíte k odběru newsletteru.
-          </li>
-          <li>
-            <strong>Soubory cookies</strong> – používáme pouze nezbytné cookies nutné pro
+        <div className="border border-black rounded-xl p-4 space-y-3">
+          <div>
+            <span className="font-light">E-mailová adresa</span> – pouze v případě, že se přihlásíte k odběru newsletteru.
+          </div>
+          <div>
+            <span className="font-light">Soubory cookies</span> – používáme pouze nezbytné cookies nutné pro
             správné fungování webu (bez sledování návštěvnosti či marketingu).
-          </li>
-        </ul>
+          </div>
+        </div>
 
         <h2 className="text-2xl font-light mt-6">Účel zpracování</h2>
         <p>
@@ -51,7 +59,9 @@ export default function PrivacyContent() {
             hello@spektrumgalerie.cz
           </a>.
         </p>
+        </div>
       </div>
+      <div className="h-6"></div>
     </div>
   );
 }

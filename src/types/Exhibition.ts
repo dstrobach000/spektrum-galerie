@@ -3,8 +3,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 export type ImageAsset = { asset: { url: string } };
 
 export type VideoAsset = {
-  asset: { url: string };
-  caption?: string;
+  asset: string; // URL string directly
 };
 
 export type Exhibition = {
@@ -12,6 +11,7 @@ export type Exhibition = {
   slug: string;
   title: string;
   artist: string;
+  isOneDayEvent?: boolean;
   startDate?: string;
   endDate?: string;
   intro?: PortableTextBlock[];

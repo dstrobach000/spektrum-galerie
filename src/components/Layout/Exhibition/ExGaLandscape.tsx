@@ -68,6 +68,11 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
     };
   }, [fullscreen]);
 
+  // Don't render anything if there are no images
+  if (images.length === 0) {
+    return null;
+  }
+
   return (
     <>
       {/* Inline viewer */}

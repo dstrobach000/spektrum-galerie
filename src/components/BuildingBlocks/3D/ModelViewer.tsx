@@ -23,10 +23,12 @@ function useChrome() {
       new THREE.MeshPhysicalMaterial({
         color: 0xffffff,
         metalness: 1,
-        roughness: 0.08,
-        envMapIntensity: 2.0,
+        roughness: 0.02,
+        envMapIntensity: 3.0,
         clearcoat: 1,
-        clearcoatRoughness: 0.05,
+        clearcoatRoughness: 0.02,
+        reflectivity: 1,
+        side: THREE.DoubleSide,
       }),
     []
   );
@@ -39,14 +41,53 @@ function GalleryModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
 
   // Prepare materials + orientation (model is Z-up)
   useEffect(() => {
+    console.log('Applying chrome material to GLTF scene...');
+    
     gltf.scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        mesh.material = chrome;
-        if (!mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals();
+        console.log('Found mesh:', mesh.name, 'Current material:', mesh.material);
+        
+        // Ensure geometry has proper normals for smooth shading
+        if (!mesh.geometry.attributes.normal) {
+          mesh.geometry.computeVertexNormals();
+        }
+        
+        // Apply smooth shading
+        mesh.geometry.computeVertexNormals();
+        
+        // Clear any existing materials completely
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(mat => {
+            if (mat) mat.dispose();
+          });
+        } else if (mesh.material) {
+          mesh.material.dispose();
+        }
+        
+        // Create a simple paper-like material
+        const paperMaterial = new THREE.MeshLambertMaterial({
+          color: 0xffffff, // Pure white
+          side: THREE.DoubleSide,
+        });
+        
+        mesh.material = paperMaterial;
+        console.log('Applied paper material:', paperMaterial);
+        
+        // Ensure the mesh is properly positioned and scaled
+        mesh.castShadow = false;
+        mesh.receiveShadow = false;
+        
+        // Force update the material
+        if (Array.isArray(mesh.material)) {
+          mesh.material.forEach(mat => mat.needsUpdate = true);
+        } else {
+          mesh.material.needsUpdate = true;
+        }
       }
     });
     gltf.scene.rotation.x = -Math.PI / 2; // convert Z-up → Y-up
+    console.log('Material application complete');
   }, [gltf, chrome]);
 
   // Compute the box once the model is ready
@@ -137,17 +178,26 @@ export default function ModelViewer() {
             const pmrem = new THREE.PMREMGenerator(gl);
             const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
             scene.environment = envTex;
+            console.log('Environment map loaded successfully');
           } catch (error) {
             console.warn('Failed to load RoomEnvironment:', error);
-            // Fallback to a simple environment
-            scene.environment = null;
+            // Create a simple environment map as fallback
+            const pmrem = new THREE.PMREMGenerator(gl);
+            const envTex = pmrem.fromEquirectangular(new THREE.CubeTextureLoader().load([
+              '/images/px.jpg', '/images/nx.jpg',
+              '/images/py.jpg', '/images/ny.jpg', 
+              '/images/pz.jpg', '/images/nz.jpg'
+            ])).texture;
+            scene.environment = envTex;
+            console.log('Using fallback environment map');
           }
         };
         
         loadEnvironment();
       }}
     >
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={1.6} />
+      <directionalLight position={[5, 5, 5]} intensity={0.8} />
       <Suspense fallback={null}>
         {/* Model reports its bounding box once ready */}
         <GalleryModel onBox={setBox} />

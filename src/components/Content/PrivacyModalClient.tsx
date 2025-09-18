@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
 import PrivacyContent from "@/components/Content/PrivacyContent";
+import Footer from "@/components/Layout/Footer";
 import { useUpdateTitle } from "@/components/TitleSetter";
 
 export default function PrivacyModalClient() {
@@ -27,6 +28,7 @@ export default function PrivacyModalClient() {
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>
       <PrivacyContent />
+      <Footer noPadding={true} />
     </Modal>
   );
 }

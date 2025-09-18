@@ -26,6 +26,11 @@ export default defineConfig({
 
   plugins: [
     deskTool({ structure }),
-    visionTool(), // optional; remove if you don’t want Vision
+    visionTool(), // optional; remove if you don't want Vision
   ],
+
+  // Configure file uploads to accept video files
+  file: {
+    accept: 'video/*,.mov,.mp4,.webm,.ogg,.avi,.mkv',
+  },
 });

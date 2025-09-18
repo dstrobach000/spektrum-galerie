@@ -1,6 +1,7 @@
 import React from "react";
 import SlideShowCard from "@/components/BuildingBlocks/Slider/SlideShowCard";
 import Link from "next/link";
+import { formatExhibitionDate } from "@/utils/dateFormat";
 
 type Image = { asset: { url: string } };
 
@@ -9,6 +10,7 @@ type Exhibition = {
   title: string;
   artist: string;
   slug: string;
+  isOneDayEvent?: boolean;
   startDate?: string;
   endDate?: string;
   landscapeImages?: Image[];
@@ -25,8 +27,8 @@ const Gallery = ({
   onOverlayOpen?: () => void;
 }) => {
   return (
-    <section className="py-6 px-6 sm:px-10 bg-white" id="gallery">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 overflow-visible">
+    <section className="py-6 px-6 bg-white" id="gallery">
+      <div className="grid gap-8 overflow-visible" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
         {exhibitions.map((exhibition, i) => (
           <Link
             href={`/exhibition/${exhibition.slug}`}
@@ -41,13 +43,7 @@ const Gallery = ({
               ].slice(0, 10)}
               buttonText={exhibition.title}
               author={exhibition.artist}
-              date={
-                exhibition.startDate && exhibition.endDate
-                  ? `${new Date(exhibition.startDate).toLocaleDateString("cs-CZ")} – ${new Date(exhibition.endDate).toLocaleDateString("cs-CZ")}`
-                  : exhibition.startDate
-                  ? new Date(exhibition.startDate).toLocaleDateString("cs-CZ")
-                  : ""
-              }
+              date={formatExhibitionDate(exhibition.startDate, exhibition.endDate, exhibition.isOneDayEvent)}
               interval={2}
               onPillClick={onOverlayOpen}
               buttonClassName="inline-block px-6 py-2 text-sm font-light text-black"

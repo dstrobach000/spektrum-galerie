@@ -1,9 +1,9 @@
 "use client";
 
 import React, { Suspense, useMemo, useRef, useEffect, useCallback } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import clsx from "clsx";
 
@@ -19,12 +19,14 @@ function useChrome() {
   return useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        metalness: 1,
-        roughness: 0.08,
-        envMapIntensity: 2.0,
-        clearcoat: 1,
-        clearcoatRoughness: 0.05,
+        color: 0xb0b0b0, // Much darker gray for strong contrast
+        metalness: 0.02, // Extremely low metallic for matte look
+        roughness: 0.98, // Almost perfectly rough for matte finish
+        envMapIntensity: 0.02, // Minimal environment reflection
+        clearcoat: 0.0, // No clearcoat
+        clearcoatRoughness: 1.0, // Maximum rough clearcoat
+        reflectivity: 0.02, // Extremely low reflectivity
+        side: THREE.DoubleSide,
       }),
     []
   );
@@ -118,20 +120,43 @@ function useFitOnce(
 }
 
 function LogoModel({ url }: { url: string }) {
-  const { scene } = useGLTF(url);
+  const obj = useLoader(OBJLoader, url);
   const chrome = useChrome();
 
   const root = useMemo(() => {
-    const s = scene.clone(true);
+    const s = obj.clone(true);
     s.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         const m = o as THREE.Mesh;
+        
+        // Ensure geometry has proper normals for smooth shading
+        if (!m.geometry.attributes.normal) {
+          m.geometry.computeVertexNormals();
+        }
+        
+        // Apply smooth shading
+        m.geometry.computeVertexNormals();
+        
+        // Apply the chrome material
         m.material = chrome.clone ? chrome.clone() : chrome;
-        if (!m.geometry.attributes.normal) m.geometry.computeVertexNormals();
+        
+        // Ensure the mesh is properly positioned and scaled
+        m.castShadow = true;
+        m.receiveShadow = true;
       }
     });
+    
+    // Center the model
+    const box = new THREE.Box3().setFromObject(s);
+    const center = box.getCenter(new THREE.Vector3());
+    s.position.sub(center);
+    
+    // Rotate the model to face frontally (OBJ files often need rotation)
+    s.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X axis to make it stand upright
+    s.rotation.z = 0; // Ensure no Z rotation
+    
     return s;
-  }, [scene, chrome]);
+  }, [obj, chrome]);
 
   const tiltRef = useRef<THREE.Group>(null);
   const holderRef = useRef<THREE.Group>(null);
@@ -167,7 +192,7 @@ const RotatingLogo3D: React.FC<Props> = ({ src, className = "" }) => {
     <div className={clsx("w-full h-full", className)} style={{ perspective: 1000 }}>
       <Canvas
         dpr={[1, 2]}
-        camera={{ position: [0, 0, 6], fov: 35 }}
+        camera={{ position: [0, 0, 8], fov: 35 }}
         onCreated={({ gl, scene }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;
@@ -177,7 +202,9 @@ const RotatingLogo3D: React.FC<Props> = ({ src, className = "" }) => {
           scene.environment = envTex;
         }}
       >
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <directionalLight position={[-10, -10, -5]} intensity={0.5} />
         <Suspense fallback={null}>
           <LogoModel url={src} />
         </Suspense>

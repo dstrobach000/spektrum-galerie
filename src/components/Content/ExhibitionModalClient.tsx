@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
 import ExhibitionContent from "@/components/Content/ExhibitionContent";
+import Footer from "@/components/Layout/Footer";
 import { useUpdateTitle } from "@/components/TitleSetter";
 import type { Exhibition } from "@/types/Exhibition";
 
@@ -50,6 +51,7 @@ export default function ExhibitionModalClient({
       ) : (
         <div className="p-6">Exhibition not found.</div>
       )}
+      <Footer noPadding={true} />
     </Modal>
   );
 }
