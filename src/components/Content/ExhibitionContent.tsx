@@ -168,9 +168,9 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
               {exhibition.landscapeVideos?.length && (
                 <div className="md:w-1/2">
                   {exhibition.landscapeVideos.map((video, idx) =>
-                    video?.asset ? (
+                    video?.asset?.url ? (
                       <div key={idx} className="w-full">
-                        <video controls style={{ width: "100%" }} src={video.asset} />
+                        <video controls style={{ width: "100%" }} src={video.asset.url} />
                       </div>
                     ) : null
                   )}
@@ -218,9 +218,9 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                     content: (
                       <div className="w-full">
                         {exhibition.portraitVideos.map((video, idx) =>
-                          video?.asset ? (
+                          video?.asset?.url ? (
                             <div key={idx} className="w-full">
-                              <video controls style={{ width: "100%" }} src={video.asset} />
+                              <video controls style={{ width: "100%" }} src={video.asset.url} />
                             </div>
                           ) : null
                         )}
@@ -317,9 +317,9 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                     content: (
                       <div className="w-full">
                         {exhibition.portraitVideos.map((video, idx) =>
-                          video?.asset ? (
+                          video?.asset?.url ? (
                             <div key={idx} className="w-full">
-                              <video controls style={{ width: "100%" }} src={video.asset} />
+                              <video controls style={{ width: "100%" }} src={video.asset.url} />
                             </div>
                           ) : null
                         )}

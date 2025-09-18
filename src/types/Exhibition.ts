@@ -3,7 +3,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 export type ImageAsset = { asset: { url: string } };
 
 export type VideoAsset = {
-  asset: string; // URL string directly
+  asset: { url: string }; // URL object like images
 };
 
 export type Exhibition = {
