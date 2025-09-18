@@ -10,7 +10,7 @@ const MenuButton = ({
   onClick: () => void;
   className?: string;
 }) => (
-  <div className="fixed z-50" style={{ left: 'max(1rem, calc(50% - 750px + 1rem))', top: '7.5rem' }}>
+  <div className="fixed z-50" style={{ left: 'max(1rem, calc(50% - 448px - 4rem))', top: '4.5rem' }}>
     <GlowButton
       onClick={onClick}
       glowColor="bg-[#a3f730]"

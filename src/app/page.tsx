@@ -98,7 +98,7 @@ export default async function Home() {
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      <div style={{ maxWidth: '1500px', margin: '0 auto', width: '100%' }}>
+      <div className="max-w-4xl mx-auto w-full">
         <div className="flex-grow">
           <Header />
           <UpcomingWrapper upcoming={upcoming} />
@@ -109,7 +109,7 @@ export default async function Home() {
       {/* Full-width border */}
       <div className="border-t border-black w-full"></div>
       
-      <div style={{ maxWidth: '1500px', margin: '0 auto', width: '100%' }}>
+      <div className="max-w-4xl mx-auto w-full">
         <Footer />
       </div>
 

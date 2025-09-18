@@ -6,8 +6,8 @@ import type { PressLinkUI } from "@/types/Press";
 type Props = { links?: PressLinkUI[] };
 
 const PressContent = ({ links = [] }: Props) => (
-  <div className="w-full">
-    <div className="border border-black rounded-xl p-6 relative">
+  <div className="w-full relative">
+    <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
       {/* Logo */}
       <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center mb-6 aspect-[3/1]">
         <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="w-full h-full" />
@@ -23,7 +23,7 @@ const PressContent = ({ links = [] }: Props) => (
           >
             <GlowButton
               link={item.href}
-              className="px-8 py-4 text-black text-5xl text-center whitespace-normal break-words"
+              className="px-8 py-4 text-black text-2xl md:text-5xl text-center whitespace-normal break-words"
               glowColor="bg-[#a3f730]"
               floating={false}
             >

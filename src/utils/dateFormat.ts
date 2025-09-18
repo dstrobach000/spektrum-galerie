@@ -62,5 +62,5 @@ export function formatUpcomingVernissage(vernissageDate?: string): string {
   const date = new Date(vernissageDate);
   const pad = (n: number) => n < 10 ? "0" + n : n;
   
-  return `Vernisáž: ${date.getDate()}. ${date.getMonth() + 1}. ${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+  return `vernisáž: ${date.getDate()}. ${date.getMonth() + 1}. ${date.getFullYear()} @ ${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }

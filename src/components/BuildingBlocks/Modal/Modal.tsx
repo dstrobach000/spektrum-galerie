@@ -69,7 +69,7 @@ const Modal = ({
             ? "bg-white"
             : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
         }`}
-        style={fullscreen ? {} : { maxWidth: '1500px', margin: '0 auto', width: '100%' }}
+        style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="font-light text-base">{children}</div>

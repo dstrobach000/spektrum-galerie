@@ -126,22 +126,24 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
 
   return (
     <div className="w-full relative">
-      <div className="border border-black rounded-xl p-6 relative">
-        <div className="flex flex-col gap-12 md:gap-12">
+      <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
+        <div className="flex flex-col gap-6 md:gap-6">
           {/* Logo */}
           <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
             <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="block w-full h-auto" />
           </div>
 
           {/* Header */}
-          <ExhibitionHeaderClient
-            currentSlug={exhibition.slug}
-            artist={exhibition.artist}
-            exhibitionName={exhibition.title}
-            startDate={exhibition.startDate}
-            endDate={exhibition.endDate}
-            isOneDayEvent={exhibition.isOneDayEvent}
-          />
+          <div className="mb-6 mt-6">
+            <ExhibitionHeaderClient
+              currentSlug={exhibition.slug}
+              artist={exhibition.artist}
+              exhibitionName={exhibition.title}
+              startDate={exhibition.startDate}
+              endDate={exhibition.endDate}
+              isOneDayEvent={exhibition.isOneDayEvent}
+            />
+          </div>
 
           {/* Intro + Main text */}
           {(exhibition.intro || exhibition.mainText) && (
@@ -152,7 +154,7 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                 </ExhibitionText>
               )}
               {exhibition.mainText && (
-                <ExhibitionText spacing="md" tightBottom className="mt-4 text-lg">
+                <ExhibitionText spacing="sm" tightBottom className="mt-0 text-lg">
                   <PortableText value={exhibition.mainText} components={ptComponents} />
                 </ExhibitionText>
               )}

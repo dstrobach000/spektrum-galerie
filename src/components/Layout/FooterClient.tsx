@@ -69,7 +69,7 @@ export default function FooterClient() {
       <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center flex-1">
         <GlowButton
           onClick={handleContactClick}
-          className="px-4 py-2 text-lg self-center"
+          className="px-4 py-2 text-base md:text-lg self-center"
           glowColor="bg-[#a3f730]"
           floating={false}
         >
@@ -93,7 +93,7 @@ export default function FooterClient() {
           />
 
           <GlowButton
-            className="px-4 py-2 text-lg self-center"
+            className="px-4 py-2 text-base md:text-lg self-center"
             type="submit"
             glowColor="bg-[#a3f730]"
             floating={false}
@@ -119,7 +119,7 @@ export default function FooterClient() {
       <div className="border border-black rounded-xl p-4 flex flex-col items-center justify-center flex-1">
         <GlowButton
           onClick={handlePressClick}
-          className="px-4 py-2 text-lg self-center"
+          className="px-4 py-2 text-base md:text-lg self-center"
           glowColor="bg-[#a3f730]"
           floating={false}
         >

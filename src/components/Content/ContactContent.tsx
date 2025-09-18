@@ -6,8 +6,8 @@ import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import type { Contact } from "@/types/Contact";
 
 const ContactContent = ({ contact }: { contact: Contact }) => (
-  <div className="w-full">
-    <div className="border border-black rounded-xl p-6 relative">
+  <div className="w-full relative">
+    <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
       <div className="flex flex-col space-y-6">
         <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
           <RotatingLogo3D
@@ -19,7 +19,7 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
           <div className="flex flex-col md:flex-row gap-6">
             <div className="border border-black rounded-xl p-6 flex-1">
               {contact.address.map((line, idx) => (
-                <p className="font-light" key={idx}>{line}</p>
+                <p className="font-light text-base md:text-lg" key={idx}>{line}</p>
               ))}
               {contact.mapLink && (
                 <div className="flex justify-center">
@@ -36,12 +36,12 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
             </div>
             <div className="border border-black rounded-xl p-6 flex-1">
               {contact.invoiceDetails.map((line, idx) => (
-                <p className="font-light" key={idx}>{line}</p>
+                <p className="font-light text-base md:text-lg" key={idx}>{line}</p>
               ))}
             </div>
           </div>
           {contact.openingHours && (
-            <p className="text-center text-lg font-light">
+            <p className="text-center text-base md:text-lg font-light">
               {contact.openingHours}
             </p>
           )}
@@ -70,8 +70,8 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
           <div className="flex flex-col md:flex-row gap-6">
             {contact.roles?.map((person, idx) => (
               <div className="border border-black rounded-xl p-6 flex-1" key={idx}>
-                <p className="font-light">{person.name}</p>
-                <p className="font-light">{person.role}</p>
+                <p className="font-light text-base md:text-lg">{person.name}</p>
+                <p className="font-light text-base md:text-lg">{person.role}</p>
                 <div className="flex justify-center">
                   <GlowButton
                     className="w-auto py-2 text-sm font-light text-black"

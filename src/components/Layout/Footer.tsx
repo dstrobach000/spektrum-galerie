@@ -9,11 +9,11 @@ const Footer = forwardRef<HTMLElement, { noPadding?: boolean }>(({ noPadding = f
       className="bg-white py-10 sm:py-6"
       id="footer"
     >
-      <div className={`w-full ${noPadding ? '' : 'px-6'}`} style={{ maxWidth: '1500px', margin: '0 auto' }}>
+      <div className={`w-full max-w-4xl mx-auto ${noPadding ? '' : 'px-6'}`}>
         <FooterClient />
 
         <div className="mt-8 flex flex-col items-center w-full">
-          <p className="text-sm font-light text-black text-center leading-snug mb-3">
+          <p className="text-xs md:text-sm font-light text-black text-center leading-snug mb-3">
             Děkujeme statutárnímu městu Brnu a Ministerstvu kultury České republiky za finanční
             podporu tohoto projektu.
           </p>

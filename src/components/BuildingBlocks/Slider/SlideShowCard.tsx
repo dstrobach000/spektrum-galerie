@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
-import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton"; // ← Add import
+import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
 type SlideShowCardProps = {
   images: string[];

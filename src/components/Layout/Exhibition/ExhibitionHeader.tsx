@@ -3,6 +3,7 @@
 import React from "react";
 import GlowBox from "@/components/BuildingBlocks/Labels/GlowBox";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import FormattedText from "@/components/BuildingBlocks/Text/FormattedText";
 
 type Props = {
   artist: string;
@@ -24,7 +25,7 @@ const ExhibitionHeader: React.FC<Props> = ({
   return (
     <div className="px-0">
       <GlowBox className="w-full py-4 text-xl font-light" glowColor={glowColor}>
-        <div className="grid grid-cols-[auto,1fr,auto] items-center w-full gap-3">
+        <div className="flex items-center w-full gap-3">
           <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
             <GlowButton
               type="button"
@@ -38,15 +39,11 @@ const ExhibitionHeader: React.FC<Props> = ({
             </GlowButton>
           </div>
 
-          <div className="min-w-0">
-            {/* Keep original layout; only adjust mobile sizes to match Upcoming */}
-            <div className="overlayheader-content w-full text-sm md:text-xl font-light gap-1">
-              <span className="overlayheader-item text-lg md:text-xl">{artist}</span>
-              <span className="overlayheader-item pulse-text text-lg md:text-xl">
-                {exhibitionName}
-              </span>
-              <span className="overlayheader-item">{date}</span>
-            </div>
+          <div className="flex-1 px-3">
+            <FormattedText
+              leftContent={`${artist}: ${exhibitionName}`}
+              rightContent={date}
+            />
           </div>
 
           <div style={{ willChange: "transform", transform: "translateZ(0)" }}>
@@ -64,35 +61,6 @@ const ExhibitionHeader: React.FC<Props> = ({
         </div>
       </GlowBox>
 
-      <style jsx>{`
-        .pulse-text {
-          display: inline-block;
-          animation: pulseScale 2s ease-in-out infinite;
-        }
-        @keyframes pulseScale {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.1); }
-        }
-
-        .overlayheader-content {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-        @media (min-width: 1050px) {
-          .overlayheader-content {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-          }
-          .overlayheader-item { width: auto; }
-          .overlayheader-item:nth-child(2) { text-align: center; }
-          .overlayheader-item:nth-child(3) { text-align: right; }
-        }
-        .overlayheader-item { width: 100%; }
-      `}</style>
     </div>
   );
 };
