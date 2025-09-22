@@ -51,10 +51,22 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
+      className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain modal-backdrop-ios26 ${
         fullscreen ? "p-0 pb-8" : noPadding ? "p-0 pb-8" : "p-0 pb-8"
       }`}
-      style={{ WebkitOverflowScrolling: "touch", touchAction: "auto" }}
+      style={{ 
+        WebkitOverflowScrolling: "touch", 
+        touchAction: "auto",
+        // iOS 26 liquid glass interface fixes
+        backdropFilter: "blur(0px)",
+        WebkitBackdropFilter: "blur(0px)",
+        isolation: "isolate",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+        willChange: "transform",
+        // Ensure solid background on iOS 26
+        backgroundColor: "rgb(255, 255, 255)"
+      }}
       onClick={closeOnBackdropClick ? onClose : undefined}
     >
       {/* Prevent clicks on contents from closing via backdrop */}
