@@ -26,7 +26,7 @@ const Header = () => {
         >
           {/* 1) Logo */}
           <div className={`border border-black rounded-full overflow-hidden w-full min-h-[150px] md:min-h-0 flex items-center justify-center ${aspect} order-1 md:order-1`}>
-            <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="w-full h-full" />
+            <RotatingLogo3D src="/3D/spektrum_galerie.glb" className="w-full h-full" />
           </div>
 
           {/* 2) Czech text */}

@@ -6,7 +6,7 @@ export default function PrivacyContent() {
       <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
         {/* Logo */}
         <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center mb-6 aspect-[3/1]">
-          <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="w-full h-full" />
+          <RotatingLogo3D src="/3D/spektrum_galerie.glb" className="w-full h-full" />
         </div>
 
         <h1 className="text-2xl md:text-4xl font-light mb-6">Zásady ochrany osobních údajů</h1>

@@ -137,7 +137,7 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
         <div className="flex flex-col gap-6 md:gap-6">
           {/* Logo */}
           <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
-            <RotatingLogo3D src="/3D/spektrum_galerie_bevel.obj" className="block w-full h-auto" />
+            <RotatingLogo3D src="/3D/spektrum_galerie.glb" className="block w-full h-auto" />
           </div>
 
           {/* Header */}

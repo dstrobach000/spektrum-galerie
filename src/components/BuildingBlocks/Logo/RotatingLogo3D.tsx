@@ -3,7 +3,7 @@
 import React, { Suspense, useMemo, useRef, useEffect, useCallback, useState } from "react";
 import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import clsx from "clsx";
 
@@ -120,11 +120,11 @@ function useFitOnce(
 }
 
 function LogoModel({ url }: { url: string }) {
-  const obj = useLoader(OBJLoader, url);
+  const gltf = useLoader(GLTFLoader, url);
   const chrome = useChrome();
 
   const root = useMemo(() => {
-    const s = obj.clone(true);
+    const s = gltf.scene.clone(true);
     s.traverse((o) => {
       if ((o as THREE.Mesh).isMesh) {
         const m = o as THREE.Mesh;
@@ -151,12 +151,12 @@ function LogoModel({ url }: { url: string }) {
     const center = box.getCenter(new THREE.Vector3());
     s.position.sub(center);
     
-    // Rotate the model to face frontally (OBJ files often need rotation)
+    // Rotate the logo to face frontally
     s.rotation.x = -Math.PI / 2; // Rotate 90 degrees around X axis to make it stand upright
     s.rotation.z = 0; // Ensure no Z rotation
     
     return s;
-  }, [obj, chrome]);
+  }, [gltf, chrome]);
 
   const tiltRef = useRef<THREE.Group>(null);
   const holderRef = useRef<THREE.Group>(null);

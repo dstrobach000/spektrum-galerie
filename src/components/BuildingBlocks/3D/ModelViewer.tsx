@@ -35,7 +35,7 @@ function useChrome() {
 }
 
 function GalleryModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
-  const gltf = useLoader(GLTFLoader, "/3D/spektrum_galerie.glb");
+  const gltf = useLoader(GLTFLoader, "/3D/blueprint.glb");
   const chrome = useChrome();
   const group = useRef<THREE.Group>(null);
 
@@ -86,7 +86,8 @@ function GalleryModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
         }
       }
     });
-    gltf.scene.rotation.x = -Math.PI / 2; // convert Z-up → Y-up
+    gltf.scene.rotation.x = 0; // GLB files are usually already oriented correctly
+    gltf.scene.rotation.z = 0; // Ensure it sits on its base
     console.log('Material application complete');
   }, [gltf, chrome]);
 

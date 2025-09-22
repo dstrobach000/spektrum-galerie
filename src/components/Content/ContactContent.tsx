@@ -11,7 +11,7 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
       <div className="flex flex-col space-y-6">
         <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
           <RotatingLogo3D
-            src="/3D/spektrum_galerie_bevel.obj"
+            src="/3D/spektrum_galerie.glb"
             className="block w-full h-auto"
           />
         </div>
