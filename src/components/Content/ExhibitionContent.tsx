@@ -1,6 +1,6 @@
 import React, { ReactNode, ReactElement, isValidElement, cloneElement, Children, useState, useEffect } from "react";
 import Image from "next/image";
-import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
+import dynamic from "next/dynamic";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
@@ -9,6 +9,12 @@ import ExGaPortrait from "@/components/Layout/Exhibition/ExGaPortrait";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { Exhibition } from "@/types/Exhibition";
+
+// Dynamically import the 3D logo to reduce initial bundle size
+const RotatingLogo3D = dynamic(() => import("@/components/BuildingBlocks/Logo/RotatingLogo3D"), {
+  loading: () => <div className="w-full h-full bg-gray-100 animate-pulse" />,
+  ssr: false
+});
 
 /* -------------------- Czech orphan fix helpers (for PortableText) -------------------- */
 

@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
@@ -14,6 +18,18 @@ const nextConfig: NextConfig = {
         pathname: '/images/yfd7xjeg/production/**',
       },
     ],
+  },
+  // Optimize bundle size
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
+    }
+    return config;
   },
   async headers() {
     return [
@@ -30,4 +46,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

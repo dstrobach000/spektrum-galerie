@@ -27,6 +27,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   isCurrent = false,
 }) => {
   const [index, setIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
 
   useEffect(() => {
     if (images.length === 0) return;
@@ -36,23 +37,34 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
     return () => clearInterval(timer);
   }, [images.length, interval]);
 
+  // Preload next image when current changes
+  useEffect(() => {
+    const nextIndex = (index + 1) % images.length;
+    if (!loadedImages.has(nextIndex)) {
+      setLoadedImages(prev => new Set([...prev, nextIndex]));
+    }
+  }, [index, images.length, loadedImages]);
+
   return (
     <div className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
       <div className="relative w-full h-full overflow-visible shadow-md">
-        {/* Preload all images to prevent flickering - instant switching */}
-        {images.map((imageSrc, imgIndex) => (
-          <Image
-            key={imageSrc}
-            src={imageSrc}
-            alt={`${author} ${imgIndex + 1}`}
-            fill
-            className={`object-cover ${
-              imgIndex === index ? 'block' : 'hidden'
-            }`}
-            priority={imgIndex === 0} // Only prioritize the first image
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-        ))}
+        {/* Only render loaded images to prevent flickering */}
+        {images.map((imageSrc, imgIndex) => {
+          if (!loadedImages.has(imgIndex)) return null;
+          return (
+            <Image
+              key={imageSrc}
+              src={imageSrc}
+              alt={`${author} ${imgIndex + 1}`}
+              fill
+              className={`object-cover ${
+                imgIndex === index ? 'block' : 'hidden'
+              }`}
+              priority={imgIndex === 0} // Only prioritize the first image
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          );
+        })}
         <div className="absolute inset-0 flex items-center justify-center overflow-visible">
           <GlowButton
             onClick={onPillClick}

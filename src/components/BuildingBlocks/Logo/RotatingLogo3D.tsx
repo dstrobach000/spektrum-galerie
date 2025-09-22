@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useMemo, useRef, useEffect, useCallback } from "react";
+import React, { Suspense, useMemo, useRef, useEffect, useCallback, useState } from "react";
 import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
@@ -188,27 +188,53 @@ function LogoModel({ url }: { url: string }) {
 }
 
 const RotatingLogo3D: React.FC<Props> = ({ src, className = "" }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Lazy load the 3D model only when it's visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className={clsx("w-full h-full", className)} style={{ perspective: 1000 }}>
-      <Canvas
-        dpr={[1, 2]}
-        camera={{ position: [0, 0, 8], fov: 35 }}
-        onCreated={({ gl, scene }) => {
-          gl.toneMapping = THREE.ACESFilmicToneMapping;
-          gl.toneMappingExposure = 1.5;
-          gl.outputColorSpace = THREE.SRGBColorSpace;
-          const pmrem = new THREE.PMREMGenerator(gl);
-          const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-          scene.environment = envTex;
-        }}
-      >
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
-        <directionalLight position={[-10, -10, -5]} intensity={0.5} />
-        <Suspense fallback={null}>
-          <LogoModel url={src} />
-        </Suspense>
-      </Canvas>
+    <div ref={containerRef} className={clsx("w-full h-full", className)} style={{ perspective: 1000 }}>
+      {isVisible ? (
+        <Canvas
+          dpr={[1, 2]}
+          camera={{ position: [0, 0, 8], fov: 35 }}
+          onCreated={({ gl, scene }) => {
+            gl.toneMapping = THREE.ACESFilmicToneMapping;
+            gl.toneMappingExposure = 1.5;
+            gl.outputColorSpace = THREE.SRGBColorSpace;
+            const pmrem = new THREE.PMREMGenerator(gl);
+            const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+            scene.environment = envTex;
+          }}
+        >
+          <ambientLight intensity={0.6} />
+          <directionalLight position={[10, 10, 5]} intensity={1} />
+          <directionalLight position={[-10, -10, -5]} intensity={0.5} />
+          <Suspense fallback={null}>
+            <LogoModel url={src} />
+          </Suspense>
+        </Canvas>
+      ) : (
+        <div className="w-full h-full bg-gray-100 animate-pulse" />
+      )}
     </div>
   );
 };

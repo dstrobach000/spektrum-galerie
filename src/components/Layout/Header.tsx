@@ -1,8 +1,13 @@
 "use client";
 
 import React from "react";
+import dynamic from "next/dynamic";
 import ModelViewer from "@/components/BuildingBlocks/3D/ModelViewer";
-import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
+
+const RotatingLogo3D = dynamic(() => import("@/components/BuildingBlocks/Logo/RotatingLogo3D"), {
+  loading: () => <div className="w-full h-full bg-gray-100 animate-pulse" />,
+  ssr: false
+});
 
 const aspect = "aspect-[3/1]";
 
