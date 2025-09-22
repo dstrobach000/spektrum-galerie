@@ -15,7 +15,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
  */
 
 const PADDING = 2.1; // space around the model
-const ROT_SPEED = 0.005;
+const ROT_SPEED = 0.0025;
 
 function useChrome() {
   return useMemo(
