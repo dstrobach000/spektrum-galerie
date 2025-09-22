@@ -70,31 +70,54 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">
       <div className="relative w-full h-full overflow-hidden shadow-md">
-        {/* Only render images when slideshow is visible and loaded */}
-        {isVisible && images.map((imageSrc, imgIndex) => {
-          if (!loadedImages.has(imgIndex)) return null;
+        {/* Always render first image immediately for LCP optimization */}
+        {images.length > 0 && (
+          <div
+            className={`absolute inset-0 ${
+              0 === index ? 'block' : 'hidden'
+            }`}
+          >
+            <Image
+              src={images[0]}
+              alt={`${author} 1`}
+              fill
+              className="object-cover"
+              priority={true}
+              fetchPriority="high"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        )}
+        
+        {/* Render other images only when visible and loaded */}
+        {isVisible && images.slice(1).map((imageSrc, imgIndex) => {
+          const actualIndex = imgIndex + 1;
+          if (!loadedImages.has(actualIndex)) return null;
           return (
             <div
               key={imageSrc}
               className={`absolute inset-0 ${
-                imgIndex === index ? 'block' : 'hidden'
+                actualIndex === index ? 'block' : 'hidden'
               }`}
             >
               <Image
                 src={imageSrc}
-                alt={`${author} ${imgIndex + 1}`}
+                alt={`${author} ${actualIndex + 1}`}
                 fill
                 className="object-cover"
-                priority={imgIndex === 0} // Only prioritize the first image
+                priority={false}
+                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           );
         })}
-        {/* Show loading state when not visible */}
-        {!isVisible && (
+        
+        {/* Show loading state when not visible and no first image */}
+        {!isVisible && images.length === 0 && (
           <div className="w-full h-full bg-gray-100 animate-pulse" />
         )}
+        
         <div className="absolute inset-0 flex items-center justify-center">
           <GlowButton
             onClick={onPillClick}
