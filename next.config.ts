@@ -5,6 +5,16 @@ const nextConfig: NextConfig = {
   experimental: {
     ppr: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/images/yfd7xjeg/production/**',
+      },
+    ],
+  },
   async headers() {
     return [
       {

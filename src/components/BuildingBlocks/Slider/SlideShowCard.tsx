@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
@@ -38,11 +39,20 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   return (
     <div className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
       <div className="relative w-full h-full overflow-visible shadow-md">
-        <img
-          src={images[index]}
-          alt={`${author} ${index + 1}`}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        {/* Preload all images to prevent flickering - instant switching */}
+        {images.map((imageSrc, imgIndex) => (
+          <Image
+            key={imageSrc}
+            src={imageSrc}
+            alt={`${author} ${imgIndex + 1}`}
+            fill
+            className={`object-cover ${
+              imgIndex === index ? 'block' : 'hidden'
+            }`}
+            priority={imgIndex === 0} // Only prioritize the first image
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        ))}
         <div className="absolute inset-0 flex items-center justify-center overflow-visible">
           <GlowButton
             onClick={onPillClick}

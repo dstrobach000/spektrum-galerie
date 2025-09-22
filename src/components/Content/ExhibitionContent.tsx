@@ -1,4 +1,5 @@
 import React, { ReactNode, ReactElement, isValidElement, cloneElement, Children, useState, useEffect } from "react";
+import Image from "next/image";
 import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
@@ -239,11 +240,14 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                     key: 'graphic',
                     content: (
                       <div className="relative flex items-center justify-center">
-                        <img 
+                        <Image 
                           src={exhibition.poster.asset.url} 
                           alt="Exhibition graphic" 
+                          width={800}
+                          height={600}
                           className="w-full h-auto block" 
-                          draggable="false" 
+                          draggable={false}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 flex items-center justify-center z-10">
                           <GlowButton
@@ -338,11 +342,14 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                     key: 'graphic',
                     content: (
                       <div className="relative flex items-center justify-center">
-                        <img 
+                        <Image 
                           src={exhibition.poster.asset.url} 
                           alt="Exhibition graphic" 
+                          width={800}
+                          height={600}
                           className="w-full h-auto block" 
-                          draggable="false" 
+                          draggable={false}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <div className="absolute inset-0 flex items-center justify-center z-10">
                           <GlowButton
@@ -391,11 +398,14 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
           style={{ minHeight: "100dvh", gridTemplateRows: "1fr auto" }}
         >
           <div className="min-h-0 overflow-hidden flex items-center justify-center p-4 sm:p-8">
-            <img
+            <Image
               src={exhibition.poster.asset.url}
               alt="Exhibition graphic fullscreen"
+              width={1200}
+              height={800}
               className="block h-full w-auto max-w-full object-contain"
               draggable={false}
+              sizes="100vw"
             />
           </div>
 

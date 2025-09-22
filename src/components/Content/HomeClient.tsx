@@ -85,13 +85,8 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
   // Contact modal in the home page (route-driven)
   // Keep your safe-close logic, and make it use the unified flag
   const handleContactClose = () => {
-    const canGoBack =
-      typeof window !== "undefined" && (window.history.state?.idx ?? 0) > 0;
-    if (canGoBack) {
-      router.back();
-    } else {
-      router.replace("/");
-    }
+    // Use useEffect to check history state after hydration to avoid mismatch
+    router.replace("/");
     // The effect above will reopen the menu when we land on "/"
     // (no need to directly setMenuOpen(true) here)
   };

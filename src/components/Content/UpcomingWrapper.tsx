@@ -21,6 +21,16 @@ type UpcomingWrapperProps = {
 export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   if (!upcoming) return null;
 
+  // Debug logging to see what data we're getting
+  console.log('Upcoming exhibition data:', {
+    artist: upcoming.artist,
+    exhibition: upcoming.exhibition,
+    startDate: upcoming.startDate,
+    endDate: upcoming.endDate,
+    vernissageDate: upcoming.vernissageDate,
+    link: upcoming.link
+  });
+
   return (
     <Upcoming
       artist={upcoming.artist}

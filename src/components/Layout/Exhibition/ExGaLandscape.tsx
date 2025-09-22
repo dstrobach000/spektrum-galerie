@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import { ImageAsset } from "@/types/Exhibition";
 
@@ -78,11 +79,14 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
       {/* Inline viewer */}
       <div className="relative w-full">
         {currentImgUrl && (
-          <img
+          <Image
             src={currentImgUrl}
             alt=""
+            width={800}
+            height={600}
             className="w-full h-auto block"
             draggable={false}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
 
@@ -135,11 +139,14 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
         >
           <div className="min-h-0 overflow-hidden flex items-center justify-center p-4 sm:p-8">
             {currentImgUrl && (
-              <img
+              <Image
                 src={currentImgUrl}
                 alt=""
+                width={1200}
+                height={800}
                 className="block h-full w-auto max-w-full object-contain"
                 draggable={false}
+                sizes="100vw"
               />
             )}
           </div>
