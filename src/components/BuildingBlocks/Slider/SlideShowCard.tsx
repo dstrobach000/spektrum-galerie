@@ -69,18 +69,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
 
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">
-      <div 
-        className="relative w-full h-full overflow-hidden shadow-md slideshow-container-ios26 ios26-hardware-accel"
-        style={{
-          // iOS 26 liquid glass interface fixes
-          isolation: "isolate",
-          transform: "translateZ(0)",
-          WebkitTransform: "translateZ(0)",
-          willChange: "transform",
-          // Prevent background bleeding
-          backgroundColor: "transparent"
-        }}
-      >
+      <div className="relative w-full h-full overflow-hidden shadow-md">
         {/* Only render images when slideshow is visible and loaded */}
         {isVisible && images.map((imageSrc, imgIndex) => {
           if (!loadedImages.has(imgIndex)) return null;

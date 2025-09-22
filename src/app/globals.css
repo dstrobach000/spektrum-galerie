@@ -68,33 +68,3 @@
   animation: floatPulse 4s ease-in-out infinite;
 }
 
-/* iOS 26 Liquid Glass Interface Fixes */
-@supports (-webkit-touch-callout: none) {
-  /* iOS 26 specific fixes for modal backdrop bleeding */
-  .modal-backdrop-ios26 {
-    backdrop-filter: blur(0px) !important;
-    -webkit-backdrop-filter: blur(0px) !important;
-    isolation: isolate !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    will-change: transform !important;
-    background-color: rgb(255, 255, 255) !important;
-    -webkit-background-color: rgb(255, 255, 255) !important;
-  }
-  
-  /* Prevent slideshow images from bleeding through */
-  .slideshow-container-ios26 {
-    isolation: isolate !important;
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    will-change: transform !important;
-    contain: layout style paint !important;
-  }
-  
-  /* Force hardware acceleration for better isolation */
-  .ios26-hardware-accel {
-    transform: translateZ(0) !important;
-    -webkit-transform: translateZ(0) !important;
-    will-change: transform !important;
-  }
-}
