@@ -68,30 +68,34 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   }, [index, images.length, loadedImages, isVisible]);
 
   return (
-    <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
-      <div className="relative w-full h-full overflow-visible shadow-md">
+    <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">
+      <div className="relative w-full h-full overflow-hidden shadow-md">
         {/* Only render images when slideshow is visible and loaded */}
         {isVisible && images.map((imageSrc, imgIndex) => {
           if (!loadedImages.has(imgIndex)) return null;
           return (
-            <Image
+            <div
               key={imageSrc}
-              src={imageSrc}
-              alt={`${author} ${imgIndex + 1}`}
-              fill
-              className={`object-cover ${
+              className={`absolute inset-0 ${
                 imgIndex === index ? 'block' : 'hidden'
               }`}
-              priority={imgIndex === 0} // Only prioritize the first image
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
+            >
+              <Image
+                src={imageSrc}
+                alt={`${author} ${imgIndex + 1}`}
+                fill
+                className="object-cover"
+                priority={imgIndex === 0} // Only prioritize the first image
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
           );
         })}
         {/* Show loading state when not visible */}
         {!isVisible && (
           <div className="w-full h-full bg-gray-100 animate-pulse" />
         )}
-        <div className="absolute inset-0 flex items-center justify-center overflow-visible">
+        <div className="absolute inset-0 flex items-center justify-center">
           <GlowButton
             onClick={onPillClick}
             className={`inline-block px-6 py-2 text-sm font-light text-black ${buttonClassName || ""}`}
