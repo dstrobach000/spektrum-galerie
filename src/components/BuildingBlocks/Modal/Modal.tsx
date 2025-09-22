@@ -69,22 +69,22 @@ const Modal = ({
       }}
       onClick={closeOnBackdropClick ? onClose : undefined}
     >
+      {/* Single, unified close button, calls onClose provided by the page */}
+      <StickyCloseButton onClick={onClose} />
+
       {/* Prevent clicks on contents from closing via backdrop */}
       <div onClick={(e) => e.stopPropagation()}>
-        {/* Single, unified close button, calls onClose provided by the page */}
-        <StickyCloseButton onClick={onClose} />
-      </div>
-
-      <div
-        className={`mx-auto h-full relative ${
-          fullscreen
-            ? "bg-white"
-            : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
-        }`}
-        style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="font-light text-base">{children}</div>
+        <div
+          className={`mx-auto h-full relative ${
+            fullscreen
+              ? "bg-white"
+              : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
+          }`}
+          style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="font-light text-base">{children}</div>
+        </div>
       </div>
     </div>
   );
