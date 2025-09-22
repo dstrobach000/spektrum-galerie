@@ -50,36 +50,34 @@ const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <>
-      {/* Single, unified close button, calls onClose provided by the page - rendered outside modal */}
+    <div
+      className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
+        fullscreen ? "p-0 pb-8" : noPadding ? "p-0 pb-8" : "p-0 pb-8"
+      }`}
+      style={{ 
+        WebkitOverflowScrolling: "touch", 
+        touchAction: "auto"
+      }}
+      onClick={closeOnBackdropClick ? onClose : undefined}
+    >
+      {/* Single, unified close button, calls onClose provided by the page */}
       <StickyCloseButton onClick={onClose} />
-      
-      <div
-        className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
-          fullscreen ? "p-0 pb-8" : noPadding ? "p-0 pb-8" : "p-0 pb-8"
-        }`}
-        style={{ 
-          WebkitOverflowScrolling: "touch", 
-          touchAction: "auto"
-        }}
-        onClick={closeOnBackdropClick ? onClose : undefined}
-      >
-        {/* Prevent clicks on contents from closing via backdrop */}
-        <div onClick={(e) => e.stopPropagation()}>
-          <div
-            className={`mx-auto h-full relative ${
-              fullscreen
-                ? "bg-white"
-                : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
-            }`}
-            style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="font-light text-base">{children}</div>
-          </div>
+
+      {/* Prevent clicks on contents from closing via backdrop */}
+      <div onClick={(e) => e.stopPropagation()}>
+        <div
+          className={`mx-auto h-full relative ${
+            fullscreen
+              ? "bg-white"
+              : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
+          }`}
+          style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="font-light text-base">{children}</div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
