@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
@@ -28,28 +28,50 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
 }) => {
   const [index, setIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Intersection Observer to only load images when slideshow is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
-    if (images.length === 0) return;
+    if (images.length === 0 || !isVisible) return;
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % images.length);
     }, interval * 1000);
     return () => clearInterval(timer);
-  }, [images.length, interval]);
+  }, [images.length, interval, isVisible]);
 
-  // Preload next image when current changes
+  // Preload next image when current changes (only when visible)
   useEffect(() => {
+    if (!isVisible) return;
     const nextIndex = (index + 1) % images.length;
     if (!loadedImages.has(nextIndex)) {
       setLoadedImages(prev => new Set([...prev, nextIndex]));
     }
-  }, [index, images.length, loadedImages]);
+  }, [index, images.length, loadedImages, isVisible]);
 
   return (
-    <div className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
+    <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start overflow-visible">
       <div className="relative w-full h-full overflow-visible shadow-md">
-        {/* Only render loaded images to prevent flickering */}
-        {images.map((imageSrc, imgIndex) => {
+        {/* Only render images when slideshow is visible and loaded */}
+        {isVisible && images.map((imageSrc, imgIndex) => {
           if (!loadedImages.has(imgIndex)) return null;
           return (
             <Image
@@ -65,6 +87,10 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
             />
           );
         })}
+        {/* Show loading state when not visible */}
+        {!isVisible && (
+          <div className="w-full h-full bg-gray-100 animate-pulse" />
+        )}
         <div className="absolute inset-0 flex items-center justify-center overflow-visible">
           <GlowButton
             onClick={onPillClick}
