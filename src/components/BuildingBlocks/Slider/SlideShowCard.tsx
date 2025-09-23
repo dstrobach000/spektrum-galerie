@@ -14,6 +14,7 @@ type SlideShowCardProps = {
   onPillClick?: () => void;
   buttonClassName?: string;
   isCurrent?: boolean;
+  exhibitionGraphic?: string; // Optional exhibition graphic URL
 };
 
 const SlideShowCard: React.FC<SlideShowCardProps> = ({
@@ -25,6 +26,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   onPillClick,
   buttonClassName,
   isCurrent = false,
+  exhibitionGraphic,
 }) => {
   const [index, setIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
@@ -40,7 +42,10 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.1,
+        rootMargin: '50px' // Start loading 50px before entering viewport
+      }
     );
 
     if (containerRef.current) {
@@ -58,7 +63,16 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
     return () => clearInterval(timer);
   }, [images.length, interval, isVisible]);
 
-  // Preload next image when current changes (only when visible)
+  // Preload all images immediately when visible
+  useEffect(() => {
+    if (!isVisible || images.length <= 1) return;
+    
+    // Preload all remaining images at once
+    const allIndices = Array.from({ length: images.length }, (_, i) => i);
+    setLoadedImages(new Set(allIndices));
+  }, [isVisible, images.length]);
+
+  // Preload next image when current changes (fallback)
   useEffect(() => {
     if (!isVisible) return;
     const nextIndex = (index + 1) % images.length;
@@ -69,6 +83,16 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
 
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">
+      {/* Preload hints for all slideshow images */}
+      {images.map((imageSrc, idx) => (
+        <link
+          key={`preload-${idx}`}
+          rel="preload"
+          as="image"
+          href={imageSrc}
+          fetchPriority="high"
+        />
+      ))}
       <div className="relative w-full h-full overflow-hidden shadow-md">
         {/* Always render first image immediately for LCP optimization */}
         {images.length > 0 && (
@@ -113,8 +137,23 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
           );
         })}
         
-        {/* Show loading state when not visible and no first image */}
-        {!isVisible && images.length === 0 && (
+        {/* Show exhibition graphic when no photos are available */}
+        {images.length === 0 && exhibitionGraphic && (
+          <div className="absolute inset-0">
+            <Image
+              src={exhibitionGraphic}
+              alt={`${author} exhibition graphic`}
+              fill
+              className="object-cover"
+              priority={true}
+              fetchPriority="high"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+        )}
+        
+        {/* Show loading state when not visible and no images/graphic */}
+        {!isVisible && images.length === 0 && !exhibitionGraphic && (
           <div className="w-full h-full bg-gray-100 animate-pulse" />
         )}
         

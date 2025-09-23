@@ -2,19 +2,14 @@
 
 import React from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
+import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import type { Contact } from "@/types/Contact";
 
 const ContactContent = ({ contact }: { contact: Contact }) => (
   <div className="w-full relative">
     <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
       <div className="flex flex-col space-y-6">
-        <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
-          <RotatingLogo3D
-            src="/3D/spektrum_galerie.glb"
-            className="block w-full h-auto"
-          />
-        </div>
+        <LogoSlot />
         <div className="relative flex flex-col space-y-6">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="border border-black rounded-xl p-6 flex-1">
@@ -86,10 +81,9 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
             ))}
           </div>
         </div>
+        </div>
       </div>
     </div>
-    <div className="h-6"></div>
-  </div>
 );
 
 export default ContactContent;

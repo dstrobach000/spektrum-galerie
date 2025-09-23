@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   },
   description:
     "Spektrum galerie — contemporary art space. Exhibitions, events, press, and contacts.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [
+    { rel: "icon", url: "/favicon.png", sizes: "32x32" },
+    { rel: "icon", url: "/favicon.ico", sizes: "16x16" },
+  ],
   openGraph: {
     siteName: "Spektrum galerie",
     type: "website",

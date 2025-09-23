@@ -15,6 +15,7 @@ type Exhibition = {
   endDate?: string;
   landscapeImages?: Image[];
   portraitImages?: Image[];
+  poster?: Image; // Exhibition graphic/poster
   // videos omitted here intentionally
   description?: string;
 };
@@ -48,6 +49,7 @@ const Gallery = ({
               onPillClick={onOverlayOpen}
               buttonClassName="inline-block px-6 py-2 text-sm font-light text-black"
               isCurrent={i === 0}
+              exhibitionGraphic={exhibition.poster?.asset.url}
             />
           </Link>
         ))}

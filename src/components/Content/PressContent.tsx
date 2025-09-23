@@ -1,5 +1,5 @@
 import React from "react";
-import RotatingLogo3D from "@/components/BuildingBlocks/Logo/RotatingLogo3D";
+import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import type { PressLinkUI } from "@/types/Press";
 
@@ -9,8 +9,8 @@ const PressContent = ({ links = [] }: Props) => (
   <div className="w-full relative">
     <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
       {/* Logo */}
-      <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center mb-6 aspect-[3/1]">
-        <RotatingLogo3D src="/3D/spektrum_galerie.glb" className="w-full h-full" />
+      <div className="mb-6">
+        <LogoSlot />
       </div>
 
       {/* Buttons - wrapped to contain glow */}
@@ -31,10 +31,9 @@ const PressContent = ({ links = [] }: Props) => (
             </GlowButton>
           </div>
         ))}
+        </div>
       </div>
     </div>
-    <div className="h-6"></div>
-  </div>
 );
 
 export default PressContent;

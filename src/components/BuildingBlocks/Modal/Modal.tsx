@@ -52,7 +52,7 @@ const Modal = ({
   return (
     <div
       className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
-        fullscreen ? "p-0 pb-8" : noPadding ? "p-0 pb-8" : "p-0 pb-8"
+        fullscreen ? "p-0" : noPadding ? "p-0" : "p-0"
       }`}
       style={{ 
         WebkitOverflowScrolling: "touch", 
@@ -69,7 +69,7 @@ const Modal = ({
           className={`mx-auto h-full relative ${
             fullscreen
               ? "bg-white"
-              : "w-full bg-transparent shadow-none border-none p-6 pb-8 h-full"
+              : "w-full bg-transparent shadow-none border-none pt-6 px-6 h-full"
           }`}
           style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
           onClick={(e) => e.stopPropagation()}

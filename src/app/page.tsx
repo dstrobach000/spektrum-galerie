@@ -17,6 +17,7 @@ type Exhibition = {
   endDate?: string;
   landscapeImages?: SanityImage[];
   portraitImages?: SanityImage[];
+  poster?: SanityImage; // Exhibition graphic/poster
   description?: string;
 };
 
@@ -53,6 +54,7 @@ const fetchExhibitions = async (): Promise<Exhibition[]> => {
       vernissageDate,
       landscapeImages[]{ asset->{ url } },
       portraitImages[]{ asset->{ url } },
+      poster{ asset->{ url } },
              landscapeVideos[]{asset->{url}},
              portraitVideos[]{asset->{url}},
       description

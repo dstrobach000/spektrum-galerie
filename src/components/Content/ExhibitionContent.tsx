@@ -1,20 +1,14 @@
 import React, { ReactNode, ReactElement, isValidElement, cloneElement, Children, useState, useEffect } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
 import ExGaLandscape from "@/components/Layout/Exhibition/ExGaLandscape";
 import ExGaPortrait from "@/components/Layout/Exhibition/ExGaPortrait";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { Exhibition } from "@/types/Exhibition";
-
-// Dynamically import the 3D logo to reduce initial bundle size
-const RotatingLogo3D = dynamic(() => import("@/components/BuildingBlocks/Logo/RotatingLogo3D"), {
-  loading: () => <div className="w-full h-full bg-gray-100 animate-pulse" />,
-  ssr: false
-});
 
 /* -------------------- Czech orphan fix helpers (for PortableText) -------------------- */
 
@@ -79,6 +73,19 @@ const ptComponents: PortableTextComponents = {
     bullet: ({ children }) => <li>{processNode(children)}</li>,
     number: ({ children }) => <li>{processNode(children)}</li>,
   },
+  marks: {
+    link: ({ children, value }) => (
+      <a 
+        href={value?.href} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="underline break-all text-black hover:text-black visited:text-black"
+        style={{ wordBreak: 'break-all' }}
+      >
+        {children}
+      </a>
+    ),
+  },
 };
 
 /* --------------------------------- Page content --------------------------------- */
@@ -136,9 +143,7 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
       <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
         <div className="flex flex-col gap-6 md:gap-6">
           {/* Logo */}
-          <div className="border border-black rounded-full w-full leading-none min-h-[150px] md:min-h-0 flex items-center justify-center aspect-[3/1]">
-            <RotatingLogo3D src="/3D/spektrum_galerie.glb" className="block w-full h-auto" />
-          </div>
+          <LogoSlot />
 
           {/* Header */}
           <div className="mb-6 mt-6">
@@ -427,8 +432,6 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
           </div>
         </div>
       )}
-
-      <div className="h-6" />
     </div>
   );
 };
