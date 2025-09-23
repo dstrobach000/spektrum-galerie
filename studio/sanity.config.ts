@@ -29,8 +29,8 @@ export default defineConfig({
     visionTool(), // optional; remove if you don't want Vision
   ],
 
-  // Configure file uploads to accept video files
+  // Configure file uploads to accept video files and PDFs
   file: {
-    accept: 'video/*,.mov,.mp4,.webm,.ogg,.avi,.mkv',
+    accept: 'video/*,.mov,.mp4,.webm,.ogg,.avi,.mkv,.pdf',
   },
 });

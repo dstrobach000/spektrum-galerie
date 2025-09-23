@@ -17,7 +17,10 @@ export default defineType({
       title: 'Soubor',
       type: 'file',
       description: 'Nahraj soubor ANEBO zadej externí URL níže.',
-      options: {storeOriginalFilename: true},
+      options: {
+        storeOriginalFilename: true,
+        accept: '.pdf,.doc,.docx,.txt,.zip,.rar'
+      },
     }),
     defineField({
       name: 'url',
