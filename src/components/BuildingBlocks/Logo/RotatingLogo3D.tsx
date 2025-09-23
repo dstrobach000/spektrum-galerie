@@ -216,6 +216,7 @@ const RotatingLogo3D: React.FC<Props> = ({ src, className = "" }) => {
         <Canvas
           dpr={[1, 2]}
           camera={{ position: [0, 0, 8], fov: 35 }}
+          frameloop="demand"
           onCreated={({ gl, scene }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.5;

@@ -166,6 +166,7 @@ export default function ModelViewer() {
       style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
       dpr={[1, 2]}
       orthographic
+      frameloop="demand"
       camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
       onCreated={({ gl, scene }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
