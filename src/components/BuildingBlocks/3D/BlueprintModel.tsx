@@ -1,7 +1,7 @@
 "use client";
 
-import React, { Suspense, useMemo, useRef, useEffect, useCallback } from "react";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import React, { useMemo, useRef, useEffect, useCallback } from "react";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 

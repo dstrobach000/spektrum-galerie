@@ -3,7 +3,6 @@
 import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import BlueprintModelComponent from "./BlueprintModel";
 
 export default function BlueprintSlot() {

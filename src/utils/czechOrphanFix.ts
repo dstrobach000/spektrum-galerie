@@ -1,4 +1,4 @@
-import { ReactNode, isValidElement, cloneElement } from "react";
+import { ReactNode, isValidElement, cloneElement, ReactElement } from "react";
 
 /* -------------------- Czech orphan fix helpers -------------------- */
 
@@ -46,7 +46,7 @@ function processNode(node: ReactNode): ReactNode {
     return bindCzechOrphansInString(node);
   }
   if (isValidElement(node)) {
-    const el = node as ReactElement;
+    const el = node as ReactElement<{ children?: ReactNode }>;
     const processed = Array.isArray(el.props.children)
       ? processChildrenArray(el.props.children)
       : processNode(el.props.children);
