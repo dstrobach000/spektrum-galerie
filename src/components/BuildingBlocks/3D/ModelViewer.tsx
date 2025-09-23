@@ -15,7 +15,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
  */
 
 const PADDING = 2.1; // space around the model
-const ROT_SPEED = 0.0025;
+const ROT_SPEED = 0.00442225;
 
 function useChrome() {
   return useMemo(
@@ -98,9 +98,15 @@ function GalleryModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     onBox(box);
   }, [onBox]);
 
-  // Slow rotation, like before
-  useFrame(() => {
-    if (group.current) group.current.rotation.z += ROT_SPEED;
+  // Slow rotation, optimized for better performance
+  useFrame(({ clock }) => {
+    if (!group.current) return;
+    
+    // Reduce frame rate to 30fps instead of 60fps for better performance
+    const t = clock.getElapsedTime();
+    if (Math.floor(t * 30) % 2 === 0) return; // Skip every other frame
+    
+    group.current.rotation.z += ROT_SPEED;
   });
 
   return (
@@ -166,7 +172,7 @@ export default function ModelViewer() {
       style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
       dpr={[1, 2]}
       orthographic
-      frameloop="demand"
+      frameloop="always"
       camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
       onCreated={({ gl, scene }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;

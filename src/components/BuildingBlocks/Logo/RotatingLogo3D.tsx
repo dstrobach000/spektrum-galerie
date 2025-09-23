@@ -167,9 +167,14 @@ function LogoModel({ url }: { url: string }) {
   useFitOnce(holderRef, modelRef, tiltRef, swingRef, measuringRef, PADDING);
 
   // Swing the logo, but pause while measuring so the box is stable
+  // Optimize by reducing frame rate and only animating when visible
   useFrame(({ clock }) => {
     if (!swingRef.current || measuringRef.current) return;
+    
+    // Reduce frame rate to 30fps instead of 60fps for better performance
     const t = clock.getElapsedTime();
+    if (Math.floor(t * 30) % 2 === 0) return; // Skip every other frame
+    
     const angle = Math.sin((t / SWING_SPEED) * Math.PI * 2) * THREE.MathUtils.degToRad(SWING_DEG);
     swingRef.current.rotation.y = angle;
   });
@@ -216,7 +221,7 @@ const RotatingLogo3D: React.FC<Props> = ({ src, className = "" }) => {
         <Canvas
           dpr={[1, 2]}
           camera={{ position: [0, 0, 8], fov: 35 }}
-          frameloop="demand"
+          frameloop="always"
           onCreated={({ gl, scene }) => {
             gl.toneMapping = THREE.ACESFilmicToneMapping;
             gl.toneMappingExposure = 1.5;
