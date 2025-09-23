@@ -44,7 +44,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
       },
       { 
         threshold: 0.1,
-        rootMargin: '50px' // Start loading 50px before entering viewport
+        rootMargin: '200px' // Start loading 200px before entering viewport for smoother experience
       }
     );
 
@@ -63,14 +63,23 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
     return () => clearInterval(timer);
   }, [images.length, interval, isVisible]);
 
-  // Preload all images immediately when visible
+  // Preload all images immediately when visible for seamless transitions
   useEffect(() => {
     if (!isVisible || images.length <= 1) return;
     
-    // Preload all remaining images at once
-    const allIndices = Array.from({ length: images.length }, (_, i) => i);
-    setLoadedImages(new Set(allIndices));
-  }, [isVisible, images.length]);
+    // Preload all images using native Image constructor to eliminate flickering
+    images.forEach((src, index) => {
+      const img = new window.Image();
+      img.src = src;
+      img.onload = () => {
+        setLoadedImages(prev => new Set([...prev, index]));
+      };
+      img.onerror = () => {
+        // Still mark as loaded to prevent infinite loading states
+        setLoadedImages(prev => new Set([...prev, index]));
+      };
+    });
+  }, [isVisible, images]);
 
   // Preload next image when current changes (fallback)
   useEffect(() => {

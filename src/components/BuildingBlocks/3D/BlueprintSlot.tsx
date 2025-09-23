@@ -5,16 +5,17 @@ import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import BlueprintModelComponent from "./BlueprintModel";
 
+
 export default function BlueprintSlot() {
   return (
-    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full min-h-[150px] md:min-h-0">
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto">
       <Canvas
         className="w-full h-full"
         style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
         dpr={[1, 2]}
         orthographic
+        camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
         frameloop="always"
-               camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
         onCreated={({ gl, scene }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;

@@ -6,9 +6,10 @@ import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import LogoModel from "./LogoModel";
 
+
 export default function LogoSlot() {
   return (
-    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full min-h-[150px] md:min-h-0">
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto">
       <Canvas
         className="w-full h-full"
         dpr={[1, 2]}

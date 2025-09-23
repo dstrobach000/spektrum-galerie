@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
@@ -29,6 +29,18 @@ function useChrome() {
 export default function LogoModel({ url }: { url: string }) {
   const gltf = useLoader(GLTFLoader, url);
   const chrome = useChrome();
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect mobile vs desktop
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const root = useMemo(() => {
     const s = gltf.scene.clone(true);
@@ -58,8 +70,9 @@ export default function LogoModel({ url }: { url: string }) {
     const center = box.getCenter(new THREE.Vector3());
     s.position.sub(center);
     
-    // Scale the model to fill the frame
-    s.scale.setScalar(0.7); // Make it fill the frame nicely
+    // Scale the model - smaller on mobile, original size on desktop
+    const scale = isMobile ? 0.5 : 0.7;
+    s.scale.setScalar(scale);
     
     // Rotate the logo to face frontally (remove the -Math.PI / 2 rotation)
     s.rotation.x = 0; // Keep it flat/frontal
@@ -67,7 +80,7 @@ export default function LogoModel({ url }: { url: string }) {
     s.rotation.z = 0; // No Z rotation
     
     return s;
-  }, [gltf, chrome]);
+  }, [gltf, chrome, isMobile]);
 
   const tiltRef = useRef<THREE.Group>(null);
   const holderRef = useRef<THREE.Group>(null);
