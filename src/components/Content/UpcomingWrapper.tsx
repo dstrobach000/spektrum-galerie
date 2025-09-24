@@ -13,7 +13,6 @@ type UpcomingExhibition = {
   link?: string;
 };
 
-
 type UpcomingWrapperProps = {
   upcoming: UpcomingExhibition | null;
 };
@@ -21,22 +20,18 @@ type UpcomingWrapperProps = {
 export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   if (!upcoming) return null;
 
-  // Debug logging to see what data we're getting
-  console.log('Upcoming exhibition data:', {
-    artist: upcoming.artist,
-    exhibition: upcoming.exhibition,
-    startDate: upcoming.startDate,
-    endDate: upcoming.endDate,
-    vernissageDate: upcoming.vernissageDate,
-    link: upcoming.link
-  });
+  // Debug logging
+  console.log("Upcoming exhibition data:", upcoming);
+
+  // 👇 Hardcode vernissage string here instead of using Sanity value
+  const manualVernissage = "Vernisáž: 10. 10. 2025 v 18:00";
 
   return (
     <Upcoming
       artist={upcoming.artist}
       exhibition={upcoming.exhibition}
       date={formatUpcomingRange(upcoming.startDate, upcoming.endDate)}
-      vernissage={formatUpcomingVernissage(upcoming.vernissageDate)}
+      vernissage={manualVernissage} // <— using manual string
       link={upcoming.link}
     />
   );
