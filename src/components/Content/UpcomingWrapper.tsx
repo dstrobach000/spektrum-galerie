@@ -23,7 +23,7 @@ export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   // Debug logging
   console.log("Upcoming exhibition data:", upcoming);
 
-  const manualVernissage = "Vernisáž: 10. 10. 2025 v 18:00";
+  const manualVernissage = "Vernisáž: 24. 9. 2025 v 18:00";
 
   return (
     <Upcoming
