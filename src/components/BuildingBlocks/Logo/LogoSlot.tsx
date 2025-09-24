@@ -34,13 +34,17 @@ export default function LogoSlot() {
       {isVisible ? (
         <Canvas
           className="w-full h-full"
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
           camera={{ position: [0, 0, 20], fov: 30 }}
           frameloop="always"
         onCreated={({ gl, scene }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;
           gl.outputColorSpace = THREE.SRGBColorSpace;
+          
+          // Optimize WebGL context for performance
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+          
           const pmrem = new THREE.PMREMGenerator(gl);
           const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
           scene.environment = envTex;
@@ -54,9 +58,7 @@ export default function LogoSlot() {
         </Suspense>
       </Canvas>
       ) : (
-        <div className="w-full h-full bg-gray-100 animate-pulse flex items-center justify-center">
-          <div className="text-gray-400 text-sm">Loading...</div>
-        </div>
+        <div className="w-full h-full bg-white" />
       )}
     </div>
   );

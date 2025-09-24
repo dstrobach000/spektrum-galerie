@@ -34,7 +34,7 @@ export default function BlueprintSlot() {
         <Canvas
         className="w-full h-full"
         style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         orthographic
         camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
           frameloop="always"
@@ -42,6 +42,9 @@ export default function BlueprintSlot() {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;
           gl.outputColorSpace = THREE.SRGBColorSpace;
+          
+          // Optimize WebGL context for performance
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
           // Load environment asynchronously to avoid chunk loading issues
           const loadEnvironment = async () => {
@@ -76,9 +79,7 @@ export default function BlueprintSlot() {
         </Suspense>
       </Canvas>
       ) : (
-        <div className="w-full h-full bg-white flex items-center justify-center">
-          <div className="text-gray-400 text-sm">Loading 3D model...</div>
-        </div>
+        <div className="w-full h-full bg-white" />
       )}
     </div>
   );
