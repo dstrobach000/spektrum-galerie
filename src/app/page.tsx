@@ -90,6 +90,12 @@ const upcomingQuery = `
 `;
 
 
+// Enable ISR (Incremental Static Regeneration) with 60-second revalidation
+export const revalidate = 60;
+
+// Force dynamic rendering for immediate updates
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   // Server-side data fetching
   const [exhibitions, contact, upcoming] = await Promise.all([
