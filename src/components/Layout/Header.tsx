@@ -1,7 +1,16 @@
 "use client";
 
 import React from "react";
-import BlueprintSlot from "@/components/BuildingBlocks/3D/BlueprintSlot";
+import dynamic from "next/dynamic";
+
+const BlueprintSlot = dynamic(() => import("@/components/BuildingBlocks/3D/BlueprintSlot"), {
+  ssr: false,
+  loading: () => (
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-gray-100 animate-pulse flex items-center justify-center">
+      <div className="text-gray-400 text-sm">Loading...</div>
+    </div>
+  ),
+});
 import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import { fixCzechOrphansInString, fixEnglishOrphansInString } from "@/utils/czechOrphanFix";
 

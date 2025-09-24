@@ -92,16 +92,6 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
 
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">
-      {/* Preload hints for all slideshow images */}
-      {images.map((imageSrc, idx) => (
-        <link
-          key={`preload-${idx}`}
-          rel="preload"
-          as="image"
-          href={imageSrc}
-          fetchPriority="high"
-        />
-      ))}
       <div className="relative w-full h-full overflow-hidden shadow-md">
         {/* Always render first image immediately for LCP optimization */}
         {images.length > 0 && (
@@ -139,7 +129,7 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
                 fill
                 className="object-cover"
                 priority={false}
-                fetchPriority="high"
+                fetchPriority="low"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>

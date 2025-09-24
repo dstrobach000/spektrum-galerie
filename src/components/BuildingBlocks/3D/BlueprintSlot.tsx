@@ -1,21 +1,43 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { Suspense, useState, useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import BlueprintModelComponent from "./BlueprintModel";
 
 
 export default function BlueprintSlot() {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto">
-      <Canvas
+    <div ref={containerRef} className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto">
+      {isVisible ? (
+        <Canvas
         className="w-full h-full"
         style={{ background: "#fff", width: "100%", height: "100%", display: "block" }}
         dpr={[1, 2]}
         orthographic
         camera={{ position: [-200, 200, 200], zoom: 60, near: -1000, far: 1000 }}
-        frameloop="always"
+          frameloop="always"
         onCreated={({ gl, scene }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;
@@ -53,6 +75,11 @@ export default function BlueprintSlot() {
           <BlueprintModelComponent />
         </Suspense>
       </Canvas>
+      ) : (
+        <div className="w-full h-full bg-white flex items-center justify-center">
+          <div className="text-gray-400 text-sm">Loading 3D model...</div>
+        </div>
+      )}
     </div>
   );
 }

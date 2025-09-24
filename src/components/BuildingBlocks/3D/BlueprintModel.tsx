@@ -90,9 +90,15 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     onBox(box);
   }, [gltf, onBox]);
 
-         // Slow rotation, like before
-         useFrame(() => {
-           if (group.current) group.current.rotation.z += ROT_SPEED;
+         // Optimized slow rotation
+         useFrame(({ clock }) => {
+           if (!group.current) return;
+           
+           // Reduce frame rate to 30fps for smooth performance
+           const t = clock.getElapsedTime();
+           if (Math.floor(t * 30) % 2 !== 0) return; // Skip every other frame to get ~30fps
+           
+           group.current.rotation.z += ROT_SPEED;
          });
 
   return (

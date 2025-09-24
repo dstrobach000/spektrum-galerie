@@ -87,14 +87,13 @@ export default function LogoModel({ url }: { url: string }) {
   const swingRef = useRef<THREE.Group>(null);
   const modelRef = useRef<THREE.Group>(null);
 
-  // Swing the logo
-  // Optimize by reducing frame rate and only animating when visible
+  // Swing the logo with optimized performance
   useFrame(({ clock }) => {
     if (!swingRef.current) return;
     
-    // Reduce frame rate to 30fps instead of 60fps for better performance
+    // Reduce frame rate to 30fps for smooth performance
     const t = clock.getElapsedTime();
-    if (Math.floor(t * 30) % 2 === 0) return; // Skip every other frame
+    if (Math.floor(t * 30) % 2 !== 0) return; // Skip every other frame to get ~30fps
     
     const angle = Math.sin((t / SWING_SPEED) * Math.PI * 2) * THREE.MathUtils.degToRad(SWING_DEG);
     swingRef.current.rotation.y = angle;
