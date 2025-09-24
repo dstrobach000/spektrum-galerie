@@ -3,7 +3,7 @@
 import React, { Suspense, useState, useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+// import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 import LogoModel from "./LogoModel";
 
 
@@ -34,10 +34,10 @@ export default function LogoSlot() {
       {isVisible ? (
         <Canvas
           className="w-full h-full"
-          dpr={[1, 1.5]}
+          dpr={[1, 1]}
           camera={{ position: [0, 0, 20], fov: 30 }}
           frameloop="always"
-        onCreated={({ gl, scene }) => {
+        onCreated={({ gl }) => {
           gl.toneMapping = THREE.ACESFilmicToneMapping;
           gl.toneMappingExposure = 1.5;
           gl.outputColorSpace = THREE.SRGBColorSpace;
@@ -45,9 +45,10 @@ export default function LogoSlot() {
           // Optimize WebGL context for performance
           gl.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
           
-          const pmrem = new THREE.PMREMGenerator(gl);
-          const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-          scene.environment = envTex;
+          // Skip heavy environment map for better performance
+          // const pmrem = new THREE.PMREMGenerator(gl);
+          // const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+          // scene.environment = envTex;
         }}
       >
         <ambientLight intensity={0.6} />

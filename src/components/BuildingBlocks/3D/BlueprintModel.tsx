@@ -39,13 +39,8 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
         const mesh = child as THREE.Mesh;
         console.log('Found mesh:', mesh.name, 'Current material:', mesh.material);
         
-        // Ensure geometry has proper normals for smooth shading
-        if (!mesh.geometry.attributes.normal) {
-          mesh.geometry.computeVertexNormals();
-        }
-        
-        // Apply smooth shading
-        mesh.geometry.computeVertexNormals();
+        // Skip expensive normal computation for better performance
+        // Most GLTF models already have proper normals
         
         // Clear any existing materials completely
         if (Array.isArray(mesh.material)) {

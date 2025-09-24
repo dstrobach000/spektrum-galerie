@@ -13,7 +13,7 @@ function useChrome() {
   return useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: 0xb0b0b0, // Much darker gray for strong contrast
+        color: 0xe0e0e0, // Light gray for proper appearance
         metalness: 0.02, // Extremely low metallic for matte look
         roughness: 0.98, // Almost perfectly rough for matte finish
         envMapIntensity: 0.02, // Minimal environment reflection
@@ -48,20 +48,15 @@ export default function LogoModel({ url }: { url: string }) {
       if ((o as THREE.Mesh).isMesh) {
         const m = o as THREE.Mesh;
         
-        // Ensure geometry has proper normals for smooth shading
-        if (!m.geometry.attributes.normal) {
-          m.geometry.computeVertexNormals();
-        }
-        
-        // Apply smooth shading
-        m.geometry.computeVertexNormals();
+        // Skip expensive normal computation for better performance
+        // Most GLTF models already have proper normals
         
         // Apply the chrome material
         m.material = chrome.clone ? chrome.clone() : chrome;
         
-        // Ensure the mesh is properly positioned and scaled
-        m.castShadow = true;
-        m.receiveShadow = true;
+        // Disable shadows for better performance
+        m.castShadow = false;
+        m.receiveShadow = false;
       }
     });
     

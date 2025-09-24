@@ -7,7 +7,9 @@ export default function PerformanceMonitor() {
     fps: number;
     memory: number;
     longTasks: number;
-  }>({ fps: 0, memory: 0, longTasks: 0 });
+    mainThreadTime: number;
+    jsExecutionTime: number;
+  }>({ fps: 0, memory: 0, longTasks: 0, mainThreadTime: 0, jsExecutionTime: 0 });
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") return;
@@ -30,7 +32,7 @@ export default function PerformanceMonitor() {
       requestAnimationFrame(measureFPS);
     };
 
-    // Monitor long tasks
+    // Monitor long tasks and main thread work
     if ('PerformanceObserver' in window) {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
@@ -38,10 +40,20 @@ export default function PerformanceMonitor() {
             longTaskCount++;
             setMetrics(prev => ({ ...prev, longTasks: longTaskCount }));
           }
+          
+          // Monitor main thread work
+          if (entry.entryType === 'measure') {
+            if (entry.name.includes('main-thread')) {
+              setMetrics(prev => ({ ...prev, mainThreadTime: entry.duration }));
+            }
+            if (entry.name.includes('js-execution')) {
+              setMetrics(prev => ({ ...prev, jsExecutionTime: entry.duration }));
+            }
+          }
         }
       });
       
-      observer.observe({ entryTypes: ['longtask'] });
+      observer.observe({ entryTypes: ['longtask', 'measure'] });
     }
 
     // Monitor memory
@@ -74,6 +86,8 @@ export default function PerformanceMonitor() {
       <div>FPS: {metrics.fps}</div>
       <div>Memory: {metrics.memory}MB</div>
       <div>Long Tasks: {metrics.longTasks}</div>
+      <div>Main Thread: {metrics.mainThreadTime.toFixed(0)}ms</div>
+      <div>JS Exec: {metrics.jsExecutionTime.toFixed(0)}ms</div>
     </div>
   );
 }
