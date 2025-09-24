@@ -2,7 +2,7 @@
 
 import React from "react";
 import Upcoming from "@/components/BuildingBlocks/Labels/Upcoming";
-import { formatUpcomingRange, formatUpcomingVernissage } from "@/utils/dateFormat";
+import { formatUpcomingRange } from "@/utils/dateFormat"; // 👈 only keep this
 
 type UpcomingExhibition = {
   artist: string;
@@ -23,7 +23,6 @@ export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   // Debug logging
   console.log("Upcoming exhibition data:", upcoming);
 
-  // 👇 Hardcode vernissage string here instead of using Sanity value
   const manualVernissage = "Vernisáž: 10. 10. 2025 v 18:00";
 
   return (
@@ -31,7 +30,7 @@ export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
       artist={upcoming.artist}
       exhibition={upcoming.exhibition}
       date={formatUpcomingRange(upcoming.startDate, upcoming.endDate)}
-      vernissage={manualVernissage} // <— using manual string
+      vernissage={manualVernissage} // <— now always uses your string
       link={upcoming.link}
     />
   );
