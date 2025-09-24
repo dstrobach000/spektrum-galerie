@@ -2,7 +2,7 @@
 
 import React from "react";
 import Upcoming from "@/components/BuildingBlocks/Labels/Upcoming";
-import { formatUpcomingRange } from "@/utils/dateFormat"; // 👈 only keep this
+import { formatUpcomingRange, formatUpcomingVernissage } from "@/utils/dateFormat";
 
 type UpcomingExhibition = {
   artist: string;
@@ -20,17 +20,22 @@ type UpcomingWrapperProps = {
 export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   if (!upcoming) return null;
 
-  // Debug logging
-  console.log("Upcoming exhibition data:", upcoming);
-
-  const manualVernissage = "Vernisáž: 24. 9. 2025 v 18:00";
+  // Debug logging to see what data we're getting
+  console.log('Upcoming exhibition data:', {
+    artist: upcoming.artist,
+    exhibition: upcoming.exhibition,
+    startDate: upcoming.startDate,
+    endDate: upcoming.endDate,
+    vernissageDate: upcoming.vernissageDate,
+    link: upcoming.link
+  });
 
   return (
     <Upcoming
       artist={upcoming.artist}
       exhibition={upcoming.exhibition}
       date={formatUpcomingRange(upcoming.startDate, upcoming.endDate)}
-      vernissage={manualVernissage} // <— now always uses your string
+      vernissage={formatUpcomingVernissage(upcoming.vernissageDate)}
       link={upcoming.link}
     />
   );
