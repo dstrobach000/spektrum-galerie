@@ -75,7 +75,7 @@ export function formatUpcomingRange(startDate?: string, endDate?: string): strin
 /**
  * Format vernissage date with 4-digit year
  * Preserves the exact formatting style of the upcoming bar
- * Uses UTC methods to prevent hydration mismatches
+ * Uses local time methods to avoid timezone conversion issues
  */
 export function formatUpcomingVernissage(vernissageDate?: string): string {
   if (!vernissageDate) return "";
@@ -83,11 +83,11 @@ export function formatUpcomingVernissage(vernissageDate?: string): string {
   // Handle different date formats from Sanity
   let date: Date;
   if (vernissageDate.includes('T')) {
-    // Already has time component
+    // Already has time component - parse as local time
     date = new Date(vernissageDate);
   } else {
     // Just date, add default time
-    date = new Date(vernissageDate + 'T18:00:00.000Z');
+    date = new Date(vernissageDate + 'T18:00:00');
   }
   
   // Check if date is valid
@@ -98,5 +98,5 @@ export function formatUpcomingVernissage(vernissageDate?: string): string {
   
   const pad = (n: number) => n < 10 ? "0" + n : n;
   
-  return `vernisáž: ${date.getUTCDate()}. ${date.getUTCMonth() + 1}. ${date.getUTCFullYear()} @ ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}`;
+  return `vernisáž: ${date.getDate()}. ${date.getMonth() + 1}. ${date.getFullYear()} v ${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
