@@ -1,14 +1,29 @@
 import React, { ReactNode, ReactElement, isValidElement, cloneElement, Children, useState, useEffect } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
-import ExGaLandscape from "@/components/Layout/Exhibition/ExGaLandscape";
-import ExGaPortrait from "@/components/Layout/Exhibition/ExGaPortrait";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { Exhibition } from "@/types/Exhibition";
+
+const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
+  ssr: false,
+  loading: () => (
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
+  ),
+});
+
+const ExGaLandscape = dynamic(() => import("@/components/Layout/Exhibition/ExGaLandscape"), {
+  ssr: false,
+  loading: () => <div className="w-full h-64 bg-gray-100 animate-pulse" />,
+});
+
+const ExGaPortrait = dynamic(() => import("@/components/Layout/Exhibition/ExGaPortrait"), {
+  ssr: false,
+  loading: () => <div className="w-full h-64 bg-gray-100 animate-pulse" />,
+});
 
 /* -------------------- Czech orphan fix helpers (for PortableText) -------------------- */
 

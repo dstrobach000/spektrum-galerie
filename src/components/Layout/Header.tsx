@@ -9,7 +9,13 @@ const BlueprintSlot = dynamic(() => import("@/components/BuildingBlocks/3D/Bluep
     <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
   ),
 });
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
+
+const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
+  ssr: false,
+  loading: () => (
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
+  ),
+});
 import { fixCzechOrphansInString, fixEnglishOrphansInString } from "@/utils/czechOrphanFix";
 
 const Header = () => {

@@ -1,8 +1,15 @@
 "use client";
 
 import React from "react";
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
+import dynamic from "next/dynamic";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+
+const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
+  ssr: false,
+  loading: () => (
+    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
+  ),
+});
 
 const menuItems = [
   { label: "O galerii", href: "#header", action: null },

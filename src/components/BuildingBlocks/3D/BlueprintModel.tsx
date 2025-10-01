@@ -90,11 +90,14 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     return () => clearTimeout(timer);
   }, []);
 
-         // Smooth time-based rotation - only animate after delay
+         // Smooth time-based rotation - only animate after delay with frame rate limiting
          useFrame(({ clock }) => {
            if (!group.current || !shouldAnimate) return;
            
            const t = clock.getElapsedTime();
+           // Reduce frame rate to 15fps for better performance
+           if (Math.floor(t * 15) % 4 !== 0) return;
+           
            group.current.rotation.z = t * ROT_SPEED;
          });
 
