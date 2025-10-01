@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import Image from "next/image";
 import CurrentLabel from "@/components/BuildingBlocks/Labels/CurrentLabel";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 
@@ -109,14 +108,10 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
               0 === index ? 'block' : 'hidden'
             }`}
           >
-            <Image
+            <img
               src={images[0]}
               alt={`${author} 1`}
-              fill
-              className="object-cover"
-              priority={true}
-              fetchPriority="high"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="w-full h-full object-cover"
             />
           </div>
         )}
@@ -132,14 +127,10 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
                 actualIndex === index ? 'block' : 'hidden'
               }`}
             >
-              <Image
+              <img
                 src={imageSrc}
                 alt={`${author} ${actualIndex + 1}`}
-                fill
-                className="object-cover"
-                priority={false}
-                fetchPriority="low"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="w-full h-full object-cover"
               />
             </div>
           );
@@ -148,14 +139,10 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
         {/* Show exhibition graphic when no photos are available */}
         {images.length === 0 && exhibitionGraphic && (
           <div className="absolute inset-0">
-            <Image
+            <img
               src={exhibitionGraphic}
               alt={`${author} exhibition graphic`}
-              fill
-              className="object-cover"
-              priority={true}
-              fetchPriority="high"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="w-full h-full object-cover"
             />
           </div>
         )}

@@ -142,14 +142,11 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
         >
           <div className="min-h-0 overflow-hidden flex items-center justify-center p-4 sm:p-8">
             {fullscreenImgUrl && (
-              <Image
+              <img
                 src={fullscreenImgUrl}
                 alt=""
-                width={1920}
-                height={1080}
                 className="block h-full w-auto max-w-full object-contain"
                 draggable={false}
-                sizes="100vw"
               />
             )}
           </div>

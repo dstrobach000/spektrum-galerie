@@ -50,7 +50,12 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
 
   const router = useRouter();
   const pathname = usePathname();
-  const isContactRoute = pathname === "/kontakt";
+  const [isContactRoute, setIsContactRoute] = useState(false);
+
+  // Set isContactRoute after mount to prevent hydration mismatch
+  useEffect(() => {
+    setIsContactRoute(pathname === "/kontakt");
+  }, [pathname]);
 
   // When we come back to '/', reopen the Menu if we started from it
   useEffect(() => {

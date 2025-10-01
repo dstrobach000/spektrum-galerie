@@ -82,14 +82,11 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
       {/* Inline viewer */}
       <div className="relative w-full">
         {optimizedImgUrl && (
-          <Image
+          <img
             src={optimizedImgUrl}
             alt=""
-            width={600}
-            height={900}
             className="w-full h-auto block"
             draggable={false}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         )}
 

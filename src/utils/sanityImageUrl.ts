@@ -29,7 +29,7 @@ export function getOptimizedImageUrl(
     height,
     fit = 'max',
     crop = 'center',
-    quality = 80,
+    quality = 95,
     format = 'webp'
   } = options;
 
@@ -57,24 +57,24 @@ export function getOptimizedImageUrl(
  * Predefined optimized image sizes for common use cases
  */
 export const imageSizes = {
-  // Gallery thumbnails - optimized for main page slideshow (reasonable size)
-  thumbnail: (url: string) => getOptimizedImageUrl(url, { width: 600, fit: 'max' }),
+  // Gallery thumbnails - optimized for slideshow performance
+  thumbnail: (url: string) => getOptimizedImageUrl(url, { width: 800, fit: 'max', quality: 85 }),
   
-  // Gallery cards - small size for exhibition cards
-  card: (url: string) => getOptimizedImageUrl(url, { width: 800, fit: 'max' }),
+  // Gallery cards - reasonable size for exhibition cards
+  card: (url: string) => getOptimizedImageUrl(url, { width: 1000, fit: 'max', quality: 85 }),
   
   // Exhibition gallery images
-  gallery: (url: string) => getOptimizedImageUrl(url, { width: 1200, fit: 'max' }),
+  gallery: (url: string) => getOptimizedImageUrl(url, { width: 1400, fit: 'max', quality: 90 }),
   
   // Fullscreen images
-  fullscreen: (url: string) => getOptimizedImageUrl(url, { width: 1920, fit: 'max' }),
+  fullscreen: (url: string) => getOptimizedImageUrl(url, { width: 1920, fit: 'max', quality: 90 }),
   
   // Portrait images - maintains portrait aspect ratio
-  portrait: (url: string) => getOptimizedImageUrl(url, { width: 800, fit: 'max' }),
+  portrait: (url: string) => getOptimizedImageUrl(url, { width: 1000, fit: 'max', quality: 85 }),
   
   // Landscape images - maintains landscape aspect ratio
-  landscape: (url: string) => getOptimizedImageUrl(url, { width: 1200, fit: 'max' }),
+  landscape: (url: string) => getOptimizedImageUrl(url, { width: 1400, fit: 'max', quality: 90 }),
   
-  // Posters/graphics - smaller but reasonable size
-  poster: (url: string) => getOptimizedImageUrl(url, { width: 800, fit: 'max' }),
+  // Posters/graphics - reasonable size
+  poster: (url: string) => getOptimizedImageUrl(url, { width: 800, fit: 'max', quality: 85 }),
 } as const;
