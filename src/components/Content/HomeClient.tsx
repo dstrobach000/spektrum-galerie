@@ -41,7 +41,6 @@ type HomeClientProps = {
 
 export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   // Unified "return-to-menu" flag for Kontakt, Press, Exhibition
   // Values: 'none' | 'kontakt' | 'press' | 'exhibition'
@@ -51,13 +50,7 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
 
   const router = useRouter();
   const pathname = usePathname();
-  const [isContactRoute, setIsContactRoute] = useState(false);
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-    setIsContactRoute(pathname === "/kontakt");
-  }, [pathname]);
+  const isContactRoute = pathname === "/kontakt";
 
   // When we come back to '/', reopen the Menu if we started from it
   useEffect(() => {
@@ -117,11 +110,6 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
   }, []);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <>

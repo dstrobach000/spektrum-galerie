@@ -31,7 +31,13 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
   const [index, setIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set([0]));
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Intersection Observer to only load images when slideshow is visible
   useEffect(() => {
@@ -98,6 +104,15 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
       };
     }
   }, [index, images.length, loadedImages, isVisible, images]);
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return (
+      <div className="w-full aspect-[4/5] flex flex-col items-start">
+        <div className="w-full h-full bg-gray-100 animate-pulse" />
+      </div>
+    );
+  }
 
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">

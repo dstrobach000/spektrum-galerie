@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useMemo, useRef, useEffect, useCallback } from "react";
-import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const PADDING = 2.1; // space around the model
-const ROT_SPEED = 0.002211125;
 
 function useChrome() {
   return useMemo(
@@ -80,16 +79,11 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     onBox(box);
   }, [gltf, onBox]);
 
-         // Optimized smooth rotation
-         useFrame(({ clock }) => {
-           if (!group.current) return;
-           
-           // Reduce frame rate to 30fps for smooth performance
-           const t = clock.getElapsedTime();
-           if (Math.floor(t * 30) % 2 !== 0) return; // Skip every other frame for ~30fps
-           
-           group.current.rotation.z += ROT_SPEED;
-         });
+         // Temporarily disable rotation to test performance impact
+         // useFrame(({ clock }) => {
+         //   if (!group.current) return;
+         //   group.current.rotation.z += ROT_SPEED;
+         // });
 
   return (
     <group ref={group}>
