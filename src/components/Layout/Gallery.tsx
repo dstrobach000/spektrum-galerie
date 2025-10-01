@@ -2,6 +2,7 @@ import React from "react";
 import SlideShowCard from "@/components/BuildingBlocks/Slider/SlideShowCard";
 import Link from "next/link";
 import { formatExhibitionDate } from "@/utils/dateFormat";
+import { imageSizes } from "@/utils/sanityImageUrl";
 
 type Image = { asset: { url: string } };
 
@@ -39,9 +40,9 @@ const Gallery = ({
           >
             <SlideShowCard
               images={[
-                ...(exhibition.landscapeImages?.map(img => img.asset.url) || []),
-                ...(exhibition.portraitImages?.map(img => img.asset.url) || [])
-              ].slice(0, 10)}
+                ...(exhibition.landscapeImages?.map(img => imageSizes.thumbnail(img.asset.url)) || []),
+                ...(exhibition.portraitImages?.map(img => imageSizes.thumbnail(img.asset.url)) || [])
+              ].slice(0, 4)}
               buttonText={exhibition.title}
               author={exhibition.artist}
               date={formatExhibitionDate(exhibition.startDate, exhibition.endDate, exhibition.isOneDayEvent)}
@@ -49,7 +50,7 @@ const Gallery = ({
               onPillClick={onOverlayOpen}
               buttonClassName="inline-block px-6 py-2 text-sm font-light text-black"
               isCurrent={i === 0}
-              exhibitionGraphic={exhibition.poster?.asset.url}
+              exhibitionGraphic={exhibition.poster?.asset.url ? imageSizes.poster(exhibition.poster.asset.url) : undefined}
             />
           </Link>
         ))}

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import { ImageAsset } from "@/types/Exhibition";
+import { imageSizes } from "@/utils/sanityImageUrl";
 
 const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
   const [index, setIndex] = useState(0);
@@ -10,6 +11,8 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
 
   const hasMultiple = images.length > 1;
   const currentImgUrl = images[index]?.asset?.url || "";
+  const optimizedImgUrl = currentImgUrl ? imageSizes.landscape(currentImgUrl) : "";
+  const fullscreenImgUrl = currentImgUrl ? imageSizes.fullscreen(currentImgUrl) : "";
 
   // Memoized navigation handlers
   const prevImg = useCallback(() => {
@@ -78,12 +81,12 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
     <>
       {/* Inline viewer */}
       <div className="relative w-full">
-        {currentImgUrl && (
+        {optimizedImgUrl && (
           <Image
-            src={currentImgUrl}
+            src={optimizedImgUrl}
             alt=""
-            width={800}
-            height={600}
+            width={1200}
+            height={800}
             className="w-full h-auto block"
             draggable={false}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -138,12 +141,12 @@ const ExGaLandscape = ({ images = [] }: { images: ImageAsset[] }) => {
           style={{ minHeight: "100dvh", gridTemplateRows: "1fr auto" }}
         >
           <div className="min-h-0 overflow-hidden flex items-center justify-center p-4 sm:p-8">
-            {currentImgUrl && (
+            {fullscreenImgUrl && (
               <Image
-                src={currentImgUrl}
+                src={fullscreenImgUrl}
                 alt=""
-                width={1200}
-                height={800}
+                width={1920}
+                height={1080}
                 className="block h-full w-auto max-w-full object-contain"
                 draggable={false}
                 sizes="100vw"
