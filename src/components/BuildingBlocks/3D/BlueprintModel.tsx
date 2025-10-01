@@ -89,9 +89,9 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
          useFrame(({ clock }) => {
            if (!group.current) return;
            
-           // Reduce frame rate to 30fps for smooth performance
+           // Reduce frame rate to 15fps for much better performance
            const t = clock.getElapsedTime();
-           if (Math.floor(t * 30) % 2 !== 0) return; // Skip every other frame to get ~30fps
+           if (Math.floor(t * 15) % 4 !== 0) return; // Skip 3 out of 4 frames for ~15fps
            
            group.current.rotation.z += ROT_SPEED;
          });

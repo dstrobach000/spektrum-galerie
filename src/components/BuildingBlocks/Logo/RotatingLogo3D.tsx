@@ -171,9 +171,9 @@ function LogoModel({ url }: { url: string }) {
   useFrame(({ clock }) => {
     if (!swingRef.current || measuringRef.current) return;
     
-    // Reduce frame rate to 30fps instead of 60fps for better performance
+    // Reduce frame rate to 15fps for much better performance
     const t = clock.getElapsedTime();
-    if (Math.floor(t * 30) % 2 === 0) return; // Skip every other frame
+    if (Math.floor(t * 15) % 4 !== 0) return; // Skip 3 out of 4 frames for ~15fps
     
     const angle = Math.sin((t / SWING_SPEED) * Math.PI * 2) * THREE.MathUtils.degToRad(SWING_DEG);
     swingRef.current.rotation.y = angle;

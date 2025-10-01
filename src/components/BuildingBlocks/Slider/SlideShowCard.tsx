@@ -63,32 +63,41 @@ const SlideShowCard: React.FC<SlideShowCardProps> = ({
     return () => clearInterval(timer);
   }, [images.length, interval, isVisible]);
 
-  // Preload all images immediately when visible for seamless transitions
+  // Optimized image preloading - only preload next 2 images
   useEffect(() => {
     if (!isVisible || images.length <= 1) return;
     
-    // Preload all images using native Image constructor to eliminate flickering
-    images.forEach((src, index) => {
+    // Only preload the next 2 images to reduce memory usage
+    const imagesToPreload = Math.min(2, images.length - 1);
+    
+    for (let i = 1; i <= imagesToPreload; i++) {
       const img = new window.Image();
-      img.src = src;
+      img.src = images[i];
       img.onload = () => {
-        setLoadedImages(prev => new Set([...prev, index]));
+        setLoadedImages(prev => new Set([...prev, i]));
       };
       img.onerror = () => {
-        // Still mark as loaded to prevent infinite loading states
-        setLoadedImages(prev => new Set([...prev, index]));
+        setLoadedImages(prev => new Set([...prev, i]));
       };
-    });
+    }
   }, [isVisible, images]);
 
-  // Preload next image when current changes (fallback)
+  // Preload next image only when needed (reduced frequency)
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || images.length <= 1) return;
+    
     const nextIndex = (index + 1) % images.length;
-    if (!loadedImages.has(nextIndex)) {
-      setLoadedImages(prev => new Set([...prev, nextIndex]));
+    if (!loadedImages.has(nextIndex) && nextIndex <= 2) { // Only preload first 2 additional images
+      const img = new window.Image();
+      img.src = images[nextIndex];
+      img.onload = () => {
+        setLoadedImages(prev => new Set([...prev, nextIndex]));
+      };
+      img.onerror = () => {
+        setLoadedImages(prev => new Set([...prev, nextIndex]));
+      };
     }
-  }, [index, images.length, loadedImages, isVisible]);
+  }, [index, images.length, loadedImages, isVisible, images]);
 
   return (
     <div ref={containerRef} className="w-full aspect-[4/5] flex flex-col items-start">

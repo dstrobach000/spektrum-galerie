@@ -75,7 +75,7 @@ export default function RootLayout({
       </head>
       <body>
         <TitleSetter />
-        <PerformanceMonitor />
+        {process.env.NODE_ENV === "development" && <PerformanceMonitor />}
         {children}
         {modal}
         <CookieBanner />
