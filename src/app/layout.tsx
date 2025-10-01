@@ -4,6 +4,11 @@ import CookieBanner from "@/components/Legal/CookieBanner";
 import TitleSetter from "@/components/TitleSetter";
 import type { Metadata } from "next";
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://spektrumgalerie.cz"),
   title: {
@@ -11,7 +16,9 @@ export const metadata: Metadata = {
     template: "%s | Spektrum galerie",
   },
   description:
-    "Spektrum galerie — contemporary art space. Exhibitions, events, press, and contacts.",
+    "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
+  keywords: ["galerie", "současné umění", "Praha", "výstavy", "umění", "Spektrum galerie"],
+  authors: [{ name: "Spektrum galerie" }],
   icons: [
     { rel: "icon", url: "/favicon.png", sizes: "32x32" },
     { rel: "icon", url: "/favicon.ico", sizes: "16x16" },
@@ -22,14 +29,14 @@ export const metadata: Metadata = {
     locale: "cs_CZ",
     title: "Spektrum galerie",
     description:
-      "Spektrum galerie — contemporary art space. Exhibitions, events, press, and contacts.",
+      "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
     url: "https://spektrumgalerie.cz",
   },
   twitter: {
     card: "summary_large_image",
     title: "Spektrum galerie",
     description:
-      "Spektrum galerie — contemporary art space. Exhibitions, events, press, and contacts.",
+      "Spektrum galerie — experimentální prostor pro současné umění v Praze. Výstavy, akce, kontakty a tiskové materiály.",
   },
 };
 
@@ -41,7 +48,7 @@ export default function RootLayout({
   modal: ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="cs">
       <head>
         <link
           rel="preload"
