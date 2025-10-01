@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useMemo, useRef, useEffect, useCallback } from "react";
-import { useLoader, useThree } from "@react-three/fiber";
+import React, { useMemo, useRef, useEffect, useCallback, useState } from "react";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const PADDING = 2.1; // space around the model
+const ROT_SPEED = 0.22; // Balanced rotation speed for good performance
 
 function useChrome() {
   return useMemo(
@@ -28,6 +29,7 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
   const gltf = useLoader(GLTFLoader, "/3D/blueprint.glb");
   const chrome = useChrome();
   const group = useRef<THREE.Group>(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   // Prepare materials + orientation (model is Z-up)
   useEffect(() => {
@@ -79,11 +81,22 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     onBox(box);
   }, [gltf, onBox]);
 
-         // Temporarily disable rotation to test performance impact
-         // useFrame(({ clock }) => {
-         //   if (!group.current) return;
-         //   group.current.rotation.z += ROT_SPEED;
-         // });
+  // Start animation after initial page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldAnimate(true);
+    }, 2000); // Start animation 2 seconds after load
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+         // Smooth time-based rotation - only animate after delay
+         useFrame(({ clock }) => {
+           if (!group.current || !shouldAnimate) return;
+           
+           const t = clock.getElapsedTime();
+           group.current.rotation.z = t * ROT_SPEED;
+         });
 
   return (
     <group ref={group}>

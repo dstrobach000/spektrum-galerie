@@ -2,7 +2,6 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import CookieBanner from "@/components/Legal/CookieBanner";
 import TitleSetter from "@/components/TitleSetter";
-import PerformanceMonitor from "@/components/BuildingBlocks/PerformanceMonitor";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -75,7 +74,6 @@ export default function RootLayout({
       </head>
       <body>
         <TitleSetter />
-        {process.env.NODE_ENV === "development" && <PerformanceMonitor />}
         {children}
         {modal}
         <CookieBanner />
