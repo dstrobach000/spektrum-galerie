@@ -2,7 +2,7 @@
 import {defineConfig} from 'sanity';
 import {deskTool} from 'sanity/desk';
 import {visionTool} from '@sanity/vision';
-import {media} from 'sanity/desk';
+import {media} from 'sanity-plugin-media';
 
 // Your schema index should export `schemaTypes` (array of types)
 import {schemaTypes} from './schemaTypes';
@@ -26,13 +26,8 @@ export default defineConfig({
   },
 
   plugins: [
-    deskTool({ 
-      structure,
-      tools: (prev) => [
-        ...prev,
-        media()
-      ]
-    }),
+    deskTool({ structure }),
+    media(), // Media browser plugin
     visionTool(), // optional; remove if you don't want Vision
   ],
 
