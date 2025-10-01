@@ -28,6 +28,9 @@ export default function ExhibitionModalClient({
 
   // Also update title when pathname changes to ensure it's set correctly
   useEffect(() => {
+    // Only set title on client side to prevent hydration mismatches
+    if (typeof window === 'undefined') return;
+    
     if (pathname?.startsWith("/exhibition") && exhibition) {
       const title = `${exhibition.artist} — ${exhibition.title} | Spektrum galerie`;
       document.title = title;

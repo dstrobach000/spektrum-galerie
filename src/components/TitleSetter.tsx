@@ -7,6 +7,9 @@ export default function TitleSetter() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Only set title on client side to prevent hydration mismatches
+    if (typeof window === 'undefined') return;
+    
     // Set the title based on the current path
     let title = 'Spektrum galerie';
     
@@ -31,8 +34,9 @@ export default function TitleSetter() {
 // Hook to update title from modal components
 export function useUpdateTitle(title: string) {
   useEffect(() => {
-    if (title) {
-      document.title = title;
-    }
+    // Only set title on client side to prevent hydration mismatches
+    if (typeof window === 'undefined' || !title) return;
+    
+    document.title = title;
   }, [title]);
 }
