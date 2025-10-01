@@ -42,7 +42,7 @@ const Gallery = ({
               images={[
                 ...(exhibition.landscapeImages?.map(img => imageSizes.thumbnail(img.asset.url)) || []),
                 ...(exhibition.portraitImages?.map(img => imageSizes.thumbnail(img.asset.url)) || [])
-              ].slice(0, 4)}
+              ].slice(0, 3)} // Limited to 3 images for faster loading
               buttonText={exhibition.title}
               author={exhibition.artist}
               date={formatExhibitionDate(exhibition.startDate, exhibition.endDate, exhibition.isOneDayEvent)}
