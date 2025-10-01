@@ -16,6 +16,12 @@ const query = `
 }
 `;
 
+// Enable ISR (Incremental Static Regeneration) with 60-second revalidation
+export const revalidate = 60;
+
+// Force dynamic rendering for immediate updates
+export const dynamic = 'force-dynamic';
+
 export default async function PressModalPage() {
   const data = await sanityClient.fetch<PressDoc>(query);
 

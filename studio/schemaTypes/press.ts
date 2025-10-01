@@ -7,6 +7,7 @@ export default defineType({
   title: 'Ke stažení',
   type: 'document',
   icon: DocumentTextIcon,
+  __experimental_actions: ['update', 'publish'], // Disable create and delete
   fields: [
     defineField({
       name: 'links',

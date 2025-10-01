@@ -4,6 +4,7 @@ const upcomingExhibition = {
   name: "upcomingExhibition",
   title: "Připravujeme",
   type: "document",
+  __experimental_actions: ['update', 'publish'], // Disable create and delete
   fields: [
     {
       name: "artist",

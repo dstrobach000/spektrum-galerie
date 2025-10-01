@@ -2,6 +2,7 @@ export default {
   name: "contact",
   type: "document",
   title: "Kontakt",
+  __experimental_actions: ['update', 'publish'], // Disable create and delete
   fields: [
     {
       name: "address",
