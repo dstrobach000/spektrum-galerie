@@ -32,12 +32,9 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
 
   // Prepare materials + orientation (model is Z-up)
   useEffect(() => {
-    console.log('Applying chrome material to GLTF scene...');
-    
     gltf.scene.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        console.log('Found mesh:', mesh.name, 'Current material:', mesh.material);
         
         // Skip expensive normal computation for better performance
         // Most GLTF models already have proper normals
@@ -58,7 +55,6 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
         });
         
         mesh.material = paperMaterial;
-        console.log('Applied paper material:', paperMaterial);
         
         // Ensure the mesh is properly positioned and scaled
         mesh.castShadow = false;
@@ -74,7 +70,6 @@ function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
     });
     gltf.scene.rotation.x = 0; // GLB files are usually already oriented correctly
     gltf.scene.rotation.z = 0; // Ensure it sits on its base
-    console.log('Material application complete');
   }, [gltf, chrome]);
 
   // Compute the box once the model is ready
