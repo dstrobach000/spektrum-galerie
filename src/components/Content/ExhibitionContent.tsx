@@ -209,83 +209,88 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
             </div>
           )}
 
-          {/* Dynamic Alternating Flow Layout - Elements automatically alternate left/right */}
-          <div className="flex flex-col md:flex-row gap-6">
+          {/* Dynamic Alternating Flow Layout - Elements automatically alternate left/right (hidden on mobile) */}
+          <div className="hidden md:flex flex-col md:flex-row gap-6">
             <div className="md:w-1/2 flex flex-col gap-6">
               {(() => {
-                // Create array of elements that exist, in order
-                const elements = [];
-                let index = 0;
+                // Build elements array with smart ordering
+                const buildElementsArray = () => {
+                  const elements = [];
+                  let index = 0;
 
-                // Bio
-                if (exhibition.bio) {
-                  elements.push({
-                    key: 'bio',
-                    content: (
-                      <ExhibitionText variant="bordered" spacing="sm" className="mb-0">
-                        <PortableText value={exhibition.bio} components={ptComponents} />
-                      </ExhibitionText>
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Bio (always first if it exists)
+                  if (exhibition.bio) {
+                    elements.push({
+                      key: 'bio',
+                      content: (
+                        <ExhibitionText variant="bordered" spacing="sm" className="mb-0">
+                          <PortableText value={exhibition.bio} components={ptComponents} />
+                        </ExhibitionText>
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Portrait Gallery
-                if (exhibition.portraitImages?.length) {
-                  elements.push({
-                    key: 'portrait-gallery',
-                    content: <ExGaPortrait images={exhibition.portraitImages} />,
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Portrait Gallery (second if bio exists, first if no bio)
+                  if (exhibition.portraitImages?.length) {
+                    elements.push({
+                      key: 'portrait-gallery',
+                      content: <ExGaPortrait images={exhibition.portraitImages} />,
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Portrait Video
-                if (exhibition.portraitVideos?.length) {
-                  elements.push({
-                    key: 'portrait-video',
-                    content: (
-                      <div className="w-full">
-                        {exhibition.portraitVideos.map((video, idx) =>
-                          video?.asset?.url ? (
-                            <div key={idx} className="w-full">
-                              <video controls style={{ width: "100%" }} src={video.asset.url} />
-                            </div>
-                          ) : null
-                        )}
-                      </div>
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Portrait Video
+                  if (exhibition.portraitVideos?.length) {
+                    elements.push({
+                      key: 'portrait-video',
+                      content: (
+                        <div className="w-full">
+                          {exhibition.portraitVideos.map((video, idx) =>
+                            video?.asset?.url ? (
+                              <div key={idx} className="w-full">
+                                <video controls style={{ width: "100%" }} src={video.asset.url} />
+                              </div>
+                            ) : null
+                          )}
+                        </div>
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Graphic
-                if (exhibition.poster?.asset) {
-                  elements.push({
-                    key: 'graphic',
-                    content: (
-                      <ExhibitionGraphic 
-                        posterUrl={exhibition.poster.asset.url}
-                        alt="Exhibition graphic"
-                      />
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Graphic
+                  if (exhibition.poster?.asset) {
+                    elements.push({
+                      key: 'graphic',
+                      content: (
+                        <ExhibitionGraphic 
+                          posterUrl={exhibition.poster.asset.url}
+                          alt="Exhibition graphic"
+                        />
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Namecard
-                if (exhibition.namecard && exhibition.namecard.length > 0) {
-                  elements.push({
-                    key: 'namecard',
-                    content: <ExhibitionNameCard namecard={exhibition.namecard} />,
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Namecard
+                  if (exhibition.namecard && exhibition.namecard.length > 0) {
+                    elements.push({
+                      key: 'namecard',
+                      content: <ExhibitionNameCard namecard={exhibition.namecard} />,
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
+                  return elements;
+                };
+
+                const elements = buildElementsArray();
                 // Filter and render only left elements
                 return elements.filter(element => element.isLeft).map((element) => (
                   <div key={element.key} className="w-full">
@@ -297,79 +302,84 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
 
             <div className="md:w-1/2 flex flex-col gap-6">
               {(() => {
-                // Create array of elements that exist, in order
-                const elements = [];
-                let index = 0;
+                // Build elements array with smart ordering
+                const buildElementsArray = () => {
+                  const elements = [];
+                  let index = 0;
 
-                // Bio
-                if (exhibition.bio) {
-                  elements.push({
-                    key: 'bio',
-                    content: (
-                      <ExhibitionText variant="bordered" spacing="sm" className="mb-0">
-                        <PortableText value={exhibition.bio} components={ptComponents} />
-                      </ExhibitionText>
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Bio (always first if it exists)
+                  if (exhibition.bio) {
+                    elements.push({
+                      key: 'bio',
+                      content: (
+                        <ExhibitionText variant="bordered" spacing="sm" className="mb-0">
+                          <PortableText value={exhibition.bio} components={ptComponents} />
+                        </ExhibitionText>
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Portrait Gallery
-                if (exhibition.portraitImages?.length) {
-                  elements.push({
-                    key: 'portrait-gallery',
-                    content: <ExGaPortrait images={exhibition.portraitImages} />,
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Portrait Gallery (second if bio exists, first if no bio)
+                  if (exhibition.portraitImages?.length) {
+                    elements.push({
+                      key: 'portrait-gallery',
+                      content: <ExGaPortrait images={exhibition.portraitImages} />,
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Portrait Video
-                if (exhibition.portraitVideos?.length) {
-                  elements.push({
-                    key: 'portrait-video',
-                    content: (
-                      <div className="w-full">
-                        {exhibition.portraitVideos.map((video, idx) =>
-                          video?.asset?.url ? (
-                            <div key={idx} className="w-full">
-                              <video controls style={{ width: "100%" }} src={video.asset.url} />
-                            </div>
-                          ) : null
-                        )}
-                      </div>
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Portrait Video
+                  if (exhibition.portraitVideos?.length) {
+                    elements.push({
+                      key: 'portrait-video',
+                      content: (
+                        <div className="w-full">
+                          {exhibition.portraitVideos.map((video, idx) =>
+                            video?.asset?.url ? (
+                              <div key={idx} className="w-full">
+                                <video controls style={{ width: "100%" }} src={video.asset.url} />
+                              </div>
+                            ) : null
+                          )}
+                        </div>
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Graphic
-                if (exhibition.poster?.asset) {
-                  elements.push({
-                    key: 'graphic',
-                    content: (
-                      <ExhibitionGraphic 
-                        posterUrl={exhibition.poster.asset.url}
-                        alt="Exhibition graphic"
-                      />
-                    ),
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Graphic
+                  if (exhibition.poster?.asset) {
+                    elements.push({
+                      key: 'graphic',
+                      content: (
+                        <ExhibitionGraphic 
+                          posterUrl={exhibition.poster.asset.url}
+                          alt="Exhibition graphic"
+                        />
+                      ),
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
-                // Namecard
-                if (exhibition.namecard && exhibition.namecard.length > 0) {
-                  elements.push({
-                    key: 'namecard',
-                    content: <ExhibitionNameCard namecard={exhibition.namecard} />,
-                    isLeft: index % 2 === 0
-                  });
-                  index++;
-                }
+                  // Namecard
+                  if (exhibition.namecard && exhibition.namecard.length > 0) {
+                    elements.push({
+                      key: 'namecard',
+                      content: <ExhibitionNameCard namecard={exhibition.namecard} />,
+                      isLeft: index % 2 === 0
+                    });
+                    index++;
+                  }
 
+                  return elements;
+                };
+
+                const elements = buildElementsArray();
                 // Filter and render only right elements
                 return elements.filter(element => !element.isLeft).map((element) => (
                   <div key={element.key} className="w-full">
@@ -378,6 +388,79 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                 ));
               })()}
             </div>
+          </div>
+
+          {/* Mobile-only single column layout with specific ordering */}
+          <div className="md:hidden flex flex-col gap-6">
+            {(() => {
+              // Mobile-specific ordering: Bio → Portrait Gallery → Graphic → Namecard → Portrait Video
+              const mobileElements = [];
+
+              // Bio (always first if it exists)
+              if (exhibition.bio) {
+                mobileElements.push({
+                  key: 'bio-mobile',
+                  content: (
+                    <ExhibitionText variant="bordered" spacing="sm" className="mb-0">
+                      <PortableText value={exhibition.bio} components={ptComponents} />
+                    </ExhibitionText>
+                  )
+                });
+              }
+
+              // Portrait Gallery (second if bio exists, first if no bio)
+              if (exhibition.portraitImages?.length) {
+                mobileElements.push({
+                  key: 'portrait-gallery-mobile',
+                  content: <ExGaPortrait images={exhibition.portraitImages} />
+                });
+              }
+
+              // Graphic (third)
+              if (exhibition.poster?.asset) {
+                mobileElements.push({
+                  key: 'graphic-mobile',
+                  content: (
+                    <ExhibitionGraphic 
+                      posterUrl={exhibition.poster.asset.url}
+                      alt="Exhibition graphic"
+                    />
+                  )
+                });
+              }
+
+              // Namecard (fourth)
+              if (exhibition.namecard && exhibition.namecard.length > 0) {
+                mobileElements.push({
+                  key: 'namecard-mobile',
+                  content: <ExhibitionNameCard namecard={exhibition.namecard} />
+                });
+              }
+
+              // Portrait Video (last)
+              if (exhibition.portraitVideos?.length) {
+                mobileElements.push({
+                  key: 'portrait-video-mobile',
+                  content: (
+                    <div className="w-full">
+                      {exhibition.portraitVideos.map((video, idx) =>
+                        video?.asset?.url ? (
+                          <div key={idx} className="w-full">
+                            <video controls style={{ width: "100%" }} src={video.asset.url} />
+                          </div>
+                        ) : null
+                      )}
+                    </div>
+                  )
+                });
+              }
+
+              return mobileElements.map((element) => (
+                <div key={element.key} className="w-full">
+                  {element.content}
+                </div>
+              ));
+            })()}
           </div>
         </div>
       </div>

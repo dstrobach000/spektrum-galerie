@@ -10,7 +10,7 @@ const ContactContent = ({ contact }: { contact: Contact }) => (
     <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
       <div className="flex flex-col space-y-6">
         <LogoSlot />
-        <div className="relative flex flex-col space-y-6">
+        <div className="flex flex-col space-y-6">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="border border-black rounded-xl p-6 flex-1">
               {contact.address.map((line, idx) => (

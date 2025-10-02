@@ -21,10 +21,22 @@ export default function ExhibitionModalClient({
   const pathname = usePathname();
 
   const [open, setOpen] = useState(true);
+  const [cameFromApp, setCameFromApp] = useState(false);
 
   // Update title when exhibition data is available
   const title = exhibition ? `${exhibition.artist} — ${exhibition.title} | Spektrum galerie` : "Výstava | Spektrum galerie";
   useUpdateTitle(title);
+
+  // Track if user came from within the app
+  useEffect(() => {
+    const referrer = document.referrer;
+    const isFromApp = referrer && (
+      referrer.includes('localhost:3000') || 
+      referrer.includes('spektrum-galerie') ||
+      referrer.includes('/menu')
+    );
+    setCameFromApp(!!isFromApp);
+  }, []);
 
   // Also update title when pathname changes to ensure it's set correctly
   useEffect(() => {
@@ -44,8 +56,12 @@ export default function ExhibitionModalClient({
 
   const handleClose = useCallback(() => {
     setOpen(false); // hide immediately
-    router.push("/", { scroll: false }); // then navigate home
-  }, [router]);
+    if (cameFromApp) {
+      router.back(); // then navigate back to previous page
+    } else {
+      router.push("/", { scroll: false }); // then navigate home
+    }
+  }, [router, cameFromApp]);
 
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>

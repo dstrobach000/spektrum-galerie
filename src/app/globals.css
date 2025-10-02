@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iOS Safari/Chrome viewport height fixes */
+@supports not (height: 100dvh) {
+  .modal-container {
+    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
+  }
+}
+
+/* iOS-specific safe area handling */
+@supports (padding: max(0px)) {
+  .modal-content {
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+}
+
 @font-face {
   font-family: 'Replica';
   src: url('/fonts/Replica-Light.woff2') format('woff2');
@@ -53,18 +69,5 @@
   stroke-width: 2;
   stroke-dasharray: 100%;
   stroke-dashoffset: 100%;
-}
-
-@keyframes floatPulse {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float-pulse {
-  animation: floatPulse 4s ease-in-out infinite;
 }
 

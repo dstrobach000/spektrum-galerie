@@ -6,7 +6,7 @@ const Footer = forwardRef<HTMLElement, { noPadding?: boolean }>(({ noPadding = f
   return (
     <footer
       ref={ref}
-      className="bg-white py-10 sm:py-6"
+      className="bg-white py-6"
       id="footer"
     >
       <div className={`w-full max-w-4xl mx-auto ${noPadding ? '' : 'px-6'}`}>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import StickyCloseButton from "@/components/BuildingBlocks/Buttons/StickyCloseButton";
 
 // --- Scroll lock counter logic (unchanged) ---
@@ -69,6 +69,38 @@ const Modal = ({
   noPadding = false,
   closeOnBackdropClick = true,
 }: ModalProps) => {
+  const [viewportHeight, setViewportHeight] = useState('100vh');
+
+  // Dynamic viewport height calculation for iOS Safari/Chrome
+  useEffect(() => {
+    // Only run on client side to prevent hydration mismatch
+    if (typeof window === 'undefined') return;
+    
+    const updateViewportHeight = () => {
+      // Use dvh if supported, otherwise fallback to vh
+      if (CSS.supports('height', '100dvh')) {
+        setViewportHeight('100dvh');
+      } else {
+        // For iOS Safari/Chrome, use window.innerHeight
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (isIOS) {
+          setViewportHeight(`${window.innerHeight}px`);
+        } else {
+          setViewportHeight('100vh');
+        }
+      }
+    };
+
+    updateViewportHeight();
+    window.addEventListener('resize', updateViewportHeight);
+    window.addEventListener('orientationchange', updateViewportHeight);
+
+    return () => {
+      window.removeEventListener('resize', updateViewportHeight);
+      window.removeEventListener('orientationchange', updateViewportHeight);
+    };
+  }, []);
+
   useEffect(() => {
     if (isOpen) lockScroll();
     return () => {
@@ -79,61 +111,68 @@ const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className={`fixed inset-0 z-50 bg-white text-black overscroll-contain ${
-        fullscreen ? "p-0" : noPadding ? "p-0" : "p-0"
-      }`}
-      style={{ 
-        WebkitOverflowScrolling: "touch", 
-        touchAction: "auto",
-        // Additional iOS Safari fixes
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100vw',
-        height: '100vh',
-        minHeight: '100vh',
-        maxHeight: '100vh',
-        // Prevent content bleeding through
-        isolation: 'isolate',
-        zIndex: 9999, // Much higher z-index
-        // Ensure proper stacking context
-        WebkitTransform: 'translate3d(0, 0, 0)',
-        transform: 'translate3d(0, 0, 0)',
-        backfaceVisibility: 'hidden',
-        WebkitBackfaceVisibility: 'hidden',
-        // Force full viewport coverage
-        margin: 0,
-        padding: 0,
-        // Allow scrolling within the modal
-        overflow: 'auto',
-        // Force hardware acceleration
-        willChange: 'transform',
-        // Prevent any content from showing through
-        backgroundColor: 'white'
-      }}
-      onClick={closeOnBackdropClick ? onClose : undefined}
-    >
-      {/* Single, unified close button, calls onClose provided by the page */}
+    <>
+      {/* Sticky close button rendered outside modal container */}
       <StickyCloseButton onClick={onClose} />
-
-      {/* Prevent clicks on contents from closing via backdrop */}
-      <div onClick={(e) => e.stopPropagation()}>
-        <div
-          className={`mx-auto h-full relative ${
-            fullscreen
-              ? "bg-white"
-              : "w-full bg-transparent shadow-none border-none pt-6 px-6 h-full"
-          }`}
-          style={fullscreen ? {} : { maxWidth: '896px', margin: '0 auto', width: '100%' }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="font-light text-base">{children}</div>
+      
+      <div
+        className={`fixed inset-0 z-50 bg-white text-black overscroll-contain modal-container ${
+          fullscreen ? "p-0" : noPadding ? "p-0" : "p-0"
+        }`}
+        style={{ 
+          WebkitOverflowScrolling: "touch", 
+          touchAction: "auto",
+          // Additional iOS Safari fixes
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: viewportHeight,
+          minHeight: viewportHeight,
+          maxHeight: viewportHeight,
+          // Prevent content bleeding through
+          isolation: 'isolate',
+          zIndex: 9999, // Much higher z-index
+          // Ensure proper stacking context
+          WebkitTransform: 'translate3d(0, 0, 0)',
+          transform: 'translate3d(0, 0, 0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+          // Force full viewport coverage
+          margin: 0,
+          padding: 0,
+          // Allow scrolling within the modal
+          overflow: 'auto',
+          // Force hardware acceleration
+          willChange: 'transform',
+          // Prevent any content from showing through
+          backgroundColor: 'white'
+        }}
+        onClick={closeOnBackdropClick ? onClose : undefined}
+      >
+        {/* Prevent clicks on contents from closing via backdrop */}
+        <div onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`mx-auto h-full relative modal-content ${
+              fullscreen
+                ? "bg-white"
+                : "w-full bg-transparent shadow-none border-none pt-6 px-6 h-full"
+            }`}
+            style={fullscreen ? {} : { 
+              maxWidth: '896px', 
+              margin: '0 auto', 
+              width: '100%',
+              paddingBottom: 'env(safe-area-inset-bottom, 20px)'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="font-light text-base">{children}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

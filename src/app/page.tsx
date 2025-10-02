@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "@/components/Layout/Header";
 import Gallery from "@/components/Layout/Gallery";
-import Footer from "@/components/Layout/Footer";
 import HomeClient from "@/components/Content/HomeClient";
 import UpcomingWrapper from "@/components/Content/UpcomingWrapper";
 import { sanityClient } from "@/sanity/client";
@@ -117,10 +116,6 @@ export default async function Home() {
       {/* Full-width border */}
       <div className="border-t border-black w-full"></div>
       
-      <div className="max-w-4xl mx-auto w-full">
-        <Footer />
-      </div>
-
       <HomeClient 
         contact={contact}
       />

@@ -41,7 +41,7 @@ const MenuContent = ({
 
   return (
     <div className="w-full relative">
-      <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
+      <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto mb-6">
         <div className="mb-6">
           <LogoSlot />
         </div>

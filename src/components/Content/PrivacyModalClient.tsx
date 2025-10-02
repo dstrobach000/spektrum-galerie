@@ -11,9 +11,21 @@ export default function PrivacyModalClient() {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
+  const [cameFromApp, setCameFromApp] = useState(false);
 
   // Update title for privacy page
   useUpdateTitle("Zásady ochrany osobních údajů | Spektrum galerie");
+
+  // Track if user came from within the app
+  useEffect(() => {
+    const referrer = document.referrer;
+    const isFromApp = referrer && (
+      referrer.includes('localhost:3000') || 
+      referrer.includes('spektrum-galerie') ||
+      referrer.includes('/menu')
+    );
+    setCameFromApp(!!isFromApp);
+  }, []);
 
   // Re-open when navigating to /privacy again (handles App Router cache)
   useEffect(() => {
@@ -22,8 +34,12 @@ export default function PrivacyModalClient() {
 
   const handleClose = useCallback(() => {
     setOpen(false);
-    router.push("/", { scroll: false });
-  }, [router]);
+    if (cameFromApp) {
+      router.back();
+    } else {
+      router.push("/", { scroll: false });
+    }
+  }, [router, cameFromApp]);
 
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>

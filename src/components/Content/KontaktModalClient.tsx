@@ -15,9 +15,21 @@ export default function KontaktModalClient({ contact }: { contact: Contact }) {
   const router = useRouter();
   const pathname = usePathname();
   const [open, setOpen] = useState(true);
+  const [cameFromApp, setCameFromApp] = useState(false);
 
   // Update title for kontakt page
   useUpdateTitle("Kontakty | Spektrum galerie");
+
+  // Track if user came from within the app
+  useEffect(() => {
+    const referrer = document.referrer;
+    const isFromApp = referrer && (
+      referrer.includes('localhost:3000') || 
+      referrer.includes('spektrum-galerie') ||
+      referrer.includes('/menu')
+    );
+    setCameFromApp(!!isFromApp);
+  }, []);
 
   // Reopen when navigating back to /kontakt (handles App Router cache)
   useEffect(() => {
@@ -26,8 +38,12 @@ export default function KontaktModalClient({ contact }: { contact: Contact }) {
 
   const handleClose = useCallback(() => {
     setOpen(false);
-    router.push("/", { scroll: false });
-  }, [router]);
+    if (cameFromApp) {
+      router.back();
+    } else {
+      router.push("/", { scroll: false });
+    }
+  }, [router, cameFromApp]);
 
   return (
     <Modal isOpen={open} onClose={handleClose} closeOnBackdropClick={false}>
