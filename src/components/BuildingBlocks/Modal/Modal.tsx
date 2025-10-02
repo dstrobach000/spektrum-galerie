@@ -10,6 +10,21 @@ const lockScroll = () => {
   if (modalOpenCount === 0) {
     document.body.style.overflow = "hidden";
     document.body.style.overscrollBehavior = "contain";
+    
+    // iOS Safari specific: hide only the main content, not everything
+    const isIOSSafari = /iPad|iPhone|iPod/.test(navigator.userAgent) && /Safari/.test(navigator.userAgent);
+    if (isIOSSafari) {
+      // Hide only the main page content, not the modal
+      const mainContent = document.querySelector('main, #__next > div:first-child');
+      if (mainContent) {
+        (mainContent as HTMLElement).style.visibility = "hidden";
+      }
+      // Also hide any sections that might be visible
+      const sections = document.querySelectorAll('section:not([class*="modal"])');
+      sections.forEach(section => {
+        (section as HTMLElement).style.visibility = "hidden";
+      });
+    }
   }
   modalOpenCount++;
 };
@@ -19,9 +34,23 @@ const unlockScroll = () => {
   if (modalOpenCount === 0) {
     document.body.style.overflow = "";
     document.body.style.overscrollBehavior = "";
+    
+    // iOS Safari specific: restore content
+    const isIOSSafari = /iPad|iPhone|iPod/.test(navigator.userAgent) && /Safari/.test(navigator.userAgent);
+    if (isIOSSafari) {
+      const mainContent = document.querySelector('main, #__next > div:first-child');
+      if (mainContent) {
+        (mainContent as HTMLElement).style.visibility = "";
+      }
+      const sections = document.querySelectorAll('section:not([class*="modal"])');
+      sections.forEach(section => {
+        (section as HTMLElement).style.visibility = "";
+      });
+    }
   }
 };
 // ---------------------------------------------
+
 
 type ModalProps = {
   isOpen: boolean;
@@ -51,12 +80,39 @@ const Modal = ({
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-white text-black overflow-y-auto overscroll-contain ${
+      className={`fixed inset-0 z-50 bg-white text-black overscroll-contain ${
         fullscreen ? "p-0" : noPadding ? "p-0" : "p-0"
       }`}
       style={{ 
         WebkitOverflowScrolling: "touch", 
-        touchAction: "auto"
+        touchAction: "auto",
+        // Additional iOS Safari fixes
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        minHeight: '100vh',
+        maxHeight: '100vh',
+        // Prevent content bleeding through
+        isolation: 'isolate',
+        zIndex: 9999, // Much higher z-index
+        // Ensure proper stacking context
+        WebkitTransform: 'translate3d(0, 0, 0)',
+        transform: 'translate3d(0, 0, 0)',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        // Force full viewport coverage
+        margin: 0,
+        padding: 0,
+        // Allow scrolling within the modal
+        overflow: 'auto',
+        // Force hardware acceleration
+        willChange: 'transform',
+        // Prevent any content from showing through
+        backgroundColor: 'white'
       }}
       onClick={closeOnBackdropClick ? onClose : undefined}
     >

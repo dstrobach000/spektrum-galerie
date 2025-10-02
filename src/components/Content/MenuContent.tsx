@@ -1,15 +1,8 @@
 "use client";
 
 import React from "react";
-import dynamic from "next/dynamic";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-
-const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
-  ssr: false,
-  loading: () => (
-    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
-  ),
-});
+import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 
 const menuItems = [
   { label: "O galerii", href: "#header", action: null },
@@ -52,7 +45,7 @@ const MenuContent = ({
         <div className="mb-6">
           <LogoSlot />
         </div>
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-4 items-center pb-6">
           {menuItems.map((item) => {
             const actionHandler =
               item.action && typeof actionHandlers[item.action] === "function"

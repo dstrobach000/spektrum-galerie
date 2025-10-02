@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHeaderClient";
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
+import ExhibitionGraphic from "@/components/Layout/Exhibition/ExhibitionGraphic";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { Exhibition } from "@/types/Exhibition";
@@ -106,6 +107,7 @@ const ptComponents: PortableTextComponents = {
 /* --------------------------------- Page content --------------------------------- */
 
 const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
+  console.log('DEBUG: ExhibitionContent rendering, poster:', exhibition.poster?.asset);
   const [fullscreen, setFullscreen] = useState(false);
 
   // Keyboard: allow Esc to close while fullscreen
@@ -265,28 +267,10 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                   elements.push({
                     key: 'graphic',
                     content: (
-                      <div className="relative flex items-center justify-center">
-                        <Image 
-                          src={exhibition.poster.asset.url} 
-                          alt="Exhibition graphic" 
-                          width={800}
-                          height={600}
-                          className="w-full h-auto block" 
-                          draggable={false}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center z-10">
-                          <GlowButton
-                            onClick={() => setFullscreen(true)}
-                            glowColor="bg-[#a3f730]"
-                            className="!px-2 !py-1"
-                            floating={false}
-                          >
-                            <span className="text-sm font-light">⛶</span>
-                            <span className="ml-2 font-light text-sm">full screen</span>
-                          </GlowButton>
-                        </div>
-                      </div>
+                      <ExhibitionGraphic 
+                        posterUrl={exhibition.poster.asset.url}
+                        alt="Exhibition graphic"
+                      />
                     ),
                     isLeft: index % 2 === 0
                   });
@@ -367,28 +351,10 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
                   elements.push({
                     key: 'graphic',
                     content: (
-                      <div className="relative flex items-center justify-center">
-                        <Image 
-                          src={exhibition.poster.asset.url} 
-                          alt="Exhibition graphic" 
-                          width={800}
-                          height={600}
-                          className="w-full h-auto block" 
-                          draggable={false}
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center z-10">
-                          <GlowButton
-                            onClick={() => setFullscreen(true)}
-                            glowColor="bg-[#a3f730]"
-                            className="!px-2 !py-1"
-                            floating={false}
-                          >
-                            <span className="text-sm font-light">⛶</span>
-                            <span className="ml-2 font-light text-sm">full screen</span>
-                          </GlowButton>
-                        </div>
-                      </div>
+                      <ExhibitionGraphic 
+                        posterUrl={exhibition.poster.asset.url}
+                        alt="Exhibition graphic"
+                      />
                     ),
                     isLeft: index % 2 === 0
                   });

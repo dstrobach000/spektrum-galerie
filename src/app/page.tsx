@@ -122,7 +122,6 @@ export default async function Home() {
       </div>
 
       <HomeClient 
-        exhibitions={exhibitions}
         contact={contact}
       />
     </main>

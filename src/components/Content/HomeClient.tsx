@@ -3,24 +3,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Modal from "@/components/BuildingBlocks/Modal/Modal";
-import MenuContent from "@/components/Content/MenuContent";
+// import MenuContent from "@/components/Content/MenuContent"; // No longer needed
 import ContactContent from "@/components/Content/ContactContent";
 import MenuButton from "@/components/BuildingBlocks/Buttons/MenuButton";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-
-type SanityImage = { asset: { url: string } };
-
-type Exhibition = {
-  _id: string;
-  title: string;
-  artist: string;
-  slug: string;
-  startDate?: string;
-  endDate?: string;
-  landscapeImages?: SanityImage[];
-  portraitImages?: SanityImage[];
-  description?: string;
-};
 
 type ContactRole = { name: string; role: string; email: string };
 type Contact = {
@@ -34,66 +20,25 @@ type Contact = {
 };
 
 type HomeClientProps = {
-  exhibitions: Exhibition[];
   contact: Contact | null;
 };
 
 
-export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Unified "return-to-menu" flag for Kontakt, Press, Exhibition
-  // Values: 'none' | 'kontakt' | 'press' | 'exhibition'
-  const [returnToMenu, setReturnToMenu] = useState<
-    "none" | "kontakt" | "press" | "exhibition"
-  >("none");
-
+export default function HomeClient({ contact }: HomeClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isContactRoute, setIsContactRoute] = useState(false);
+  const [isMenuRoute, setIsMenuRoute] = useState(false);
 
-  // Set isContactRoute after mount to prevent hydration mismatch
+  // Set route states after mount to prevent hydration mismatch
   useEffect(() => {
     setIsContactRoute(pathname === "/kontakt");
+    setIsMenuRoute(pathname === "/menu");
   }, [pathname]);
 
-  // When we come back to '/', reopen the Menu if we started from it
-  useEffect(() => {
-    if (pathname === "/" && returnToMenu !== "none") {
-      setMenuOpen(true);
-      setReturnToMenu("none");
-    }
-  }, [pathname, returnToMenu]);
-
-
-  // --- OPENERS (from menu) ---
-  const handleMenuContactClick = () => {
-    setReturnToMenu("kontakt");
-    setMenuOpen(false);
-    router.push("/kontakt", { scroll: false });
-  };
-
-  const handleCurrentExhibitionClick = () => {
-    const slug = exhibitions[0]?.slug;
-    if (!slug) return;
-    setReturnToMenu("exhibition");
-    setMenuOpen(false);
-    router.push(`/exhibition/${slug}`, { scroll: false });
-  };
-
-  const handleMenuPressClick = () => {
-    setReturnToMenu("press");
-    setMenuOpen(false);
-    router.push("/press", { scroll: false });
-  };
-
   // Contact modal in the home page (route-driven)
-  // Keep your safe-close logic, and make it use the unified flag
   const handleContactClose = () => {
-    // Use useEffect to check history state after hydration to avoid mismatch
     router.replace("/");
-    // The effect above will reopen the menu when we land on "/"
-    // (no need to directly setMenuOpen(true) here)
   };
 
   const footerRef = useRef<HTMLElement | null>(null);
@@ -118,7 +63,7 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
 
   return (
     <>
-      {!menuOpen && <MenuButton onClick={() => setMenuOpen(true)} />}
+      {!isMenuRoute && <MenuButton onClick={() => router.push("/menu", { scroll: false })} />}
 
 
       {showScrollButton && (
@@ -134,19 +79,6 @@ export default function HomeClient({ exhibitions, contact }: HomeClientProps) {
         </div>
       )}
 
-      {/* MENU OVERLAY */}
-      <Modal
-        isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        closeOnBackdropClick={false}
-      >
-        <MenuContent
-          onClose={() => setMenuOpen(false)} // used only by #anchor items
-          onContactClick={handleMenuContactClick}
-          onPressClick={handleMenuPressClick}
-          onCurrentExhibitionClick={handleCurrentExhibitionClick}
-        />
-      </Modal>
 
       {/* KONTAKT MODAL (route-driven) */}
       <Modal

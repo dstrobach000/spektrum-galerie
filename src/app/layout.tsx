@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 export const viewport = {
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {

@@ -3,28 +3,21 @@ import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { createPortal } from "react-dom";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-import { ImageAsset } from "@/types/Exhibition";
 import { imageSizes } from "@/utils/sanityImageUrl";
 
-const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
-  const [index, setIndex] = useState(0);
+interface ExhibitionGraphicProps {
+  posterUrl: string;
+  alt?: string;
+}
+
+// Copy of ExGaPortrait behavior, adapted for a single poster image
+const ExhibitionGraphic = ({ posterUrl, alt = "Exhibition graphic" }: ExhibitionGraphicProps) => {
   const [fullscreen, setFullscreen] = useState(false);
 
-  const hasMultiple = images.length > 1;
-  const currentImgUrl = images[index]?.asset?.url || "";
+  // Mirror ExGaPortrait logic exactly
+  const currentImgUrl = posterUrl || "";
   const optimizedImgUrl = currentImgUrl ? imageSizes.portrait(currentImgUrl) : "";
   const fullscreenImgUrl = currentImgUrl ? imageSizes.fullscreen(currentImgUrl) : "";
-
-  // Memoized navigation handlers
-  const prevImg = useCallback(() => {
-    if (!hasMultiple) return;
-    setIndex((i) => (i === 0 ? images.length - 1 : i - 1));
-  }, [images.length, hasMultiple]);
-
-  const nextImg = useCallback(() => {
-    if (!hasMultiple) return;
-    setIndex((i) => (i === images.length - 1 ? 0 : i + 1));
-  }, [images.length, hasMultiple]);
 
   // Keyboard navigation while fullscreen
   useEffect(() => {
@@ -32,15 +25,13 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setFullscreen(false);
-      if (hasMultiple && e.key === "ArrowLeft") prevImg();
-      if (hasMultiple && e.key === "ArrowRight") nextImg();
     };
 
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [fullscreen, prevImg, nextImg, hasMultiple]);
+  }, [fullscreen]);
 
-  // Lock page scroll while overlay is open (desktop + iOS)
+  // Lock page scroll while overlay is open (desktop + iOS) - identical to ExGaPortrait
   useEffect(() => {
     if (!fullscreen) return;
 
@@ -79,52 +70,24 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
     };
   }, [fullscreen]);
 
-  // Don't render anything if there are no images
-  if (images.length === 0) {
+  if (!currentImgUrl) {
     return null;
   }
 
   return (
     <>
-      {/* Inline viewer */}
+      {/* Inline viewer - identical to ExGaPortrait */}
       <div className="relative w-full">
         {optimizedImgUrl && (
           <Image
             src={optimizedImgUrl}
-            alt=""
+            alt={alt || ""}
             width={600}
             height={900}
             className="w-full h-auto block"
             draggable={false}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        )}
-
-        {/* Side arrows (hidden if single image) */}
-        {hasMultiple && (
-          <>
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 z-10">
-              <GlowButton
-                onClick={prevImg}
-                glowColor="bg-[#a3f730]"
-                className="!p-2"
-                floating={false}
-              >
-                <span className="text-md font-light">&lt;</span>
-              </GlowButton>
-            </div>
-
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 z-10">
-              <GlowButton
-                onClick={nextImg}
-                glowColor="bg-[#a3f730]"
-                className="!p-2"
-                floating={false}
-              >
-                <span className="text-md font-light">&gt;</span>
-              </GlowButton>
-            </div>
-          </>
         )}
 
         {/* Fullscreen trigger */}
@@ -141,7 +104,7 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
         </div>
       </div>
 
-      {/* Fullscreen overlay (container + object-contain) */}
+      {/* Fullscreen overlay (container + object-contain) - identical to ExGaPortrait */}
       {fullscreen && typeof window !== 'undefined' && createPortal(
         <div
           className="fixed inset-0 bg-white"
@@ -173,37 +136,25 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
             {fullscreenImgUrl && (
               <Image
                 src={fullscreenImgUrl}
-                alt=""
+                alt={alt || ""}
                 width={1920}
                 height={1080}
                 className="block max-h-full max-w-full object-contain"
                 draggable={false}
                 sizes="100vw"
                 style={{ 
-                  width: 'auto', 
+                  width: '100%', 
                   height: 'auto',
                   maxWidth: '100%',
-                  maxHeight: 'calc(100vh - 200px)' // More space reserved for navigation on portrait images
+                  maxHeight: 'calc(100vh - 200px)', // More space reserved for navigation
+                  objectFit: 'contain'
                 }}
               />
             )}
           </div>
 
           <div className="p-4 sm:p-6 pb-8 flex w-full max-w-3xl justify-between items-center mx-auto" style={{ paddingBottom: 'max(2rem, env(safe-area-inset-bottom, 2rem))' }}>
-            {/* Prev (hidden if single image) */}
-            {hasMultiple ? (
-              <GlowButton
-                onClick={prevImg}
-                glowColor="bg-[#a3f730]"
-                className="!p-2"
-                floating={false}
-              >
-                <span className="text-2xl font-light">&lt;</span>
-              </GlowButton>
-            ) : (
-              <span />
-            )}
-
+            <span />
             <GlowButton
               onClick={() => setFullscreen(false)}
               glowColor="bg-[#a3f730]"
@@ -212,20 +163,7 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
             >
               <span className="font-light">Zavřít</span>
             </GlowButton>
-
-            {/* Next (hidden if single image) */}
-            {hasMultiple ? (
-              <GlowButton
-                onClick={nextImg}
-                glowColor="bg-[#a3f730]"
-                className="!p-2"
-                floating={false}
-              >
-                <span className="text-2xl font-light">&gt;</span>
-              </GlowButton>
-            ) : (
-              <span />
-            )}
+            <span />
           </div>
         </div>,
         document.body
@@ -234,4 +172,4 @@ const ExGaPortrait = ({ images = [] }: { images: ImageAsset[] }) => {
   );
 };
 
-export default ExGaPortrait;
+export default ExhibitionGraphic;
