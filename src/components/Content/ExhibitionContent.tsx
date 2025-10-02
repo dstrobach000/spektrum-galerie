@@ -107,7 +107,6 @@ const ptComponents: PortableTextComponents = {
 /* --------------------------------- Page content --------------------------------- */
 
 const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
-  console.log('DEBUG: ExhibitionContent rendering, poster:', exhibition.poster?.asset);
   const [fullscreen, setFullscreen] = useState(false);
 
   // Keyboard: allow Esc to close while fullscreen
