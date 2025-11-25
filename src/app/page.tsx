@@ -27,6 +27,7 @@ type UpcomingExhibition = {
   endDate: string;
   vernissageDate: string;
   link?: string;
+  isVisible?: boolean;
 };
 
 type ContactRole = { name: string; role: string; email: string };
@@ -84,7 +85,8 @@ const upcomingQuery = `
     startDate,
     endDate,
     vernissageDate,
-    link
+    link,
+    isVisible
   }
 `;
 

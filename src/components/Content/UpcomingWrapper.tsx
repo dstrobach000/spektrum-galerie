@@ -11,6 +11,7 @@ type UpcomingExhibition = {
   endDate: string;
   vernissageDate: string;
   link?: string;
+  isVisible?: boolean;
 };
 
 type UpcomingWrapperProps = {
@@ -19,6 +20,9 @@ type UpcomingWrapperProps = {
 
 export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
   if (!upcoming) return null;
+  
+  // Hide if isVisible is explicitly false
+  if (upcoming.isVisible === false) return null;
 
   // Debug logging to see what data we're getting
   console.log('Upcoming exhibition data:', {
@@ -27,7 +31,8 @@ export default function UpcomingWrapper({ upcoming }: UpcomingWrapperProps) {
     startDate: upcoming.startDate,
     endDate: upcoming.endDate,
     vernissageDate: upcoming.vernissageDate,
-    link: upcoming.link
+    link: upcoming.link,
+    isVisible: upcoming.isVisible
   });
 
   return (

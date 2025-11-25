@@ -15,6 +15,12 @@ const fetchLatestExhibition = async () => {
   return exhibitions[0] || null;
 };
 
+// Enable ISR (Incremental Static Regeneration) with 60-second revalidation
+export const revalidate = 60;
+
+// Force dynamic rendering for immediate updates
+export const dynamic = 'force-dynamic';
+
 export default async function MenuModalPage() {
   const latestExhibition = await fetchLatestExhibition();
   return <MenuModalClient latestExhibition={latestExhibition} />;

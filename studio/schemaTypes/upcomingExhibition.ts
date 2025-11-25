@@ -42,6 +42,13 @@ const upcomingExhibition = {
       title: "Odkaz",
       type: "url",
     },
+    {
+      name: "isVisible",
+      title: "Zobrazit na webu",
+      type: "boolean",
+      initialValue: true,
+      description: "Zapněte pro zobrazení této výstavy na hlavní stránce",
+    },
   ],
 };
 
