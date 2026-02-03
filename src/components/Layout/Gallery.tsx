@@ -24,9 +24,11 @@ type Exhibition = {
 const Gallery = ({
   exhibitions = [],
   onOverlayOpen,
+  showCurrentLabel = true,
 }: {
   exhibitions: Exhibition[];
   onOverlayOpen?: () => void;
+  showCurrentLabel?: boolean;
 }) => {
   return (
     <section className="py-6 px-6 bg-white" id="gallery">
@@ -49,7 +51,7 @@ const Gallery = ({
               interval={2}
               onPillClick={onOverlayOpen}
               buttonClassName="inline-block px-6 py-2 text-sm font-light text-black"
-              isCurrent={i === 0}
+              isCurrent={showCurrentLabel && i === 0}
               exhibitionGraphic={exhibition.poster?.asset.url ? imageSizes.poster(exhibition.poster.asset.url) : undefined}
             />
           </Link>

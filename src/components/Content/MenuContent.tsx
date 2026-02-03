@@ -18,11 +18,13 @@ const MenuContent = ({
   onContactClick,
   onPressClick,
   onCurrentExhibitionClick,
+  showCurrentButton = true,
 }: {
   onClose?: () => void;
   onContactClick?: () => void;
   onPressClick?: () => void;
   onCurrentExhibitionClick?: () => void;
+  showCurrentButton?: boolean;
 }) => {
   const actionHandlers: { [key: string]: (() => void) | undefined } = {
     currentExhibition: onCurrentExhibitionClick,
@@ -39,6 +41,10 @@ const MenuContent = ({
     }
   };
 
+  const visibleMenuItems = menuItems.filter(
+    (item) => item.action !== "currentExhibition" || showCurrentButton
+  );
+
   return (
     <div className="w-full relative">
       <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto mb-6">
@@ -46,7 +52,7 @@ const MenuContent = ({
           <LogoSlot />
         </div>
         <div className="flex flex-col gap-4 items-center pb-6">
-          {menuItems.map((item) => {
+          {visibleMenuItems.map((item) => {
             const actionHandler =
               item.action && typeof actionHandlers[item.action] === "function"
                 ? actionHandlers[item.action]

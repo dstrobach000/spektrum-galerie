@@ -16,9 +16,13 @@ type Exhibition = {
 
 type MenuModalClientProps = {
   latestExhibition: Exhibition | null;
+  showCurrentButton?: boolean;
 };
 
-export default function MenuModalClient({ latestExhibition }: MenuModalClientProps) {
+export default function MenuModalClient({
+  latestExhibition,
+  showCurrentButton = true,
+}: MenuModalClientProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuRoute, setIsMenuRoute] = useState(false);
@@ -59,6 +63,7 @@ export default function MenuModalClient({ latestExhibition }: MenuModalClientPro
           onContactClick={handleContactClick}
           onPressClick={handlePressClick}
           onCurrentExhibitionClick={handleCurrentExhibitionClick}
+          showCurrentButton={showCurrentButton}
         />
       </Modal>
     </>

@@ -41,6 +41,10 @@ type Contact = {
   roles: ContactRole[];
 };
 
+type SiteSettings = {
+  showCurrentLabel?: boolean;
+};
+
 const fetchExhibitions = async (): Promise<Exhibition[]> => {
   return await sanityClient.fetch(`
     *[_type == "exhibition"] | order(startDate desc) {
@@ -63,7 +67,7 @@ const fetchExhibitions = async (): Promise<Exhibition[]> => {
 };
 
 const contactQuery = `
-  *[_type == "contact"][0]{
+  *[_type == "contact"] | order(_updatedAt desc)[0]{
     address,
     mapLink,
     invoiceDetails,
@@ -90,6 +94,12 @@ const upcomingQuery = `
   }
 `;
 
+const siteSettingsQuery = `
+  *[_type == "siteSettings"] | order(_updatedAt desc)[0]{
+    showCurrentLabel
+  }
+`;
+
 
 // Enable ISR (Incremental Static Regeneration) with 60-second revalidation
 export const revalidate = 60;
@@ -99,10 +109,11 @@ export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Server-side data fetching
-  const [exhibitions, contact, upcoming] = await Promise.all([
+  const [exhibitions, contact, upcoming, siteSettings] = await Promise.all([
     fetchExhibitions(),
     sanityClient.fetch<Contact | null>(contactQuery),
     sanityClient.fetch<UpcomingExhibition | null>(upcomingQuery),
+    sanityClient.fetch<SiteSettings | null>(siteSettingsQuery),
   ]);
 
   return (
@@ -111,7 +122,10 @@ export default async function Home() {
         <div className="flex-grow">
           <Header />
           <UpcomingWrapper upcoming={upcoming} />
-          <Gallery exhibitions={exhibitions} />
+          <Gallery
+            exhibitions={exhibitions}
+            showCurrentLabel={siteSettings?.showCurrentLabel ?? true}
+          />
         </div>
       </div>
       

@@ -18,6 +18,10 @@ export const structure: StructureResolver = (S) =>
         .schemaType('contact')
         .child(S.documentTypeList('contact').title('Kontakt')),
       S.listItem()
+        .title('Nastavení webu')
+        .schemaType('siteSettings')
+        .child(S.documentTypeList('siteSettings').title('Nastavení webu')),
+      S.listItem()
         .title('Připravujeme')
         .schemaType('upcomingExhibition')
         .child(S.documentTypeList('upcomingExhibition').title('Připravujeme')),
