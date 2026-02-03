@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import CookieBanner from "@/components/Legal/CookieBanner";
 import TitleSetter from "@/components/TitleSetter";
 import type { Metadata } from "next";
@@ -85,6 +86,7 @@ export default function RootLayout({
         {children}
         {modal}
         <CookieBanner />
+        <Analytics />
       </body>
     </html>
   );
