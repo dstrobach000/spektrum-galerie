@@ -6,10 +6,10 @@ const Footer = forwardRef<HTMLElement, { noPadding?: boolean }>(({ noPadding = f
   return (
     <footer
       ref={ref}
-      className="bg-white py-6"
+      className={`bg-white py-6 ${noPadding ? "" : "px-6"}`}
       id="footer"
     >
-      <div className={`w-full max-w-[1200px] mx-auto ${noPadding ? '' : 'px-6'}`}>
+      <div className="w-full max-w-[1200px] mx-auto">
         <FooterClient />
 
         <div className="mt-8 flex flex-col items-center w-full">

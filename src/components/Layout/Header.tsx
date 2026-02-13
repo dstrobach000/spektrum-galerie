@@ -2,6 +2,7 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
+import HeaderTopControls from "@/components/Layout/HeaderTopControls";
 
 const BlueprintSlot = dynamic(() => import("@/components/BuildingBlocks/3D/BlueprintSlot"), {
   ssr: false,
@@ -21,6 +22,7 @@ import { fixCzechOrphansInString, fixEnglishOrphansInString } from "@/utils/czec
 const Header = () => {
   return (
     <section className="px-6 py-6 relative" id="header">
+      <HeaderTopControls />
       <div className="grid gap-6">
         {/* ===== ALL SCREEN SIZES - 2 COLUMN LAYOUT ===== */}
         <div

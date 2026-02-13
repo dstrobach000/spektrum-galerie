@@ -5,6 +5,7 @@ interface GlowButtonProps {
   children: React.ReactNode;
   className?: string;
   glowColor?: string;
+  glowStyle?: React.CSSProperties;
   type?: "button" | "submit" | "reset";
   link?: string;
   floating?: boolean;
@@ -15,6 +16,7 @@ const GlowButton = ({
   children,
   className = "",
   glowColor = "bg-[#a3f730]",
+  glowStyle,
   type = "button",
   link,
   floating = true,
@@ -32,6 +34,7 @@ const GlowButton = ({
         style={{
           willChange: "transform, filter",
           transform: "translateZ(0)",
+          ...glowStyle,
         }}
       ></span>
       <span className="relative z-10">{children}</span>

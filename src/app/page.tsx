@@ -128,10 +128,7 @@ export default async function Home() {
           />
         </div>
       </div>
-      
-      {/* Full-width border */}
-      <div className="border-t border-black w-full"></div>
-      
+
       <HomeClient 
         contact={contact}
       />

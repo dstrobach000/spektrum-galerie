@@ -9,6 +9,9 @@ module.exports = {
   safelist: [
     "aspect-[16/9]",
     "aspect-[4/5]",
+    "bg-[#ff9ff5]",
+    "bg-[#2f5bff]",
+    "bg-orange-500",
   ],
   theme: {
     extend: {
