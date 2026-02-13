@@ -161,7 +161,7 @@ const Modal = ({
                 : "w-full bg-transparent shadow-none border-none pt-6 px-6 h-full"
             }`}
             style={fullscreen ? {} : { 
-              maxWidth: '896px', 
+              maxWidth: '1248px',
               margin: '0 auto', 
               width: '100%',
               paddingBottom: 'env(safe-area-inset-bottom, 20px)'

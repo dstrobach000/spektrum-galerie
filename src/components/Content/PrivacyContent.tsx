@@ -1,13 +1,10 @@
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
+import BrandMediaRow from "@/components/Layout/BrandMediaRow";
 
 export default function PrivacyContent() {
   return (
     <div className="w-full relative">
-      <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
-        {/* Logo */}
-        <div className="mb-6">
-          <LogoSlot />
-        </div>
+      <div className="relative max-w-[1200px] mx-auto">
+        <BrandMediaRow className="mb-6" />
 
         <h1 className="text-2xl md:text-4xl font-light mb-6">Zásady ochrany osobních údajů</h1>
 

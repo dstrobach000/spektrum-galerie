@@ -2,6 +2,7 @@
 
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
@@ -106,3 +107,5 @@ export default function LogoModel({ url }: { url: string }) {
     </group>
   );
 }
+
+useGLTF.preload("/3D/spektrum_galerie.glb");

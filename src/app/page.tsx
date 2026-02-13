@@ -118,7 +118,7 @@ export default async function Home() {
 
   return (
     <main className="bg-white text-black font-sans flex flex-col min-h-screen relative">
-      <div className="max-w-4xl mx-auto w-full">
+      <div id="main-shell" className="max-w-[1200px] mx-auto w-full">
         <div className="flex-grow">
           <Header />
           <UpcomingWrapper upcoming={upcoming} />

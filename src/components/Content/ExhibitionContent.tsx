@@ -5,16 +5,10 @@ import ExhibitionHeaderClient from "@/components/Layout/Exhibition/ExhibitionHea
 import ExhibitionNameCard from "@/components/Layout/Exhibition/ExhibitionNameCard";
 import ExhibitionText from "@/components/Layout/Exhibition/ExhibitionText";
 import ExhibitionGraphic from "@/components/Layout/Exhibition/ExhibitionGraphic";
+import BrandMediaRow from "@/components/Layout/BrandMediaRow";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { Exhibition } from "@/types/Exhibition";
-
-const LogoSlot = dynamic(() => import("@/components/BuildingBlocks/Logo/LogoSlot"), {
-  ssr: false,
-  loading: () => (
-    <div className="border border-black rounded-full overflow-hidden aspect-[3/1] w-full h-[150px] md:h-auto bg-white" />
-  ),
-});
 
 const ExGaLandscape = dynamic(() => import("@/components/Layout/Exhibition/ExGaLandscape"), {
   ssr: false,
@@ -156,10 +150,9 @@ const ExhibitionContent = ({ exhibition }: { exhibition: Exhibition }) => {
 
   return (
     <div className="w-full relative">
-      <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
+      <div className="relative max-w-[1200px] mx-auto">
         <div className="flex flex-col gap-6 md:gap-6">
-          {/* Logo */}
-          <LogoSlot />
+          <BrandMediaRow />
 
           {/* Header */}
           <div className="mb-6 mt-6">

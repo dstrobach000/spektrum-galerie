@@ -1,106 +1,65 @@
 "use client";
 
-import React, { useMemo, useRef, useEffect, useCallback, useState } from "react";
+import React, { useMemo, useRef, useEffect, useCallback } from "react";
 import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 const PADDING = 2.1; // space around the model
 const ROT_SPEED = 0.22; // Balanced rotation speed for good performance
 
-function useChrome() {
-  return useMemo(
-    () =>
-      new THREE.MeshPhysicalMaterial({
-        color: 0xffffff,
-        metalness: 1,
-        roughness: 0.02,
-        envMapIntensity: 3.0,
-        clearcoat: 1,
-        clearcoatRoughness: 0.02,
-        reflectivity: 1,
-        side: THREE.DoubleSide,
-      }),
-    []
-  );
-}
-
 function BlueprintModel({ onBox }: { onBox: (box: THREE.Box3) => void }) {
   const gltf = useLoader(GLTFLoader, "/3D/blueprint.glb");
-  const chrome = useChrome();
   const group = useRef<THREE.Group>(null);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
-
-  // Prepare materials + orientation (model is Z-up)
-  useEffect(() => {
-    gltf.scene.traverse((child) => {
+  const scene = useMemo(() => {
+    // Clone so we never mutate/dispose the globally cached GLTF scene.
+    const s = gltf.scene.clone(true);
+    s.traverse((child) => {
       if ((child as THREE.Mesh).isMesh) {
         const mesh = child as THREE.Mesh;
-        
-        // Skip expensive normal computation for better performance
-        // Most GLTF models already have proper normals
-        
-        // Clear any existing materials completely
-        if (Array.isArray(mesh.material)) {
-          mesh.material.forEach(mat => {
-            if (mat) mat.dispose();
-          });
-        } else if (mesh.material) {
-          mesh.material.dispose();
-        }
-        
-        // Create a simple paper-like material
-        const paperMaterial = new THREE.MeshLambertMaterial({
-          color: 0xffffff, // Pure white
+        mesh.material = new THREE.MeshLambertMaterial({
+          color: 0xffffff,
           side: THREE.DoubleSide,
         });
-        
-        mesh.material = paperMaterial;
-        
-        // Ensure the mesh is properly positioned and scaled
         mesh.castShadow = false;
         mesh.receiveShadow = false;
-        
-        // Force update the material
-        if (Array.isArray(mesh.material)) {
-          mesh.material.forEach(mat => mat.needsUpdate = true);
-        } else {
-          mesh.material.needsUpdate = true;
-        }
       }
     });
-    gltf.scene.rotation.x = 0; // GLB files are usually already oriented correctly
-    gltf.scene.rotation.z = 0; // Ensure it sits on its base
-  }, [gltf, chrome]);
+    s.rotation.set(0, 0, 0);
+    return s;
+  }, [gltf]);
+
+  useEffect(() => {
+    return () => {
+      scene.traverse((child) => {
+        if ((child as THREE.Mesh).isMesh) {
+          const mesh = child as THREE.Mesh;
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach((m) => m?.dispose?.());
+          } else {
+            mesh.material?.dispose?.();
+          }
+        }
+      });
+    };
+  }, [scene]);
 
   // Compute the box once the model is ready
   useEffect(() => {
-    if (!group.current) return;
-    
-    const box = new THREE.Box3().setFromObject(group.current);
+    const box = new THREE.Box3().setFromObject(scene);
     onBox(box);
-  }, [gltf, onBox]);
+  }, [scene, onBox]);
 
-  // Start animation after initial page load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShouldAnimate(true);
-    }, 2000); // Start animation 2 seconds after load
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-         // Smooth time-based rotation - only animate after delay
-         useFrame(({ clock }) => {
-           if (!group.current || !shouldAnimate) return;
-           
-           const t = clock.getElapsedTime();
-           group.current.rotation.z = t * ROT_SPEED;
-         });
+  useFrame(({ clock }) => {
+    if (!group.current) return;
+    const t = clock.getElapsedTime();
+    group.current.rotation.z = t * ROT_SPEED;
+  });
 
   return (
     <group ref={group}>
-      <primitive object={gltf.scene} />
+      <primitive object={scene} />
     </group>
   );
 }
@@ -162,3 +121,5 @@ export default function BlueprintModelComponent() {
     </>
   );
 }
+
+useGLTF.preload("/3D/blueprint.glb");

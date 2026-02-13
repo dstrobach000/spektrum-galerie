@@ -21,7 +21,7 @@ import { fixCzechOrphansInString, fixEnglishOrphansInString } from "@/utils/czec
 const Header = () => {
   return (
     <section className="px-6 py-6 relative" id="header">
-      <div className="border border-black rounded-xl p-6 grid gap-6">
+      <div className="grid gap-6">
         {/* ===== ALL SCREEN SIZES - 2 COLUMN LAYOUT ===== */}
         <div
           className={`

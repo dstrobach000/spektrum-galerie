@@ -2,14 +2,14 @@
 
 import React from "react";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
+import BrandMediaRow from "@/components/Layout/BrandMediaRow";
 import type { Contact } from "@/types/Contact";
 
 const ContactContent = ({ contact }: { contact: Contact }) => (
   <div className="w-full relative">
-    <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
+    <div className="relative max-w-[1200px] mx-auto">
       <div className="flex flex-col space-y-6">
-        <LogoSlot />
+        <BrandMediaRow />
         <div className="flex flex-col space-y-6">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="border border-black rounded-xl p-6 flex-1">

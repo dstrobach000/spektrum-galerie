@@ -1,17 +1,14 @@
 import React from "react";
-import LogoSlot from "@/components/BuildingBlocks/Logo/LogoSlot";
 import GlowButton from "@/components/BuildingBlocks/Buttons/GlowButton";
+import BrandMediaRow from "@/components/Layout/BrandMediaRow";
 import type { PressLinkUI } from "@/types/Press";
 
 type Props = { links?: PressLinkUI[] };
 
 const PressContent = ({ links = [] }: Props) => (
   <div className="w-full relative">
-    <div className="border border-black rounded-xl p-6 relative max-w-4xl mx-auto">
-      {/* Logo */}
-      <div className="mb-6">
-        <LogoSlot />
-      </div>
+    <div className="relative max-w-[1200px] mx-auto">
+      <BrandMediaRow className="mb-6" />
 
       {/* Buttons - wrapped to contain glow */}
       <div className="flex flex-col gap-4 items-center">
