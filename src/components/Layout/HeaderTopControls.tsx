@@ -37,7 +37,7 @@ export default function HeaderTopControls() {
         ))}
       </div>
 
-      <div className="order-1 basis-full flex flex-wrap justify-center gap-3 pt-1 md:pt-0 md:flex-nowrap md:basis-auto md:order-none md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2">
+      <div className="order-1 basis-full flex flex-wrap justify-start gap-3 pt-1 md:order-2 md:basis-auto md:ml-auto md:pt-0 md:flex-nowrap md:justify-end">
         {venueLinks.map((venue) => (
           <GlowButton
             key={venue.name}
