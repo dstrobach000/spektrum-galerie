@@ -96,7 +96,7 @@ export default function HomeClient({ contact }: HomeClientProps) {
       )}
 
       {/* Footer with ref for scroll-to-top button */}
-      <div className="max-w-[1200px] mx-auto w-full">
+      <div className="w-full">
         <Footer ref={footerRef} />
       </div>
     </>
