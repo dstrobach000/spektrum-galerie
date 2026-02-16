@@ -24,7 +24,8 @@ export default function CookieBanner() {
 
   return (
     <div
-      className="fixed inset-x-0 bottom-4 z-40 px-4 sm:px-6 pointer-events-none"
+      className="fixed inset-x-0 bottom-4 px-4 sm:px-6 pointer-events-none"
+      style={{ zIndex: 2147483647 }}
       role="dialog"
       aria-live="polite"
       aria-label="Informace o cookies"

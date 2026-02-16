@@ -89,10 +89,10 @@ export default function RootLayout({
             <TitleSetter />
             {children}
             {modal}
-            <CookieBanner />
             <Analytics />
           </LogoSingletonProvider>
         </BlueprintSingletonProvider>
+        <CookieBanner />
       </body>
     </html>
   );
